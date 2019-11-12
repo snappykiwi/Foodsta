@@ -1,9 +1,28 @@
-<div class="container">
+<div class="mat-app-background basic-container">
   <h1>{{title}}</h1>
   <nav>
     <a routerLink="/login">Login</a>
     <a routerLink="/register">Register</a>
   </nav>
-  <div class="break"></div>
-  <router-outlet></router-outlet>
+  <mat-sidenav-container>
+
+    <mat-sidenav mode="side" opened>
+
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+
+      <mat-slider min="1" max="100" step="1" value="1"></mat-slider>
+
+    </mat-sidenav-content>
+
+
+  </mat-sidenav-container>
 </div>
+
+
+<!-- <div class="container">
+
+  <div class="break"></div>
+</div> -->
