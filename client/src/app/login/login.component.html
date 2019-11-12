@@ -17,4 +17,5 @@
 
   </div>
 
-  <button id="login" type="button" class="btn waves-effect">Sign In</button>
+  <button id="login" type="button" class="btn waves-effect" (click)="auth.login()" *ngIf="!auth.loggedIn">Sign In</button>
+  <button id="logout" type="button" class="btn waves-effect" (click)="auth.logout()" *ngIf="auth.loggedIn">Sign Out</button>
