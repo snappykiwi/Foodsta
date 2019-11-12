@@ -1,5 +1,12 @@
 <div class="loginDiv">
 
+    <header>
+      
+        <a routerLink="/">Home</a>&nbsp;
+        <a routerLink="profile" *ngIf="auth.loggedIn">Profile</a>
+
+    </header>
+
   <h2 class="login-header">Login</h2>
   <div class="break"></div>
 
@@ -17,4 +24,5 @@
 
   </div>
 
-  <button id="login" type="button" class="btn waves-effect">Sign In</button>
+  <button id="login" type="button" class="btn waves-effect" (click)="auth.login()" *ngIf="!auth.loggedIn">Sign In</button>
+  <button id="logout" type="button" class="btn waves-effect" (click)="auth.logout()" *ngIf="auth.loggedIn">Sign Out</button>
