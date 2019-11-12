@@ -1,2 +1,9 @@
-<app-login></app-login>
-<app-register></app-register>
+<div class="container">
+  <h1>{{title}}</h1>
+  <nav>
+    <a routerLink="/login">Login</a>
+    <a routerLink="/register">Register</a>
+  </nav>
+  <div class="break"></div>
+  <router-outlet></router-outlet>
+</div>
