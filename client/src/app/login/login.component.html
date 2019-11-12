@@ -1,5 +1,12 @@
 <div class="loginDiv">
 
+    <header>
+      
+        <a routerLink="/">Home</a>&nbsp;
+        <a routerLink="profile" *ngIf="auth.loggedIn">Profile</a>
+
+    </header>
+
   <h2 class="login-header">Login</h2>
   <div class="break"></div>
 
