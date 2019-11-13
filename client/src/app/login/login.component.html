@@ -1,28 +1,33 @@
-<div class="loginDiv">
+<div class="grid-container">
+  <mat-grid-list cols="8" rowHeight="2:1">
 
-    <header>
-      
-        <a routerLink="/">Home</a>&nbsp;
-        <a routerLink="profile" *ngIf="auth.loggedIn">Profile</a>
+    <button cols="4" mat-stroked-button color="primary" id="login" type="button" (click)="auth.login()"
+      *ngIf="!auth.loggedIn">Sign In</button>
+    <button cols="2" mat-stroked-button color="primary" id="login" type="button" (click)="auth.logout()"
+      *ngIf="auth.loggedIn">Sign Out</button>
 
-    </header>
+  </mat-grid-list>
+</div>
 
-  <h2 class="login-header">Login</h2>
-  <div class="break"></div>
+<!-- <header> -->
+<!--       
+        <a routerLink="/" >Home</a>&nbsp;
+        <a routerLink="profile" *ngIf="auth.loggedIn">Profile</a> -->
 
-  <div class="input-field col s12 ">
+<!-- </header> -->
 
-    <label for="loginEmail">Email: </label>
-    <input id="loginEmail" type="email">
+<!-- <h2 class="login-header">Login</h2> -->
+<!-- 
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Enter Email">
+      </mat-form-field>
+    </p>
 
-  </div>
-
-  <div class="input-field col s12">
-
-    <label for="loginPassword">Password: </label>
-    <input id="loginPassword" type="password">
-
-  </div>
-
-  <button id="login" type="button" class="btn waves-effect" (click)="auth.login()" *ngIf="!auth.loggedIn">Sign In</button>
-  <button id="logout" type="button" class="btn waves-effect" (click)="auth.logout()" *ngIf="auth.loggedIn">Sign Out</button>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput placeholder="Enter Password">
+      </mat-form-field>
+    </p> -->

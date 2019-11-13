@@ -1,25 +1,39 @@
 <div class="mat-app-background basic-container">
-  <h1>{{title}}</h1>
-  <nav>
-    <a routerLink="/login">Login</a>
-    <a routerLink="/register">Register</a>
-  </nav>
-  <mat-sidenav-container>
 
-    <mat-sidenav mode="side" opened>
-    </mat-sidenav>
+  <div class="grid-container">
+    <!-- <mat-grid-list cols="8" rowHeight="2:1"> -->
 
-    <mat-sidenav-content>
-      <router-outlet></router-outlet>
+    <h1>{{title}}</h1>
+    <nav>
+      <a routerLink="/" mat-stroked-button color="primary">Home</a>&nbsp;
+      <a routerLink="browse" mat-stroked-button color="primary">Browse</a>&nbsp;
+      <a routerLink="profile" *ngIf="auth.loggedIn" mat-stroked-button color="primary">Profile</a>
 
-    </mat-sidenav-content>
+      <a mat-stroked-button color="primary" routerLink="/login" (click)="auth.login()" *ngIf="!auth.loggedIn">Login</a>
+      <a mat-stroked-button color="primary" routerLink="/register" (click)="auth.logout()"
+        *ngIf="auth.loggedIn">Logout</a>
 
 
-  </mat-sidenav-container>
+      <p>
+        <mat-form-field appearance="outline">
+          <mat-label>Search</mat-label>
+          <input matInput placeholder="Search">
+        </mat-form-field>
+      </p>
+    </nav>
+    <mat-sidenav-container>
+
+      <mat-sidenav mode="side" opened>
+      </mat-sidenav>
+
+      <mat-sidenav-content>
+        <router-outlet></router-outlet>
+
+      </mat-sidenav-content>
+
+
+    </mat-sidenav-container>
+    <!-- <mat-grid-list></mat-grid-list> -->
+  </div>
+
 </div>
-
-
-<!-- <div class="container">
-
-  <div class="break"></div>
-</div> -->
