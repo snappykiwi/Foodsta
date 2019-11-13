@@ -9,13 +9,15 @@ import { MaterialModule } from './material-module';
 import { ProfileComponent } from './profile/profile.component';
 import { BrowseComponent } from './browse/browse.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { AddPhotoComponent } from './add-photo/add-photo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     ProfileComponent,
-    BrowseComponent
+    BrowseComponent,
+    AddPhotoComponent
   ],
   imports: [
     BrowserModule,

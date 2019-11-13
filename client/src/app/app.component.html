@@ -7,10 +7,11 @@
     <nav>
       <a routerLink="/" mat-stroked-button color="primary">Home</a>&nbsp;
       <a routerLink="browse" mat-stroked-button color="primary">Browse</a>&nbsp;
+      <a routerLink="add-photo" mat-stroked-button color="primary">Add Photo</a>&nbsp;
       <a routerLink="profile" *ngIf="auth.loggedIn" mat-stroked-button color="primary">Profile</a>
 
       <a mat-stroked-button color="primary" routerLink="/login" (click)="auth.login()" *ngIf="!auth.loggedIn">Login</a>
-      <a mat-stroked-button color="primary" routerLink="/register" (click)="auth.logout()"
+      <a mat-stroked-button color="accent" routerLink="/register" (click)="auth.logout()"
         *ngIf="auth.loggedIn">Logout</a>
 
 
