@@ -6,8 +6,8 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatSliderModule } from '@angular/material/slider';
+import { MaterialModule } from './material-module';
+
 
 @NgModule({
   declarations: [
@@ -19,8 +19,7 @@ import { MatSliderModule } from '@angular/material/slider';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatSliderModule,
-    MatSidenavModule
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]

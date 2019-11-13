@@ -1,25 +1,22 @@
 <div class="mat-app-background basic-container">
-  <h1>{{title}}</h1>
-  <nav>
-    <a routerLink="/login">Login</a>
-    <a routerLink="/register">Register</a>
-  </nav>
-  <mat-sidenav-container>
+  <!-- <mat-grid-list cols="8" rowHeight="2:1"> -->
 
-    <mat-sidenav mode="side" opened>
-    </mat-sidenav>
+    <h1>{{title}}</h1>
+    <nav>
+      <a mat-stroked-button color="accent" routerLink="/login">Login</a>
+      <a mat-stroked-button color="accent" routerLink="/register">Logout</a>
+    </nav>
+    <mat-sidenav-container>
 
-    <mat-sidenav-content>
-      <router-outlet></router-outlet>
+      <mat-sidenav mode="side" opened>
+      </mat-sidenav>
 
-    </mat-sidenav-content>
+      <mat-sidenav-content>
+        <router-outlet></router-outlet>
+
+      </mat-sidenav-content>
 
 
-  </mat-sidenav-container>
+    </mat-sidenav-container>
+  <!-- <mat-grid-list></mat-grid-list> -->
 </div>
-
-
-<!-- <div class="container">
-
-  <div class="break"></div>
-</div> -->

@@ -1,20 +1,26 @@
-<div class="loginDiv">
+<mat-grid-list cols="2" rowHeight="2:1">
 
-  <h2 class="login-header">Login</h2>
-  <div class="break"></div>
+  <div class="loginDiv">
 
-  <div class="input-field col s12 ">
+    <h2 class="login-header">Login</h2>
 
-    <label for="loginEmail">Email: </label>
-    <input id="loginEmail" type="email">
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Enter Email">
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput placeholder="Enter Password">
+      </mat-form-field>
+    </p>
+
+
+    <button mat-stroked-button color="primary" id="login" type="button">Sign In</button>
 
   </div>
 
-  <div class="input-field col s12">
-
-    <label for="loginPassword">Password: </label>
-    <input id="loginPassword" type="password">
-
-  </div>
-
-  <button id="login" type="button" class="btn waves-effect">Sign In</button>
+</mat-grid-list>
