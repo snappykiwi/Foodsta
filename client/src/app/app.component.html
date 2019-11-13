@@ -5,13 +5,13 @@
 
     <h1>{{title}}</h1>
     <nav>
-      <a mat-stroked-button color="primary" routerLink="/login" (click)="auth.login()" *ngIf="!auth.loggedIn">Login</a>
-      <a mat-stroked-button color="primary" routerLink="/register" (click)="auth.logout()"
-        *ngIf="auth.loggedIn">Logout</a>
-
       <a routerLink="/" mat-stroked-button color="primary">Home</a>&nbsp;
       <a routerLink="browse" mat-stroked-button color="primary">Browse</a>&nbsp;
       <a routerLink="profile" *ngIf="auth.loggedIn" mat-stroked-button color="primary">Profile</a>
+
+      <a mat-stroked-button color="primary" routerLink="/login" (click)="auth.login()" *ngIf="!auth.loggedIn">Login</a>
+      <a mat-stroked-button color="primary" routerLink="/register" (click)="auth.logout()"
+        *ngIf="auth.loggedIn">Logout</a>
     </nav>
     <mat-sidenav-container>
 
