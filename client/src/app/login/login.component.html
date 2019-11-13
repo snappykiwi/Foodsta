@@ -1,6 +1,14 @@
 <mat-grid-list cols="2" rowHeight="2:1">
 
-  <div class="loginDiv">
+    <header>
+      
+        <a routerLink="/">Home</a>&nbsp;
+        <a routerLink="profile" *ngIf="auth.loggedIn">Profile</a>
+
+    </header>
+
+  <h2 class="login-header">Login</h2>
+  <div class="break"></div>
 
     <h2 class="login-header">Login</h2>
 
@@ -21,6 +29,7 @@
 
     <button mat-stroked-button color="primary" id="login" type="button">Sign In</button>
 
-  </div>
+    <button id="login" type="button" class="btn waves-effect" (click)="auth.login()" *ngIf="!auth.loggedIn">Sign In</button>
+    <button id="logout" type="button" class="btn waves-effect" (click)="auth.logout()" *ngIf="auth.loggedIn">Sign Out</button>
 
 </mat-grid-list>
