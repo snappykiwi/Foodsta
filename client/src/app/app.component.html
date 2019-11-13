@@ -12,6 +12,14 @@
       <a mat-stroked-button color="primary" routerLink="/login" (click)="auth.login()" *ngIf="!auth.loggedIn">Login</a>
       <a mat-stroked-button color="primary" routerLink="/register" (click)="auth.logout()"
         *ngIf="auth.loggedIn">Logout</a>
+
+
+      <p>
+        <mat-form-field appearance="outline">
+          <mat-label>Search</mat-label>
+          <input matInput placeholder="Search">
+        </mat-form-field>
+      </p>
     </nav>
     <mat-sidenav-container>
 
