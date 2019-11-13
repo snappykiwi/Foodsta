@@ -1,10 +1,17 @@
 <div class="mat-app-background basic-container">
-  <!-- <mat-grid-list cols="8" rowHeight="2:1"> -->
+
+  <div class="grid-container">
+    <!-- <mat-grid-list cols="8" rowHeight="2:1"> -->
 
     <h1>{{title}}</h1>
     <nav>
-      <a mat-stroked-button color="accent" routerLink="/login">Login</a>
-      <a mat-stroked-button color="accent" routerLink="/register">Logout</a>
+      <a mat-stroked-button color="primary" routerLink="/login" (click)="auth.login()" *ngIf="!auth.loggedIn">Login</a>
+      <a mat-stroked-button color="primary" routerLink="/register" (click)="auth.logout()"
+        *ngIf="auth.loggedIn">Logout</a>
+
+      <a routerLink="/" mat-stroked-button color="primary">Home</a>&nbsp;
+      <a routerLink="browse" mat-stroked-button color="primary">Browse</a>&nbsp;
+      <a routerLink="profile" *ngIf="auth.loggedIn" mat-stroked-button color="primary">Profile</a>
     </nav>
     <mat-sidenav-container>
 
@@ -18,5 +25,7 @@
 
 
     </mat-sidenav-container>
-  <!-- <mat-grid-list></mat-grid-list> -->
+    <!-- <mat-grid-list></mat-grid-list> -->
+  </div>
+
 </div>
