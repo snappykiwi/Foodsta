@@ -11,7 +11,7 @@
 
       <div>
         <mat-form-field class="full-width">
-          <input matInput placeholder="Name of Meal">
+          <input matInput required placeholder="Name of Meal">
         </mat-form-field>
 
         <h4>Cuisine</h4>
@@ -41,7 +41,7 @@
           <mat-label>Food</mat-label>
           <mat-select>
             <mat-option>None</mat-option>
-            <mat-option *ngFor="let food of foods" [value]="food.value">
+            <mat-option required *ngFor="let food of foods" [value]="food.value">
               {{food.viewValue}}
             </mat-option>
           </mat-select>
@@ -52,7 +52,9 @@
         <button mat-button matStepperNext type="button">Next</button>
     </mat-step>
     <mat-step formGroupName="2" label="Rating">
-      ...
+      
+        <mat-label>How was your meal?</mat-label>
+        <mat-slider class="rating" color="primary" thumbLabel tickInterval="1" step="0.5" max="5"></mat-slider>
       <div>
         <button mat-button matStepperPrevious type="button">Back</button>
         <button mat-button matStepperNext type="button">Next</button>
