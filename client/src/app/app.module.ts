@@ -10,6 +10,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { BrowseComponent } from './browse/browse.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AddPhotoComponent } from './add-photo/add-photo.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { AddPhotoComponent } from './add-photo/add-photo.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    LayoutModule
+    LayoutModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
