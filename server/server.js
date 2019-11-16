@@ -3,7 +3,7 @@ const
     express = require('express'),
     path = require('path'),
     bodyParser = require('body-parser'),
-    router = require("./server/routes"),
+    router = require("./routes"),
     PORT = process.env.PORT || 3000,
     app = express();
 
