@@ -1,0 +1,18 @@
+<h4> First Input: {{ firstFormGroup.value.firstControl }}</h4>
+<h4> Second Input: {{ secondFormGroup.value.secondControl }}</h4>
+<mat-vertical-stepper linear>
+    <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+            <mat-form-field>
+                <input matInput placeholder="first input" formControlName="firstControl">
+            </mat-form-field>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup">
+            <mat-form-field>
+                <input matInput placeholder="second input" formControlName="secondControl">
+            </mat-form-field>
+        </form>
+    </mat-step>
+</mat-vertical-stepper>

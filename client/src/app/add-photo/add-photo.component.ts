@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 
 export interface SelectOptions {
   value: string;
@@ -11,7 +11,24 @@ export interface SelectOptions {
   templateUrl: './add-photo.component.html',
   styleUrls: ['./add-photo.component.scss']
 })
+
 export class AddPhotoComponent implements OnInit {
+
+  addPhotoFormGroup = new FormGroup({
+    photoControl: new FormControl('')
+  });
+  detailsFormGroup = new FormGroup({
+    detailsControl1: new FormControl(''),
+    detailsControl2: new FormControl(''),
+    detailsControl3: new FormControl('')
+  });
+  ratingsFormGroup = new FormGroup({
+    ratingsControl: new FormControl('')
+  });
+  reviewFormGroup = new FormGroup({
+    reviewControl: new FormControl('')
+  });
+
   selectedFile: File
 
   onFileChanged(event) {
@@ -33,7 +50,7 @@ export class AddPhotoComponent implements OnInit {
 
 
   categories: SelectOptions[] = [
-    {value: 'mexican-0', viewValue: 'mexican'},
+    {value: 'mexican-0', viewValue: 'Mexican'},
     {value: 'thai-1', viewValue: 'Thai'},
     {value: 'chinese-2', viewValue: 'Chinese'},
     {value: 'italian-3', viewValue: 'Italian'},
@@ -42,16 +59,16 @@ export class AddPhotoComponent implements OnInit {
     {value: 'other-6', viewValue: 'Other'}
   ];
 
-  meals: SelectOptions[] = [
-    {value: 'breakfast-0', viewValue: 'Breakfast'},
-    {value: 'lunch-1', viewValue: 'Lunch'},
-    {value: 'appetizer-2', viewValue: 'Appetizer'},
-    {value: 'dinner-3', viewValue: 'Dinner'},
-    {value: 'side-4', viewValue: 'Side'},
-    {value: 'dessert-5', viewValue: 'Dessert'},
-    {value: 'drink-6', viewValue: 'Drink'},
-    {value: 'other-6', viewValue: 'Other'}
-  ];
+  // meals: SelectOptions[] = [
+  //   {value: 'breakfast-0', viewValue: 'Breakfast'},
+  //   {value: 'lunch-1', viewValue: 'Lunch'},
+  //   {value: 'appetizer-2', viewValue: 'Appetizer'},
+  //   {value: 'dinner-3', viewValue: 'Dinner'},
+  //   {value: 'side-4', viewValue: 'Side'},
+  //   {value: 'dessert-5', viewValue: 'Dessert'},
+  //   {value: 'drink-6', viewValue: 'Drink'},
+  //   {value: 'other-6', viewValue: 'Other'}
+  // ];
 
   foods: SelectOptions[] = [
     {value: 'steak-0', viewValue: 'Steak'},

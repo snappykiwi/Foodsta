@@ -1,5 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatStepperModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,6 +19,7 @@ import {BottomNavModule} from 'ngx-bottom-nav';
 
 
 
+import { MyArrayFormComponent } from './my-array-form/my-array-form.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +29,7 @@ import {BottomNavModule} from 'ngx-bottom-nav';
     BrowseComponent,
     AddPhotoComponent,
     PhotoContainerComponent,
+    MyArrayFormComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +38,12 @@ import {BottomNavModule} from 'ngx-bottom-nav';
     MaterialModule,
     LayoutModule,
     BottomNavModule,
-    NgbModule
+    NgbModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]
