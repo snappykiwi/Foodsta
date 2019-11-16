@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
-import ReviewPost from './reviewPost';
 
 export interface SelectOptions {
   value: string;
@@ -15,17 +14,19 @@ export interface SelectOptions {
 
 export class AddPhotoComponent implements OnInit {
 
-  firstFormGroup = new FormGroup({
-    firstControl: new FormControl('')
+  addPhotoFormGroup = new FormGroup({
+    photoControl: new FormControl('')
   });
-  secondFormGroup = new FormGroup({
-    secondControl: new FormControl('')
+  detailsFormGroup = new FormGroup({
+    detailsControl1: new FormControl(''),
+    detailsControl2: new FormControl(''),
+    detailsControl3: new FormControl('')
   });
-  thirdFormGroup = new FormGroup({
-    thirdControl: new FormControl('')
+  ratingsFormGroup = new FormGroup({
+    ratingsControl: new FormControl('')
   });
-  fourthFormGroup = new FormGroup({
-    fourthControl: new FormControl('')
+  reviewFormGroup = new FormGroup({
+    reviewControl: new FormControl('')
   });
 
   selectedFile: File
@@ -58,16 +59,16 @@ export class AddPhotoComponent implements OnInit {
     {value: 'other-6', viewValue: 'Other'}
   ];
 
-  meals: SelectOptions[] = [
-    {value: 'breakfast-0', viewValue: 'Breakfast'},
-    {value: 'lunch-1', viewValue: 'Lunch'},
-    {value: 'appetizer-2', viewValue: 'Appetizer'},
-    {value: 'dinner-3', viewValue: 'Dinner'},
-    {value: 'side-4', viewValue: 'Side'},
-    {value: 'dessert-5', viewValue: 'Dessert'},
-    {value: 'drink-6', viewValue: 'Drink'},
-    {value: 'other-6', viewValue: 'Other'}
-  ];
+  // meals: SelectOptions[] = [
+  //   {value: 'breakfast-0', viewValue: 'Breakfast'},
+  //   {value: 'lunch-1', viewValue: 'Lunch'},
+  //   {value: 'appetizer-2', viewValue: 'Appetizer'},
+  //   {value: 'dinner-3', viewValue: 'Dinner'},
+  //   {value: 'side-4', viewValue: 'Side'},
+  //   {value: 'dessert-5', viewValue: 'Dessert'},
+  //   {value: 'drink-6', viewValue: 'Drink'},
+  //   {value: 'other-6', viewValue: 'Other'}
+  // ];
 
   foods: SelectOptions[] = [
     {value: 'steak-0', viewValue: 'Steak'},
