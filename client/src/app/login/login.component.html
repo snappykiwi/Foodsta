@@ -1,20 +1,33 @@
-<div class="loginDiv">
+<div class="grid-container">
+  <mat-grid-list cols="8" rowHeight="2:1">
 
-  <h2 class="login-header">Login</h2>
-  <div class="break"></div>
+    <button cols="4" mat-stroked-button color="primary" id="login" type="button" (click)="auth.login()"
+      *ngIf="!auth.loggedIn">Sign In</button>
+    <button cols="2" mat-stroked-button color="primary" id="login" type="button" (click)="auth.logout()"
+      *ngIf="auth.loggedIn">Sign Out</button>
 
-  <div class="input-field col s12 ">
+  </mat-grid-list>
+</div>
 
-    <label for="loginEmail">Email: </label>
-    <input id="loginEmail" type="email">
+<!-- <header> -->
+<!--       
+        <a routerLink="/" >Home</a>&nbsp;
+        <a routerLink="profile" *ngIf="auth.loggedIn">Profile</a> -->
 
-  </div>
+<!-- </header> -->
 
-  <div class="input-field col s12">
+<!-- <h2 class="login-header">Login</h2> -->
+<!-- 
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Enter Email">
+      </mat-form-field>
+    </p>
 
-    <label for="loginPassword">Password: </label>
-    <input id="loginPassword" type="password">
-
-  </div>
-
-  <button id="login" type="button" class="btn waves-effect">Sign In</button>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput placeholder="Enter Password">
+      </mat-form-field>
+    </p> -->
