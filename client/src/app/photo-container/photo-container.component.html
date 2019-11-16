@@ -1,10 +1,6 @@
+
+
 <div class="grid-container">
-  <p>
-    <mat-form-field appearance="outline">
-      <mat-label>Search</mat-label>
-      <input matInput placeholder="Search">
-    </mat-form-field>
-  </p>
   <h1 class="mat-h1">Dashboard</h1>
   <mat-grid-list cols="2" rowHeight="350px">
     <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
@@ -28,3 +24,21 @@
     </mat-grid-tile>
   </mat-grid-list>
 </div>
+
+<!-- <ul class="mdc-image-list mdc-image-list--masonry my-masonry-image-list">
+    <li class="mdc-image-list__item">
+      <img class="mdc-image-list__image" src="...">
+      <div class="mdc-image-list__supporting">
+        <span class="mdc-image-list__label">Text label</span>
+      </div>
+    </li>
+    ...
+  </ul> -->
+  <mdc-image-list masonry class="masonry-image-list">
+      <mdc-image-list-item *ngFor="let item of masonryImages">
+        <img mdcImageListImage src="{{item.image}}" />
+        <mdc-image-list-supporting>
+          <span mdcImageListLabel>Text label</span>
+        </mdc-image-list-supporting>
+      </mdc-image-list-item>
+    </mdc-image-list>

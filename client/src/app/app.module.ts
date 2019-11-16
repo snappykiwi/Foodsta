@@ -10,6 +10,12 @@ import { ProfileComponent } from './profile/profile.component';
 import { BrowseComponent } from './browse/browse.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AddPhotoComponent } from './add-photo/add-photo.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PhotoContainerComponent } from './photo-container/photo-container.component';
+import {BottomNavModule} from 'ngx-bottom-nav';
+
+
+
 
 @NgModule({
   declarations: [
@@ -17,14 +23,17 @@ import { AddPhotoComponent } from './add-photo/add-photo.component';
     LoginComponent,
     ProfileComponent,
     BrowseComponent,
-    AddPhotoComponent
+    AddPhotoComponent,
+    PhotoContainerComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    LayoutModule
+    LayoutModule,
+    BottomNavModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

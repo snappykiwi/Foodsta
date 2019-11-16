@@ -40,6 +40,10 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
+import { MdcTopAppBarModule } from '@angular-mdc/web';
+import { MdcIconModule } from '@angular-mdc/web';
+import { MdcImageListModule } from '@angular-mdc/web';
+
 
 @NgModule({
   exports: [
@@ -85,6 +89,9 @@ import {MatTreeModule} from '@angular/material/tree';
     MatTreeModule,
     PortalModule,
     ScrollingModule,
+    MdcTopAppBarModule,
+    MdcIconModule,
+    MdcImageListModule
   ]
 })
 export class MaterialModule {}
