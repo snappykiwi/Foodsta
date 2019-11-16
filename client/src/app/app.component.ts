@@ -9,7 +9,7 @@ import { AuthService } from './auth.service';
 
 export class AppComponent implements OnInit {
 
-  title = 'Foodies';
+  title = 'Foodsta';
 
   constructor(private auth: AuthService) {}
 

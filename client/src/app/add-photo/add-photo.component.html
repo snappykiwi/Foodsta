@@ -1,0 +1,178 @@
+<mat-vertical-stepper linear>
+
+  <mat-step label="Add Photo" [stepControl]="firstFormGroup">
+
+    <form [formGroup]="firstFormGroup">
+
+      <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput formControlName="firstControl">
+      <button mat-button (click)="fileInput.click()">Select File</button>
+      <div>
+        <button mat-button matStepperNext type="button">Next</button>
+      </div>
+
+    </form>
+
+  </mat-step>
+
+  <mat-step label="Details" [stepControl]="secondFormGroup">
+
+    <form [formGroup]="secondFormGroup">
+
+      <div>
+        <mat-form-field class="full-width">
+          <input matInput required placeholder="Name of Meal">
+        </mat-form-field>
+  
+        <h4>Cuisine</h4>
+        <mat-form-field>
+          <mat-label>Type</mat-label>
+          <mat-select matInput>
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let category of categories" [value]="category.value">
+                {{category.viewValue}}
+              </mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <h4>Meal</h4>
+        <mat-form-field>
+          <mat-label>Meal</mat-label>
+          <mat-select matInput>
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let meal of meals" [value]="meal.value">
+                {{meal.viewValue}}
+              </mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <h4>Category</h4>
+        <mat-form-field>
+          <mat-label>Food</mat-label>
+          <mat-select matInput>
+            <mat-option>None</mat-option>
+            <mat-option required *ngFor="let food of foods" [value]="food.value">
+              {{food.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+  
+      <button mat-button matStepperPrevious type="button">Back</button>
+      <button mat-button matStepperNext type="button">Next</button>
+
+    </form>
+
+  </mat-step>
+
+  <mat-step label="Rating" [stepControl]="thirdFormGroup">
+    
+    <form [formGroup]="thirdFormGroup">
+
+      <mat-label>How was your meal?</mat-label>
+      <mat-slider class="rating" color="primary" thumbLabel tickInterval="1" step="0.5" max="5"></mat-slider>
+      
+      <div>
+        <button mat-button matStepperPrevious type="button">Back</button>
+        <button mat-button matStepperNext type="button">Next</button>
+      </div>
+
+    </form>
+
+  </mat-step>
+
+  <mat-step label="Review" [stepControl]="fourthFormGroup">
+
+    <h4> First Input : {{ firstFormGroup.value.firstControl }} </h4>
+    <h4> Second Input : {{ secondFormGroup.value.secondControl }} </h4>
+    <h4> Third Input : {{ thirdFormGroup.value.thirdControl }} </h4>
+    <h4> Fourth Input : {{ fourthFormGroup.value.fourthControl }} </h4>
+
+    <!-- <form [formGroup]="fourthFormGroup"> -->
+
+      <div>
+        <button mat-button matStepperPrevious type="button">Back</button>
+        <button mat-button (click)="onUpload()">Upload!</button>
+
+        <button mat-button matStepperNext type="button">Done</button>
+      </div>
+
+    <!-- </form> -->
+
+  </mat-step>
+
+</mat-vertical-stepper>
+
+<!-- <form>
+
+  <mat-vertical-stepper formArrayName="formArray" linear>
+    <mat-step label="Add Photo" formGroupName="0">
+      <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput ngModel>
+      <button mat-button (click)="fileInput.click()">Select File</button>
+      <div>
+        <button mat-button matStepperNext type="button">Next</button>
+      </div>
+    </mat-step>
+    <mat-step formGroupName="1" label="Details">
+
+      <div>
+        <mat-form-field class="full-width">
+          <input [(ngModel)]="reviewPost.mealInput" matInput required placeholder="Name of Meal">
+        </mat-form-field>
+
+        <h4>Cuisine</h4>
+        <mat-form-field>
+          <mat-label>Type</mat-label>
+          <mat-select ngModel>
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let category of categories" [value]="category.value">
+                {{category.viewValue}}
+              </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <h4>Meal</h4>
+        <mat-form-field>
+          <mat-label>Meal</mat-label>
+          <mat-select ngModel>
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let meal of meals" [value]="meal.value">
+                {{meal.viewValue}}
+              </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <h4>Category</h4>
+        <mat-form-field>
+          <mat-label>Food</mat-label>
+          <mat-select ngModel>
+            <mat-option>None</mat-option>
+            <mat-option required *ngFor="let food of foods" [value]="food.value">
+              {{food.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+        <button mat-button matStepperPrevious type="button">Back</button>
+        <button mat-button matStepperNext type="button">Next</button>
+    </mat-step>
+    <mat-step formGroupName="2" label="Rating">
+      
+        <mat-label>How was your meal?</mat-label>
+        <mat-slider class="rating" color="primary" thumbLabel tickInterval="1" step="0.5" max="5" ngModel></mat-slider>
+      <div>
+        <button mat-button matStepperPrevious type="button">Back</button>
+        <button mat-button matStepperNext type="button">Next</button>
+      </div>
+    </mat-step>
+    <mat-step formGroupName="3" label="Review">
+      <div>
+        <button mat-button matStepperPrevious type="button">Back</button>
+        <button mat-button (click)="onUpload()">Upload!</button>
+
+        <button mat-button matStepperNext type="button">Done</button>
+      </div>
+    </mat-step>
+    ...
+  </mat-vertical-stepper>
+</form> -->
