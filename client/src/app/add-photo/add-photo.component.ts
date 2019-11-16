@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
+import { RatingComponent } from '../rating/rating.component';
 
 export interface SelectOptions {
   value: string;

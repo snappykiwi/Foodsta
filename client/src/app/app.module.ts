@@ -14,7 +14,7 @@ import { BrowseComponent } from './browse/browse.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AddPhotoComponent } from './add-photo/add-photo.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { MyArrayFormComponent } from './my-array-form/my-array-form.component';
+import { RatingComponent } from './rating/rating.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,7 @@ import { MyArrayFormComponent } from './my-array-form/my-array-form.component';
     ProfileComponent,
     BrowseComponent,
     AddPhotoComponent,
-    MyArrayFormComponent
+    RatingComponent
   ],
   imports: [
     BrowserModule,
