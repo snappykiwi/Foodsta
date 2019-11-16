@@ -1,5 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatStepperModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,7 +13,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { BrowseComponent } from './browse/browse.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AddPhotoComponent } from './add-photo/add-photo.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MyArrayFormComponent } from './my-array-form/my-array-form.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +22,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
     LoginComponent,
     ProfileComponent,
     BrowseComponent,
-    AddPhotoComponent
+    AddPhotoComponent,
+    MyArrayFormComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +31,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
     BrowserAnimationsModule,
     MaterialModule,
     LayoutModule,
-    NgbModule
+    NgbModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

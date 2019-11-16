@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
+import ReviewPost from './reviewPost';
 
 export interface SelectOptions {
   value: string;
@@ -11,7 +12,22 @@ export interface SelectOptions {
   templateUrl: './add-photo.component.html',
   styleUrls: ['./add-photo.component.scss']
 })
+
 export class AddPhotoComponent implements OnInit {
+
+  firstFormGroup = new FormGroup({
+    firstControl: new FormControl('')
+  });
+  secondFormGroup = new FormGroup({
+    secondControl: new FormControl('')
+  });
+  thirdFormGroup = new FormGroup({
+    thirdControl: new FormControl('')
+  });
+  fourthFormGroup = new FormGroup({
+    fourthControl: new FormControl('')
+  });
+
   selectedFile: File
 
   onFileChanged(event) {
@@ -33,7 +49,7 @@ export class AddPhotoComponent implements OnInit {
 
 
   categories: SelectOptions[] = [
-    {value: 'mexican-0', viewValue: 'mexican'},
+    {value: 'mexican-0', viewValue: 'Mexican'},
     {value: 'thai-1', viewValue: 'Thai'},
     {value: 'chinese-2', viewValue: 'Chinese'},
     {value: 'italian-3', viewValue: 'Italian'},
