@@ -1,45 +1,54 @@
-<form FormGroup="formGroup">
-  <mat-vertical-stepper formArrayName="formArray" linear>
-    <mat-step label="Add Photo" formGroupName="0">
-      <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
+<mat-vertical-stepper linear>
+
+  <mat-step label="Add Photo" [stepControl]="addPhotoFormGroup">
+
+    <form [formGroup]="addPhotoFormGroup">
+
+      <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput formControlName="photoControl">
       <button mat-button (click)="fileInput.click()">Select File</button>
       <div>
         <button mat-button matStepperNext type="button">Next</button>
       </div>
-    </mat-step>
-    <mat-step formGroupName="1" label="Details">
+
+    </form>
+
+  </mat-step>
+
+  <mat-step label="Details" [stepControl]="detailsFormGroup">
+
+    <form [formGroup]="detailsFormGroup">
 
       <div>
         <mat-form-field class="full-width">
-          <input matInput required placeholder="Name of Meal">
+          <input formControlName="detailsControl1" matInput required placeholder="Name of Meal">
         </mat-form-field>
-
+  
         <h4>Cuisine</h4>
         <mat-form-field>
           <mat-label>Type</mat-label>
-          <mat-select>
+          <mat-select formControlName="detailsControl2" matInput>
               <mat-option>None</mat-option>
               <mat-option *ngFor="let category of categories" [value]="category.value">
                 {{category.viewValue}}
               </mat-option>
           </mat-select>
         </mat-form-field>
-
-        <h4>Meal</h4>
+  
+        <!-- <h4>Meal</h4>
         <mat-form-field>
           <mat-label>Meal</mat-label>
-          <mat-select>
+          <mat-select matInput>
               <mat-option>None</mat-option>
               <mat-option *ngFor="let meal of meals" [value]="meal.value">
                 {{meal.viewValue}}
               </mat-option>
           </mat-select>
-        </mat-form-field>
-
+        </mat-form-field> -->
+  
         <h4>Category</h4>
         <mat-form-field>
           <mat-label>Food</mat-label>
-          <mat-select>
+          <mat-select formControlName="detailsControl3" matInput>
             <mat-option>None</mat-option>
             <mat-option required *ngFor="let food of foods" [value]="food.value">
               {{food.viewValue}}
@@ -47,27 +56,46 @@
           </mat-select>
         </mat-form-field>
       </div>
+  
+      <button mat-button matStepperPrevious type="button">Back</button>
+      <button mat-button matStepperNext type="button">Next</button>
 
-        <button mat-button matStepperPrevious type="button">Back</button>
-        <button mat-button matStepperNext type="button">Next</button>
-    </mat-step>
-    <mat-step formGroupName="2" label="Rating">
+    </form>
+
+  </mat-step>
+
+  <mat-step label="Rating" [stepControl]="ratingsFormGroup">
+    
+    <form [formGroup]="ratingsFormGroup">
+
+      <mat-label>How was your meal?</mat-label>
+      <mat-slider formControlName="ratingsControl" class="rating" color="primary" thumbLabel tickInterval="1" step="0.5" max="5"></mat-slider>
       
-        <mat-label>How was your meal?</mat-label>
-        <mat-slider class="rating" color="primary" thumbLabel tickInterval="1" step="0.5" max="5"></mat-slider>
       <div>
         <button mat-button matStepperPrevious type="button">Back</button>
         <button mat-button matStepperNext type="button">Next</button>
       </div>
-    </mat-step>
-    <mat-step formGroupName="3" label="Review">
+
+    </form>
+
+  </mat-step>
+
+  <mat-step label="Review" [stepControl]="reviewFormGroup">
+
+    <h2>Overview</h2>
+    <!-- <h4> Photo : {{ addPhotoFormGroup.value.photoControl }} </h4> -->
+    <p> Name of Meal : {{ detailsFormGroup.value.detailsControl1 }} </p>
+    <p> Type of Meal : {{ detailsFormGroup.value.detailsControl2 }} </p>
+    <p> Category : {{ detailsFormGroup.value.detailsControl3 }} </p>
+    <p> Rating : {{ ratingsFormGroup.value.ratingsControl }} </p>
+
       <div>
         <button mat-button matStepperPrevious type="button">Back</button>
         <button mat-button (click)="onUpload()">Upload!</button>
 
-        <!-- <button mat-button matStepperNext type="button">Done</button> -->
+        <button mat-button matStepperNext type="button">Done</button>
       </div>
-    </mat-step>
-    ...
-  </mat-vertical-stepper>
-</form>
+
+  </mat-step>
+
+</mat-vertical-stepper>

@@ -1,22 +1,23 @@
-require("dotenv").config();
-const express = require("express");
-const path = require("path");
-const app = express();
+// Get dependencies
+const
+    express = require('express'),
+    path = require('path'),
+    bodyParser = require('body-parser'),
+    routes = require("./routes"),
+    PORT = process.env.PORT || 3000,
+    app = express();
 
-const apiRoutes = require('./routes/apiRoutes');
+app
+    .use(bodyParser.json())
+    .use(bodyParser.urlencoded({ extended: false }))
+    .use(express.static(path.join(__dirname, 'dist')))
+    .use(routes);
 
-const PORT = process.env.PORT || 3002;
+app.get('/api', routes)
+// Catch all other routes and return the index file
+app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'src/index.html')));
 
-// const db = require("./models");
-
-// Connect to the Mongo DB
-app.use(express.static(path.join(__dirname, '..', 'client')));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-app.use("/api", apiRoutes);
-
-// Turn on that server!
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
-});
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+app.listen(PORT, () => console.log(`API running on localhost:${PORT}`));
