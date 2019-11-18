@@ -1,15 +1,31 @@
 {
   "name": "server",
   "version": "1.0.0",
+<<<<<<< HEAD
+  "description": "server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+=======
   "description": "Foodies",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
+>>>>>>> 81228530d1105f1eb61a2c284dd82761c90835c7
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+<<<<<<< HEAD
+    "concurrently": "^5.0.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mysql2": "^2.0.0",
+    "sequelize": "^5.21.2",
+    "sequelize-cli": "^5.5.1"
+=======
     "express": "^4.17.1"
+>>>>>>> 81228530d1105f1eb61a2c284dd82761c90835c7
   }
 }
