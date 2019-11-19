@@ -13,13 +13,37 @@ module.exports = {
       }], {});
     */
    return queryInterface.bulkInsert('Users',[{
-     name: 'John Smith',
-     email: 'jsmith@mailinator.com',
-     profilePic: 'https://i5.walmartimages.com/asr/178554d0-a564-4413-85dd-0472e0d08b8e_1.c681da5fb244ec3b6fb9963a22b87612.jpeg',
+     name: 'Emily Coraccio',
+     email: 'ecoraccio@mailinator.com',
+     profilePic: 'http://placekitten.com/200/300',
      preferences: '{"darkMode":"true"}',
      createdAt: new Date(),
      updatedAt: new Date()
-   }])
+   },
+   {
+    name: 'Elias Roussos',
+    email: 'eroussos@mailinator.com',
+    profilePic: 'http://placekitten.com/200/300',
+    preferences: '{"darkMode":"true"}',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    name: 'Yunus Ibraham',
+    email: 'yibraham@mailinator.com',
+    profilePic: 'http://placekitten.com/200/300',
+    preferences: '{"darkMode":"true"}',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    name: 'Michael Nos',
+    email: 'mnos@mailinator.com',
+    profilePic: 'http://placekitten.com/200/300',
+    preferences: '{"darkMode":"true"}',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  }])
   },
 
   down: (queryInterface, Sequelize) => {
