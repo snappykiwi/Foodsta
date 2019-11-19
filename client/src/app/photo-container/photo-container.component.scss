@@ -1,3 +1,5 @@
+@import "@material/image-list/mdc-image-list";
+
 .grid-container {
   margin: 20px;
 }
@@ -20,3 +22,6 @@
   text-align: center;
 }
 
+.my-masonry-image-list {
+  @include mdc-image-list-masonry-columns(5);
+}
