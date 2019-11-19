@@ -16,7 +16,17 @@ module.exports = {
      name: 'Pizza',
      createdAt: new Date(),
      updatedAt: new Date()
-   }])
+   },
+   {
+    name: 'Wings',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    name: 'Salad',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  }])
   },
 
   down: (queryInterface, Sequelize) => {
