@@ -15,6 +15,8 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { AddPhotoComponent } from './add-photo/add-photo.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RatingComponent } from './rating/rating.component';
+import { PhotoContainerComponent } from './photo-container/photo-container.component';
+import { BottomNavModule } from 'ngx-bottom-nav';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { RatingComponent } from './rating/rating.component';
     ProfileComponent,
     BrowseComponent,
     AddPhotoComponent,
-    RatingComponent
+    RatingComponent,
+    PhotoContainerComponent
   ],
   imports: [
     BrowserModule,
@@ -31,6 +34,7 @@ import { RatingComponent } from './rating/rating.component';
     BrowserAnimationsModule,
     MaterialModule,
     LayoutModule,
+    BottomNavModule,
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
