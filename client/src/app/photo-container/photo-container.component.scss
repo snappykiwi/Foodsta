@@ -22,6 +22,16 @@
   text-align: center;
 }
 
+#popTitle {
+  color: #000000;
+}
+
 .my-masonry-image-list {
   @include mdc-image-list-masonry-columns(5);
+}
+
+@media (max-width: 650px) {
+  .my-masonry-image-list {
+    @include mdc-image-list-masonry-columns(3);
+  }
 }

@@ -1,35 +1,20 @@
-<!-- 
+
 <div class="grid-container">
-  <h1 class="mat-h1">Dashboard</h1>
-  <mat-grid-list cols="2" rowHeight="350px">
-    <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
-      <mat-card class="dashboard-card">
-        <mat-card-header>
-          <mat-card-title>
-            {{card.title}}
-            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
-              <button mat-menu-item>Remove</button>
-            </mat-menu>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here</div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
-</div> -->
 
+    <ul class="mdc-image-list mdc-image-list--masonry my-masonry-image-list">
+        <li class="mdc-image-list__item" *ngFor="let item of masonryImages" placement="bottom"
+        [ngbPopover]="popContent" [openDelay]="650" [closeDelay]="2000"
+        triggers="mouseenter:mouseleave">
+        <ng-template #popContent><b>{{item.label}}</b><br/>
+          Rating: <b>{{item.rating}}</b><br/>
+        From: <a target=_blank href="{{item.link}}"><b>{{item.restaurant}}</b></a><br/>
+        Posted By: {{name}}</ng-template>
+          <img class="mdc-image-list__image" src="{{item.image}}" />
+          <!-- <div class="mdc-image-list__supporting">
+            <span class="mdc-image-list__label">{{item.label}}</span>
+          </div> -->
+        </li>
+      </ul>
 
-<ul class="mdc-image-list mdc-image-list--masonry my-masonry-image-list">
-  <li class="mdc-image-list__item" *ngFor="let item of masonryImages">
-    <img class="mdc-image-list__image" src="{{item.image}}" />
-    <div class="mdc-image-list__supporting">
-      <span class="mdc-image-list__label">{{item.label}}</span>
-    </div>
-  </li>
-</ul>
+</div>
+
