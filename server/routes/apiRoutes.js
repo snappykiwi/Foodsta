@@ -1,7 +1,7 @@
 const routes = require('express').Router();
 const db = require('../models');
 
-routes.get('/', (req, res) => {
+routes.get('/posts/id:?', (req, res) => {
     db.Post
         .findAll({
             include: [db.User, db.Restaurant, db.Meal]
@@ -13,6 +13,10 @@ routes.get('/', (req, res) => {
             console.log(err);
             throw err;
         });
+})
+
+
+routes.get('/meal/id?', (req, res) => {
 })
 
 module.exports = routes
