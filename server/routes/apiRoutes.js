@@ -1,7 +1,7 @@
 const routes = require('express').Router();
 const db = require('../models');
 
-routes.get('/posts/id:?', (req, res) => {
+routes.get('/posts/:id?', (req, res) => {
     db.Post
         .findAll({
             include: [db.User, db.Restaurant, db.Meal]
