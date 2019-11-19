@@ -2,6 +2,7 @@
 
   <pre *ngIf="auth.userProfile$ | async as profile">
     <code>{{ profile | json }}</code>
+    <app-photo-container></app-photo-container>
   </pre>
 
 </div>

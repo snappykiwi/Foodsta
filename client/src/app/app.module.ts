@@ -14,6 +14,11 @@ import { BrowseComponent } from './browse/browse.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AddPhotoComponent } from './add-photo/add-photo.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PhotoContainerComponent } from './photo-container/photo-container.component';
+import {BottomNavModule} from 'ngx-bottom-nav';
+
+
+
 import { MyArrayFormComponent } from './my-array-form/my-array-form.component';
 
 @NgModule({
@@ -23,6 +28,7 @@ import { MyArrayFormComponent } from './my-array-form/my-array-form.component';
     ProfileComponent,
     BrowseComponent,
     AddPhotoComponent,
+    PhotoContainerComponent,
     MyArrayFormComponent
   ],
   imports: [
@@ -31,6 +37,7 @@ import { MyArrayFormComponent } from './my-array-form/my-array-form.component';
     BrowserAnimationsModule,
     MaterialModule,
     LayoutModule,
+    BottomNavModule,
     NgbModule,
     FormsModule,
     ReactiveFormsModule,

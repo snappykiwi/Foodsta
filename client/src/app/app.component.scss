@@ -9,6 +9,36 @@
 
 }
 
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  z-index: 5;
+  padding: 10px 0px;
+  background-color: #000000;
+}
+
+.search-bar {
+  justify-content: right;
+}
+
 
 nav {
     margin: 20px 0;
