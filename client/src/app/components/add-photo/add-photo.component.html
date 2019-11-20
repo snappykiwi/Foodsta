@@ -70,7 +70,9 @@
 
       <mat-label>How was your meal?</mat-label>
       <mat-slider formControlName="ratingsControl" class="rating" color="primary" thumbLabel tickInterval="1" step="0.5" max="5"></mat-slider>
-      
+      <!-- left in slider & star rating for your preference -->
+      <app-rating></app-rating>
+
       <div>
         <button mat-button matStepperPrevious type="button">Back</button>
         <button mat-button matStepperNext type="button">Next</button>
