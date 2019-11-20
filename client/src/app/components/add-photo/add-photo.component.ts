@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { RatingComponent } from '../rating/rating.component';
+import { PostService } from 'src/app/services/post.service';
 
 export interface SelectOptions {
   value: string;
@@ -15,17 +16,28 @@ export interface SelectOptions {
 
 export class AddPhotoComponent implements OnInit {
 
+  id : string;
+  foodName : string;
+  rating : number;
+  restaurant : string;
+  user : string;
+  date : any;
+  newPost : boolean = true;
+
   addPhotoFormGroup = new FormGroup({
     photoControl: new FormControl('')
   });
+
   detailsFormGroup = new FormGroup({
     detailsControl1: new FormControl(''),
     detailsControl2: new FormControl(''),
     detailsControl3: new FormControl('')
   });
+
   ratingsFormGroup = new FormGroup({
     ratingsControl: new FormControl('')
   });
+
   reviewFormGroup = new FormGroup({
     reviewControl: new FormControl('')
   });
@@ -36,55 +48,41 @@ export class AddPhotoComponent implements OnInit {
     this.selectedFile = event.target.files[0]
   }
 
-  // onUpload() {
-  //   // this.http is the injected HttpClient
-  //   const uploadData = new FormData();
-  //   uploadData.append('myFile', this.selectedFile, this.selectedFile.name);
-  //   this.http.post('my-backend.com/file-upload', uploadData, {
-  //     reportProgress: true,
-  //     observe: 'events'
-  //   })
-  //     .subscribe(event => {
-  //       console.log(event); // handle event here
-  //     });
-  // }
-
-
   categories: SelectOptions[] = [
-    {value: 'mexican-0', viewValue: 'Mexican'},
-    {value: 'thai-1', viewValue: 'Thai'},
-    {value: 'chinese-2', viewValue: 'Chinese'},
-    {value: 'italian-3', viewValue: 'Italian'},
-    {value: 'american-4', viewValue: 'American'},
-    {value: 'fast-food-5', viewValue: 'Fast Food'},
-    {value: 'other-6', viewValue: 'Other'}
+    {value: 'Mexican', viewValue: 'Mexican'},
+    {value: 'Thai', viewValue: 'Thai'},
+    {value: 'Chinese', viewValue: 'Chinese'},
+    {value: 'Italian', viewValue: 'Italian'},
+    {value: 'American', viewValue: 'American'},
+    {value: 'Fast Food', viewValue: 'Fast Food'},
+    {value: 'Other', viewValue: 'Other'}
   ];
-
-  // meals: SelectOptions[] = [
-  //   {value: 'breakfast-0', viewValue: 'Breakfast'},
-  //   {value: 'lunch-1', viewValue: 'Lunch'},
-  //   {value: 'appetizer-2', viewValue: 'Appetizer'},
-  //   {value: 'dinner-3', viewValue: 'Dinner'},
-  //   {value: 'side-4', viewValue: 'Side'},
-  //   {value: 'dessert-5', viewValue: 'Dessert'},
-  //   {value: 'drink-6', viewValue: 'Drink'},
-  //   {value: 'other-6', viewValue: 'Other'}
-  // ];
 
   foods: SelectOptions[] = [
-    {value: 'steak-0', viewValue: 'Steak'},
-    {value: 'pizza-1', viewValue: 'Pizza'},
-    {value: 'tacos-2', viewValue: 'Tacos'},
-    {value: 'burger-3', viewValue: 'Burger'},
-    {value: 'salad-4', viewValue: 'Salad'},
-    {value: 'sandwich-5', viewValue: 'Sandwich'},
-    {value: 'soup-6', viewValue: 'Soup'},
-    {value: 'other-7', viewValue: 'Other'}
+    {value: 'Steak', viewValue: 'Steak'},
+    {value: 'Pizza', viewValue: 'Pizza'},
+    {value: 'Tacos', viewValue: 'Tacos'},
+    {value: 'Burgers', viewValue: 'Burger'},
+    {value: 'Salad', viewValue: 'Salad'},
+    {value: 'Sandwich', viewValue: 'Sandwich'},
+    {value: 'Soup', viewValue: 'Soup'},
+    {value: 'Other', viewValue: 'Other'}
   ];
 
-  constructor() { }
+  constructor(private postService : PostService) { }
 
   ngOnInit() {
+    // this.postService.selectedPost.subscribe(post => {
+    //   if (post.id !== null) {
+    //     this.id = post.id;
+    //     this.foodName = post.foodName;
+    //     this.rating = post.rating;
+    //     this.restaurant = post.restaurant;
+    //     this.user = post.user;
+    //     this.date = post.date;
+    //     this.newPost = false;
+    //   }
+    // });
   }
 
 }
