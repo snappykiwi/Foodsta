@@ -1,0 +1,20 @@
+
+<div class="grid-container">
+
+    <ul class="mdc-image-list mdc-image-list--masonry my-masonry-image-list">
+        <li class="mdc-image-list__item" *ngFor="let item of masonryImages" placement="bottom"
+        [ngbPopover]="popContent" [openDelay]="650" [closeDelay]="2000"
+        triggers="mouseenter:mouseleave">
+        <ng-template #popContent><b>{{item.label}}</b><br/>
+          Rating: <b>{{item.rating}}</b><br/>
+        From: <a target=_blank href="{{item.link}}"><b>{{item.restaurant}}</b></a><br/>
+        Posted By: {{name}}</ng-template>
+          <img class="mdc-image-list__image" src="{{item.image}}" />
+          <!-- <div class="mdc-image-list__supporting">
+            <span class="mdc-image-list__label">{{item.label}}</span>
+          </div> -->
+        </li>
+      </ul>
+
+</div>
+

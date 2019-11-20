@@ -6,15 +6,17 @@ import { MatStepperModule, MatFormFieldModule, MatInputModule } from '@angular/m
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './components/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material-module';
-import { ProfileComponent } from './profile/profile.component';
-import { BrowseComponent } from './browse/browse.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { BrowseComponent } from './components/browse/browse.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { AddPhotoComponent } from './add-photo/add-photo.component';
+import { AddPhotoComponent } from './components/add-photo/add-photo.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { MyArrayFormComponent } from './my-array-form/my-array-form.component';
+import { RatingComponent } from './components/rating/rating.component';
+import { PhotoContainerComponent } from './components/photo-container/photo-container.component';
+import { BottomNavModule } from 'ngx-bottom-nav';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { MyArrayFormComponent } from './my-array-form/my-array-form.component';
     ProfileComponent,
     BrowseComponent,
     AddPhotoComponent,
-    MyArrayFormComponent
+    RatingComponent,
+    PhotoContainerComponent
   ],
   imports: [
     BrowserModule,
@@ -31,6 +34,7 @@ import { MyArrayFormComponent } from './my-array-form/my-array-form.component';
     BrowserAnimationsModule,
     MaterialModule,
     LayoutModule,
+    BottomNavModule,
     NgbModule,
     FormsModule,
     ReactiveFormsModule,

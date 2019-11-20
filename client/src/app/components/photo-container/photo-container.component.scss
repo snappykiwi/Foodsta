@@ -1,0 +1,37 @@
+@import "@material/image-list/mdc-image-list";
+
+.grid-container {
+  margin: 20px;
+}
+
+.dashboard-card {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+}
+
+.more-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+
+.dashboard-card-content {
+  text-align: center;
+}
+
+#popTitle {
+  color: #000000;
+}
+
+.my-masonry-image-list {
+  @include mdc-image-list-masonry-columns(5);
+}
+
+@media (max-width: 650px) {
+  .my-masonry-image-list {
+    @include mdc-image-list-masonry-columns(3);
+  }
+}

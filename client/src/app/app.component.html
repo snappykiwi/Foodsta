@@ -1,40 +1,34 @@
 <div class="mat-app-background basic-container">
 
   <div class="grid-container">
-    <!-- <mat-grid-list cols="8" rowHeight="2:1"> -->
 
-    <h1>{{title}}</h1>
-    <nav>
-      <a routerLink="/" mat-stroked-button color="primary">Home</a>&nbsp;
-      <a routerLink="browse" mat-stroked-button color="primary">Browse</a>&nbsp;
-      <a routerLink="add-photo" mat-stroked-button color="primary">Add Photo</a>&nbsp;
-      <a routerLink="profile" *ngIf="auth.loggedIn" mat-stroked-button color="primary">Profile</a>
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+        <mat-toolbar>Menu</mat-toolbar>
+        <mat-nav-list>
+          <a mat-list-item routerLink="/profile">Profile</a>
+          <a mat-list-item routerLink="/browse">Browse</a>
+          <a mat-list-item routerLink="/add-photo">Add Photo</a>
+          <a mat-list-item routerLink="/add-photo">Settings</a>
 
-      <a mat-stroked-button color="primary" routerLink="/login" (click)="auth.login()" *ngIf="!auth.loggedIn">Login</a>
-      <a mat-stroked-button color="accent" routerLink="/register" (click)="auth.logout()"
-        *ngIf="auth.loggedIn">Logout</a>
-
-
-      <p>
-        <mat-form-field appearance="outline">
-          <mat-label>Search</mat-label>
-          <input matInput placeholder="Search">
-        </mat-form-field>
-      </p>
-    </nav>
-    <mat-sidenav-container>
-
-      <mat-sidenav mode="side" opened>
+          <a mat-list-item routerLink="/login" (click)="auth.login()" *ngIf="!auth.loggedIn">Login</a>
+          <a mat-list-item routerLink="/login" (click)="auth.logout()" *ngIf="auth.loggedIn">Logout</a>
+        </mat-nav-list>
       </mat-sidenav>
-
       <mat-sidenav-content>
+        <mat-toolbar color="primary">
+          <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+            *ngIf="isHandset$ | async">
+            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+          </button>
+          <span>Foodsta</span>
+        </mat-toolbar>
         <router-outlet></router-outlet>
-
+        <ngx-bottom-nav *ngIf="isHandset$ | async" class="bottom-nav" [items]="items"></ngx-bottom-nav>
       </mat-sidenav-content>
-
-
     </mat-sidenav-container>
-    <!-- <mat-grid-list></mat-grid-list> -->
+
   </div>
 
 </div>
