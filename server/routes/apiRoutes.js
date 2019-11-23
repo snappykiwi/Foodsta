@@ -1,5 +1,9 @@
-const routes = require('express').Router();
-const db = require('../models');
+require('dotenv').config();
+
+const
+    routes = require('express').Router(),
+    db = require('../models'),
+    axios = require('axios');
 
 routes.post('/posts/add', (req, res) => {
     const post = req.body;
@@ -111,6 +115,56 @@ routes.get('/restaurants', (req, res) => {
 routes.get('/test', (req, res) => {
     res.json({status: 200});
 })
+
+/* GOOGLE SEARCH */
+
+routes.get('/google/place', (req, res) => {
+
+    const
+        googleApiKey = process.env.GOOGLE_API_KEY,
+        searchInput = "Thai Food",
+        radius = 3,
+        dataResult = [];
+
+    axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchInput}&radius=${radius}&key=${googleApiKey}`).then((response) => {
+
+        const datas = response.data.results;
+
+        datas.map((elem) => {
+
+            const placeId = elem.place_id;
+
+            axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=${googleApiKey}`).then((placedetail) => {
+
+                const placeDetailsDatas = placedetail.data.result;
+
+                let dataArr = []
+
+                dataArr.push(placeDetailsDatas);
+
+                dataArr.map((place) => {
+
+                    let placeObjt = {
+                        name: place.name,
+                        address: place.formatted_address,
+                        phoneNumber: place.formatted_phone_number,
+                        openingHour: place.opening_hours.weekday_text,
+                        priceLevel: place.price_level,
+                        websiteUrl: place.website
+
+                    };
+
+                    dataResult.push(placeObjt);
+
+                    console.log(dataResult);
+                })
+            })
+        });
+
+    });
+
+    res.send(dataResult);
+});
 
 
 module.exports = routes
