@@ -119,7 +119,8 @@ routes.get('/google/place', (req, res) => {
     const
         googleApiKey = process.env.GOOGLE_API_KEY,
         searchInput = "Thai Food",
-        radius = 3;
+        radius = 3,
+        dataResult = [];
 
     axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchInput}&radius=${radius}&key=${googleApiKey}`).then((response) => {
 
@@ -149,7 +150,9 @@ routes.get('/google/place', (req, res) => {
 
                     };
 
-                    console.log(placeObjt);
+                    dataResult.push(placeObjt);
+
+                    console.log(dataResult);
                 })
             })
         });
@@ -158,8 +161,7 @@ routes.get('/google/place', (req, res) => {
 
     });
 
-    res.send("status : 200");
-
+    res.send(dataResult);
 });
 
 
