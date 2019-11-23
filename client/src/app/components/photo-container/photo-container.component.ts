@@ -1,13 +1,25 @@
 import { Component } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-photo-container',
   templateUrl: './photo-container.component.html',
   styleUrls: ['./photo-container.component.scss']
 })
+
 export class PhotoContainerComponent {
+
+  constructor(private breakpointObserver: BreakpointObserver, private http: HttpClient) { }
+
+  ngOnInit() {
+    let obs = this.http.get('/api/test');
+    obs.subscribe((res) => {
+      console.log(res);
+    })
+  }
+
   /** Based on the screen size, switch from standard to one column per row */
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(({ matches }) => {
@@ -53,5 +65,5 @@ export class PhotoContainerComponent {
 
   ]
 
-  constructor(private breakpointObserver: BreakpointObserver) { }
+
 }
