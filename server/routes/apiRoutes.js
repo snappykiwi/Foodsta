@@ -108,7 +108,9 @@ routes.get('/restaurants', (req, res) => {
         })
 })
 
-
+routes.get('/test', (req, res) => {
+    res.json({status: 200});
+})
 
 
 module.exports = routes
