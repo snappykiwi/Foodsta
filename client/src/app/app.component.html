@@ -10,10 +10,10 @@
           <a mat-list-item routerLink="/profile">Profile</a>
           <a mat-list-item routerLink="/browse">Browse</a>
           <a mat-list-item routerLink="/add-photo">Add Photo</a>
-          <a mat-list-item routerLink="/add-photo">Settings</a>
+          <!-- <a mat-list-item routerLink="/add-photo">Settings</a> -->
 
           <a mat-list-item routerLink="/login" (click)="auth.login()" *ngIf="!auth.loggedIn">Login</a>
-          <a mat-list-item routerLink="/login" (click)="auth.logout()" *ngIf="auth.loggedIn">Logout</a>
+          <!-- <a mat-list-item routerLink="/login" (click)="auth.logout()" *ngIf="auth.loggedIn">Logout</a> -->
         </mat-nav-list>
       </mat-sidenav>
       <mat-sidenav-content>
@@ -24,6 +24,7 @@
           </button>
           <span>Foodsta</span>
         </mat-toolbar>
+        
         <router-outlet></router-outlet>
         <ngx-bottom-nav *ngIf="isHandset$ | async" class="bottom-nav" [items]="items"></ngx-bottom-nav>
       </mat-sidenav-content>
