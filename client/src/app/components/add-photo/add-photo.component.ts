@@ -15,14 +15,16 @@ export interface SelectOptions {
 })
 
 export class AddPhotoComponent implements OnInit {
+  
+  constructor(private postService : PostService) { }
 
-  id : string;
-  foodName : string;
-  rating : number;
-  restaurant : string;
-  user : string;
-  date : any;
-  newPost : boolean = true;
+  // id : string;
+  // foodName : string;
+  // rating : number;
+  // restaurant : string;
+  // user : string;
+  // date : any;
+  // newPost : boolean = true;
 
   addPhotoFormGroup = new FormGroup({
     photoControl: new FormControl('')
@@ -48,6 +50,10 @@ export class AddPhotoComponent implements OnInit {
     this.selectedFile = event.target.files[0]
   }
 
+  addPhoto(foodName, rating, restaurant, user, date) {
+    this.postService.addPhoto(foodName, rating, restaurant, user, date);
+  }
+
   categories: SelectOptions[] = [
     {value: 'Mexican', viewValue: 'Mexican'},
     {value: 'Thai', viewValue: 'Thai'},
@@ -69,7 +75,6 @@ export class AddPhotoComponent implements OnInit {
     {value: 'Other', viewValue: 'Other'}
   ];
 
-  constructor(private postService : PostService) { }
 
   ngOnInit() {
     // this.postService.selectedPost.subscribe(post => {
