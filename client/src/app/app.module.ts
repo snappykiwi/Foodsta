@@ -20,6 +20,7 @@ import { BottomNavModule } from 'ngx-bottom-nav';
 import { HttpClientModule } from '@angular/common/http';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { PostService } from './services/post.service';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { PostService } from './services/post.service';
     MatFormFieldModule,
     MatInputModule,
     HttpClientModule,
-    SlimLoadingBarModule
+    SlimLoadingBarModule,
+    CommonModule
   ],
   providers: [
     PostService
