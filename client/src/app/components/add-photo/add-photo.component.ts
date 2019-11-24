@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { RatingComponent } from '../rating/rating.component';
 import { PostService } from 'src/app/services/post.service';
+import { Post } from 'src/app/models/Post';
+import { CommonModule } from '@angular/common';
 
 export interface SelectOptions {
   value: string;
@@ -15,34 +17,43 @@ export interface SelectOptions {
 })
 
 export class AddPhotoComponent implements OnInit {
-  
-  constructor(private postService : PostService) { }
 
-  // id : string;
-  // foodName : string;
-  // rating : number;
-  // restaurant : string;
-  // user : string;
-  // date : any;
+  // starRating : RatingComponent
+
+  post : Post = {
+    image : "",
+    foodName : "",
+    restaurant: "",
+    cuisine : "",
+    category : "",
+    rating : 0,
+    user : "",
+    date : new Date()
+  };
+  
   // newPost : boolean = true;
 
-  addPhotoFormGroup = new FormGroup({
-    photoControl: new FormControl('')
-  });
+  constructor(private postService : PostService) {
 
-  detailsFormGroup = new FormGroup({
-    detailsControl1: new FormControl(''),
-    detailsControl2: new FormControl(''),
-    detailsControl3: new FormControl('')
-  });
+  }
 
-  ratingsFormGroup = new FormGroup({
-    ratingsControl: new FormControl('')
-  });
+  // addPhotoFormGroup = new FormGroup({
+  //   photoControl: new FormControl('')
+  // });
 
-  reviewFormGroup = new FormGroup({
-    reviewControl: new FormControl('')
-  });
+  // detailsFormGroup = new FormGroup({
+  //   detailsControl1: new FormControl(''),
+  //   detailsControl2: new FormControl(''),
+  //   detailsControl3: new FormControl('')
+  // });
+
+  // ratingsFormGroup = new FormGroup({
+  //   ratingsControl: new FormControl('')
+  // });
+
+  // reviewFormGroup = new FormGroup({
+  //   reviewControl: new FormControl('')
+  // });
 
   selectedFile: File
 
@@ -50,8 +61,10 @@ export class AddPhotoComponent implements OnInit {
     this.selectedFile = event.target.files[0]
   }
 
-  addPhoto(foodName, rating, restaurant, user, date) {
-    this.postService.addPhoto(foodName, rating, restaurant, user, date);
+  savePhoto() {
+    console.log(this.post);
+
+    this.postService.savePost(this.post);
   }
 
   categories: SelectOptions[] = [
@@ -74,7 +87,6 @@ export class AddPhotoComponent implements OnInit {
     {value: 'Soup', viewValue: 'Soup'},
     {value: 'Other', viewValue: 'Other'}
   ];
-
 
   ngOnInit() {
     // this.postService.selectedPost.subscribe(post => {

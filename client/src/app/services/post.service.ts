@@ -13,20 +13,29 @@ import { Post } from '../models/Post';
 
 export class PostService {
 
-  uri = 'http://localhost:4200/add-photo';
+  uri = 'http://localhost:4200/api/posts/add';
 
   constructor(private http: HttpClient) { }
 
-  addPhoto(foodName, rating, restaurant, user, date) {
-    const obj = {
-      foodName,
-      rating,
-      restaurant,
-      user,
-      date
-    };
-    console.log(obj);
-    this.http.post(`${this.uri}`, obj)
+  // addPhoto(image, foodName, restaurant, cuisine, category, rating, user, date) {
+  //   const obj = {
+  //     image,
+  //     foodName,
+  //     restaurant,
+  //     cuisine,
+  //     category,
+  //     rating,
+  //     user,
+  //     date
+  //   };
+  //   console.log(obj);
+  //   this.http.post(`${this.uri}`, obj)
+  //       .subscribe(res => console.log('Done'));
+  // }
+
+  savePost(post : Post) {
+    console.log(post);
+    this.http.post(`${this.uri}`, post)
         .subscribe(res => console.log('Done'));
   }
 
