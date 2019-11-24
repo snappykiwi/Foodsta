@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@ang
 import { RatingComponent } from '../rating/rating.component';
 import { PostService } from 'src/app/services/post.service';
 import { Post } from 'src/app/models/Post';
+import { CommonModule } from '@angular/common';
 
 export interface SelectOptions {
   value: string;
@@ -17,10 +18,12 @@ export interface SelectOptions {
 
 export class AddPhotoComponent implements OnInit {
 
+  // starRating : RatingComponent
 
   post : Post = {
     image : "",
     foodName : "",
+    restaurant: "",
     cuisine : "",
     category : "",
     rating : 0,
@@ -58,10 +61,10 @@ export class AddPhotoComponent implements OnInit {
     this.selectedFile = event.target.files[0]
   }
 
-  addPhoto(foodName, rating, restaurant, user, date) {
+  savePhoto() {
     console.log(this.post);
 
-    this.postService.addPhoto(foodName, rating, restaurant, user, date);
+    this.postService.savePost(this.post);
   }
 
   categories: SelectOptions[] = [
@@ -84,7 +87,6 @@ export class AddPhotoComponent implements OnInit {
     {value: 'Soup', viewValue: 'Soup'},
     {value: 'Other', viewValue: 'Other'}
   ];
-
 
   ngOnInit() {
     // this.postService.selectedPost.subscribe(post => {

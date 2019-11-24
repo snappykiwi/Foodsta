@@ -4,7 +4,7 @@ export interface Post {
   cuisine : string,
   category : string,
   rating : number,
-  // restaurant : string,
+  restaurant : string,
   user : string,
   date : any
 }
