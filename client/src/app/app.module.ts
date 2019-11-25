@@ -22,6 +22,8 @@ import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { PostService } from './services/posts/post.service';
 import { CommonModule } from '@angular/common';
 import { SearchService } from './services/searches/search.service';
+import { ListComponent } from './components/list/list.component';
+import { RestaurantComponent } from './components/restaurant/restaurant.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { SearchService } from './services/searches/search.service';
     BrowseComponent,
     AddPhotoComponent,
     RatingComponent,
-    PhotoContainerComponent
+    PhotoContainerComponent,
+    ListComponent,
+    RestaurantComponent
   ],
   imports: [
     BrowserModule,
