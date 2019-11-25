@@ -20,6 +20,9 @@ import { BottomNavModule } from 'ngx-bottom-nav';
 import { HttpClientModule } from '@angular/common/http';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { PostService } from './services/post.service';
+import { CommonModule } from '@angular/common';
+import { ListComponent } from './components/list/list.component';
+import { RestaurantComponent } from './components/restaurant/restaurant.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,9 @@ import { PostService } from './services/post.service';
     BrowseComponent,
     AddPhotoComponent,
     RatingComponent,
-    PhotoContainerComponent
+    PhotoContainerComponent,
+    ListComponent,
+    RestaurantComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +50,8 @@ import { PostService } from './services/post.service';
     MatFormFieldModule,
     MatInputModule,
     HttpClientModule,
-    SlimLoadingBarModule
+    SlimLoadingBarModule,
+    CommonModule
   ],
   providers: [
     PostService

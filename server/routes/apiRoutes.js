@@ -1,9 +1,12 @@
 require('dotenv').config();
+const multer = require('multer');
+const upload = multer();
 
 const
     routes = require('express').Router(),
     db = require('../models'),
     axios = require('axios');
+    awsPhotoUpload = require("../awsPhotoUpload");
 
 routes.post('/posts/add', (req, res) => {
     const post = req.body;
@@ -11,7 +14,7 @@ routes.post('/posts/add', (req, res) => {
     db.Post.create({
 
         "title": post.title,
-        "body": post.body,
+        "body": post.caption,
         "tags": post.tags,
         "image": post.image,
         "rating": post.rating,
@@ -118,11 +121,11 @@ routes.get('/test', (req, res) => {
 
 /* GOOGLE SEARCH */
 
-routes.get('/google/place', (req, res) => {
+routes.get('/google/place/:searchInput', (req, res) => {
 
     const
         googleApiKey = process.env.GOOGLE_API_KEY,
-        searchInput = "Thai Food",
+        searchInput = req.params.searchInput || "restaurant",
         radius = 3,
         dataResult = [];
 
@@ -165,6 +168,15 @@ routes.get('/google/place', (req, res) => {
 
     res.send(dataResult);
 });
+
+routes.post("/profilePicUpload", upload.single('picture'), (req, res) => {
+    console.log(req.file);
+    if (!req.file || Object.keys(req.file).length === 0) {
+      return res.status(400).send("No files were uploaded.");
+    }
+  
+    awsPhotoUpload(req, res);
+  });
 
 
 module.exports = routes
