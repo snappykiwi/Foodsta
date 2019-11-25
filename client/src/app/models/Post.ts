@@ -1,6 +1,8 @@
 export interface Post {
-  id : string,
+  image : any,
   foodName : string,
+  cuisine : string,
+  category : string,
   rating : number,
   restaurant : string,
   user : string,

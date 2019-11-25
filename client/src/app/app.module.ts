@@ -17,6 +17,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RatingComponent } from './components/rating/rating.component';
 import { PhotoContainerComponent } from './components/photo-container/photo-container.component';
 import { BottomNavModule } from 'ngx-bottom-nav';
+import { HttpClientModule } from '@angular/common/http';
+import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
+import { PostService } from './services/post.service';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -40,9 +44,14 @@ import { BottomNavModule } from 'ngx-bottom-nav';
     ReactiveFormsModule,
     MatStepperModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    HttpClientModule,
+    SlimLoadingBarModule,
+    CommonModule
   ],
-  providers: [],
+  providers: [
+    PostService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

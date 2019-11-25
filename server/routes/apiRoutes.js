@@ -115,6 +115,10 @@ routes.get('/restaurants', (req, res) => {
         })
 })
 
+routes.get('/test', (req, res) => {
+    res.json({status: 200});
+})
+
 /* GOOGLE SEARCH */
 
 routes.get('/google/place', (req, res) => {
@@ -159,8 +163,6 @@ routes.get('/google/place', (req, res) => {
                 })
             })
         });
-
-
 
     });
 
