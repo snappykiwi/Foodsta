@@ -11,7 +11,7 @@ routes.post('/posts/add', (req, res) => {
     db.Post.create({
 
         "title": post.title,
-        "body": post.body,
+        "body": post.caption,
         "tags": post.tags,
         "image": post.image,
         "rating": post.rating,
