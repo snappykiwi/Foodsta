@@ -21,6 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { PostService } from './services/post.service';
 import { CommonModule } from '@angular/common';
+import { ListComponent } from './components/list/list.component';
+import { RestaurantComponent } from './components/restaurant/restaurant.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { CommonModule } from '@angular/common';
     BrowseComponent,
     AddPhotoComponent,
     RatingComponent,
-    PhotoContainerComponent
+    PhotoContainerComponent,
+    ListComponent,
+    RestaurantComponent
   ],
   imports: [
     BrowserModule,

@@ -14,7 +14,7 @@ routes.post('/posts/add', (req, res) => {
     db.Post.create({
 
         "title": post.title,
-        "body": post.body,
+        "body": post.caption,
         "tags": post.tags,
         "image": post.image,
         "rating": post.rating,
@@ -121,11 +121,11 @@ routes.get('/test', (req, res) => {
 
 /* GOOGLE SEARCH */
 
-routes.get('/google/place', (req, res) => {
+routes.get('/google/place/:searchInput', (req, res) => {
 
     const
         googleApiKey = process.env.GOOGLE_API_KEY,
-        searchInput = "Thai Food",
+        searchInput = req.params.searchInput || "restaurant",
         radius = 3,
         dataResult = [];
 

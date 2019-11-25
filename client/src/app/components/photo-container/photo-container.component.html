@@ -3,7 +3,7 @@
 
     <ul class="mdc-image-list mdc-image-list--masonry my-masonry-image-list">
         <li class="mdc-image-list__item" *ngFor="let item of masonryImages" placement="bottom"
-        [ngbPopover]="popContent" [openDelay]="650" [closeDelay]="2000"
+        [ngbPopover]="popContent" [openDelay]="650" [closeDelay]="1500"
         triggers="mouseenter:mouseleave">
         <ng-template #popContent><b>{{item.label}}</b><br/>
           Rating: <b>{{item.rating}}</b><br/>
