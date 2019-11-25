@@ -15,6 +15,9 @@
           <a mat-list-item routerLink="/login" (click)="auth.login()" *ngIf="!auth.loggedIn">Login</a>
           <!-- <a mat-list-item routerLink="/login" (click)="auth.logout()" *ngIf="auth.loggedIn">Logout</a> -->
         </mat-nav-list>
+        <mat-divider></mat-divider>
+        <mat-toolbar>Restaurants</mat-toolbar>
+        <app-list></app-list>
       </mat-sidenav>
       <mat-sidenav-content>
         <mat-toolbar color="primary">

@@ -89,8 +89,8 @@ export class AddPhotoComponent implements OnInit {
 
   // fileEvent(fileInput: any) {
   //   const AWSService = AWS;
-  //   const region = '<insert your region here>';
-  //   const bucketName = '<insert your bucket name>';
+  //   const region = "us-east-1";
+  //   const bucketName = 'test-bucket5643';
   //   const IdentityPoolId = '<insert your identity pool id>';
   //   const file = fileInput.target.files[0];
   // //Configures the AWS service and initial authorization
