@@ -13,9 +13,8 @@ app
     .use(express.static(path.join(__dirname, 'dist')))
     .use(routes);
 
-app.get('/', routes)
+app.get('/', routes);
 // Catch all other routes and return the index file
-app.get('*', (req, res) => res.sendFile(path.join(__dirname, '..', 'client', 'src', 'idex.html')));
 
 /**
  * Listen on provided port, on all network interfaces.
