@@ -4,6 +4,7 @@ import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { PhotoContainerComponent } from '../photo-container/photo-container.component';
 import { SearchService } from '../../services/searches/search.service';
 import { Search } from '../../models/Search';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-browse',
