@@ -9,8 +9,8 @@ apt-get install -y build-essential nodejs
 
 cd /var/www/client
 
-npm i
 npm i -g @angular/cli
+npm i
 
 cd /var/www/server
 npm i
