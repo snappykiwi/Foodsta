@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { RatingComponent } from '../rating/rating.component';
-import { PostService } from 'src/app/services/post.service';
+import { PostService } from 'src/app/services/posts/post.service';
 import { Post } from 'src/app/models/Post';
 import { CommonModule } from '@angular/common';
 
@@ -18,42 +18,17 @@ export interface SelectOptions {
 
 export class AddPhotoComponent implements OnInit {
 
-  // starRating : RatingComponent
-
   post : Post = {
     image : "",
-    foodName : "",
+    title : "",
     restaurant: "",
     cuisine : "",
     category : "",
     rating : 0,
-    user : "",
-    date : new Date()
+    user : ""
   };
-  
-  // newPost : boolean = true;
 
-  constructor(private postService : PostService) {
-
-  }
-
-  // addPhotoFormGroup = new FormGroup({
-  //   photoControl: new FormControl('')
-  // });
-
-  // detailsFormGroup = new FormGroup({
-  //   detailsControl1: new FormControl(''),
-  //   detailsControl2: new FormControl(''),
-  //   detailsControl3: new FormControl('')
-  // });
-
-  // ratingsFormGroup = new FormGroup({
-  //   ratingsControl: new FormControl('')
-  // });
-
-  // reviewFormGroup = new FormGroup({
-  //   reviewControl: new FormControl('')
-  // });
+  constructor(private postService : PostService) { }
 
   selectedFile: File
 
@@ -61,10 +36,9 @@ export class AddPhotoComponent implements OnInit {
     this.selectedFile = event.target.files[0]
   }
 
-  savePhoto() {
+  uploadPost() {
     console.log(this.post);
-
-    this.postService.savePost(this.post);
+    this.postService.uploadPost(this.post);
   }
 
   categories: SelectOptions[] = [
@@ -89,17 +63,7 @@ export class AddPhotoComponent implements OnInit {
   ];
 
   ngOnInit() {
-    // this.postService.selectedPost.subscribe(post => {
-    //   if (post.id !== null) {
-    //     this.id = post.id;
-    //     this.foodName = post.foodName;
-    //     this.rating = post.rating;
-    //     this.restaurant = post.restaurant;
-    //     this.user = post.user;
-    //     this.date = post.date;
-    //     this.newPost = false;
-    //   }
-    // });
+
   }
 
 }

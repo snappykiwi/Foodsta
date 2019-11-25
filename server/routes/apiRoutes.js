@@ -118,11 +118,11 @@ routes.get('/test', (req, res) => {
 
 /* GOOGLE SEARCH */
 
-routes.get('/google/place', (req, res) => {
+routes.get('/google/place/:searchInput', (req, res) => {
 
     const
         googleApiKey = process.env.GOOGLE_API_KEY,
-        searchInput = "Thai Food",
+        searchInput = req.params.searchInput || "Thai Food",
         radius = 3,
         dataResult = [];
 
