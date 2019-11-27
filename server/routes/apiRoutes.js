@@ -169,7 +169,7 @@ routes.get('/google/place/:searchInput', (req, res) => {
     res.send(dataResult);
 });
 
-routes.post("/profilePicUpload", upload.single('picture'), (req, res) => {
+routes.post("/picUpload", upload.single('picture'), (req, res) => {
     console.log(req.file);
     if (!req.file || Object.keys(req.file).length === 0) {
       return res.status(400).send("No files were uploaded.");
