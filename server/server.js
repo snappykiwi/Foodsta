@@ -1,6 +1,7 @@
 // Get dependencies
 const
     express = require('express'),
+    cors = require('cors'),
     path = require('path'),
     bodyParser = require('body-parser'),
     routes = require("./routes"),
@@ -8,6 +9,7 @@ const
     app = express();
 
 app
+    .use(cors())
     .use(bodyParser.json())
     .use(bodyParser.urlencoded({ extended: false }))
     .use(express.static(path.join(__dirname, 'dist')))
