@@ -33,6 +33,8 @@ export class BrowseComponent implements OnInit {
   ngOnInit() {
     this.searchService.getSearch().subscribe(searches => {
       console.log(searches);
+    }, (err) => {
+      console.log(err);
     })
   }
 
