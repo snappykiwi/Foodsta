@@ -4,6 +4,7 @@ import { RatingComponent } from '../rating/rating.component';
 import { PostService } from 'src/app/services/post.service';
 import { Post } from 'src/app/models/Post';
 import { CommonModule } from '@angular/common';
+import { UploadService } from '../../services/uploads/upload.service';
 import * as AWS from 'aws-sdk';
 
 export interface SelectOptions {
@@ -12,14 +13,13 @@ export interface SelectOptions {
 }
 
 @Component({
-  selector: 'app-add-photo',
-  templateUrl: './add-photo.component.html',
-  styleUrls: ['./add-photo.component.scss']
+  selector: 'app-add-post',
+  templateUrl: './add-post.component.html',
+  styleUrls: ['./add-post.component.scss']
 })
 
-export class AddPhotoComponent implements OnInit {
+export class AddPostComponent implements OnInit {
 
-  image=""
   // starRating : RatingComponent
 
   post : Post = {
@@ -35,21 +35,41 @@ export class AddPhotoComponent implements OnInit {
   
   // newPost : boolean = true;
 
-  constructor(private postService : PostService) {
+  constructor(
+    private postService: PostService,
+    private uploadService: UploadService) {}
 
-  }
+  // selectedFile: File
+  imageObj: File;
+ // imageUrl: string;
 
-  selectedFile: File
-
-  onFileChanged(event) {
-    this.selectedFile = event.target.files[0]
-  }
+  // onFileChanged(event) {
+  //   this.selectedFile = event.target.files[0]
+  // }
 
   savePhoto() {
     console.log(this.post);
 
     this.postService.savePost(this.post);
   }
+
+
+  onImagePicked(event: Event): void {
+   const FILE = (event.target as HTMLInputElement).files[0];
+   this.imageObj = FILE;
+   console.log(this.imageObj);
+   console.log(event);
+  }
+
+  onImageUpload() {
+   const imageForm = new FormData();
+   imageForm.append('picture', this.imageObj);
+   this.uploadService.imageUpload(imageForm).subscribe(res => {
+     this.post.image = res['Location'];
+     console.log(this.post.image);
+   });
+  }
+
 
   categories: SelectOptions[] = [
     {value: 'Mexican', viewValue: 'Mexican'},
@@ -85,33 +105,5 @@ export class AddPhotoComponent implements OnInit {
     //   }
     // });
   }
-
-
-  // fileEvent(fileInput: any) {
-  //   const AWSService = AWS;
-  //   const region = "us-east-1";
-  //   const bucketName = 'test-bucket5643';
-  //   const IdentityPoolId = '<insert your identity pool id>';
-  //   const file = fileInput.target.files[0];
-  // //Configures the AWS service and initial authorization
-  //   AWSService.config.update({
-  //     region: region,
-  //     credentials: new AWSService.CognitoIdentityCredentials({
-  //       IdentityPoolId: IdentityPoolId
-  //     })
-  //   });
-  // //adds the S3 service, make sure the api version and bucket are correct
-  //   const s3 = new AWSService.S3({
-  //     apiVersion: '2006-03-01',
-  //     params: { Bucket: bucketName}
-  //   });
-  // //I store this in a variable for retrieval later
-  //   this.image = file.name;
-  //   s3.upload({ Key: file.name, Bucket: bucketName, Body: file, ACL: 'public-read'}, function (err, data) {
-  //    if (err) {
-  //      console.log(err, 'there was an error uploading your file');
-  //    }
-  //  });
-  // }
 
 }
