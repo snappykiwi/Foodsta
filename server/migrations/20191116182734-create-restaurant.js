@@ -14,15 +14,21 @@ module.exports = {
       streetAddr: {
         type: Sequelize.STRING
       },
-      city: {
-        type: Sequelize.STRING
+      lat: {
+        type: Sequelize.FLOAT(10,6)
       },
-      state: {
-        type: Sequelize.STRING
+      long: {
+        type: Sequelize.FLOAT(10,6)
       },
-      country: {
-        type: Sequelize.STRING
-      },
+      // city: {
+      //   type: Sequelize.STRING
+      // },
+      // state: {
+      //   type: Sequelize.STRING
+      // },
+      // country: {
+      //   type: Sequelize.STRING
+      // },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
