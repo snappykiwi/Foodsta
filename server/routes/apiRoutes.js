@@ -166,7 +166,7 @@ routes.get('/google/place/:searchInput', (req, res) => {
 
     });
 
-    res.send(dataResult);
+    res.json(dataResult);
 });
 
 routes.post("/profilePicUpload", upload.single('picture'), (req, res) => {

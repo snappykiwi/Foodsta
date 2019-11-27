@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { PhotoContainerComponent } from '../photo-container/photo-container.component';
@@ -12,21 +12,29 @@ import { Observable } from 'rxjs';
   styleUrls: ['./browse.component.scss']
 })
 
-export class BrowseComponent {
+export class BrowseComponent implements OnInit {
 
-  search : Search = {
-    name: "",
-    address: "",
-    phoneNumber: "",
-    openingHour: "",
-    priceLevel: "",
-    websiteUrl: ""
-  }
+  // search : Search = {
+  //   name: "",
+  //   address: "",
+  //   phoneNumber: "",
+  //   openingHour: "",
+  //   priceLevel: "",
+  //   websiteUrl: ""
+  // }
+
+  searches : Search[];
 
   constructor(
     private breakpointObserver : BreakpointObserver,
     private searchService : SearchService
     ) { }
+
+  ngOnInit() {
+    this.searchService.getSearch().subscribe(searches => {
+      console.log(searches);
+    })
+  }
 
   // getSearch() {
   //   console.log(this.search);

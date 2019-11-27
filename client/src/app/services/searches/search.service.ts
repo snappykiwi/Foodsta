@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 
 export class SearchService {
 
-  url = 'http://localhost:4200/api/google/place';
+  private url : string = `http://localhost:4200/api/google/place/restaurants`;
 
   constructor(private http: HttpClient) { }
 
@@ -19,5 +19,9 @@ export class SearchService {
   //   this.http.get(`${this.url}`, search)
   //       .subscribe(res => console.log(res));
   // }
+
+  getSearch() : Observable<Search[]> {
+    return this.http.get<Search[]>(`${this.url}`);
+  }
 
 }
