@@ -12,7 +12,7 @@ import { MaterialModule } from './material-module';
 import { ProfileComponent } from './components/profile/profile.component';
 import { BrowseComponent } from './components/browse/browse.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { AddPhotoComponent } from './components/add-photo/add-photo.component';
+import { AddPostComponent } from './components/add-post/add-post.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RatingComponent } from './components/rating/rating.component';
 import { PhotoContainerComponent } from './components/photo-container/photo-container.component';
@@ -31,7 +31,7 @@ import { RestaurantComponent } from './components/restaurant/restaurant.componen
     LoginComponent,
     ProfileComponent,
     BrowseComponent,
-    AddPhotoComponent,
+    AddPostComponent,
     RatingComponent,
     PhotoContainerComponent,
     ListComponent,
