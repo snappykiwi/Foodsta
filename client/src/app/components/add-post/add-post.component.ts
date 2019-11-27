@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { RatingComponent } from '../rating/rating.component';
-import { PostService } from 'src/app/services/post.service';
-import { Post } from 'src/app/models/Post';
 import { CommonModule } from '@angular/common';
+import { Post } from 'src/app/models/Post';
+import { PostService } from 'src/app/services/post.service';
 import { UploadService } from '../../services/uploads/upload.service';
 
 
@@ -41,7 +41,6 @@ export class AddPostComponent implements OnInit {
 
 
   imageObj: File;
-  // imageUrl: string;
   imgURL: any;
 
 
@@ -65,10 +64,16 @@ export class AddPostComponent implements OnInit {
   onImageUpload() {
     const imageForm = new FormData();
     imageForm.append('picture', this.imageObj);
+
     this.uploadService.imageUpload(imageForm).subscribe(res => {
+
       this.post.image = res['Location'];
       console.log(this.post.image);
-      this.savePhoto();
+
+      if (this.post.image) {
+        this.savePhoto();
+      }
+
     });
   }
 

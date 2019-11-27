@@ -7,9 +7,7 @@
       <!-- <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput [(ngModel)]="post.image"> -->
 
       <input style="display: none" (change)="onImagePicked($event)" #fileInput type="file" accept='image/*' />
-      <!-- <input style="display: none" (change)="preview(fileInput.files)" #fileInput type="file" accept='image/*' /> -->
       <button mat-button (click)="fileInput.click()">Select File</button>
-      <!-- <button *ngIf="imageObj" mat-button (click)="onImageUpload()">Upload Image</button> -->
    
        <div *ngIf="imageObj">
         <br />
