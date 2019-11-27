@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { Post } from 'src/app/models/Post';
 import { PostService } from 'src/app/services/post.service';
 import { UploadService } from '../../services/uploads/upload.service';
+import { Router } from '@angular/router';
+
 
 
 export interface SelectOptions {
@@ -37,7 +39,8 @@ export class AddPostComponent implements OnInit {
 
   constructor(
     private postService: PostService,
-    private uploadService: UploadService) { }
+    private uploadService: UploadService,
+    private router: Router) { }
 
 
   imageObj: File;
@@ -47,6 +50,7 @@ export class AddPostComponent implements OnInit {
   savePhoto() {
     console.log(this.post);
     this.postService.savePost(this.post);
+    this.router.navigate(['browse']);
   }
 
 

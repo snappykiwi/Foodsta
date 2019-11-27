@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 
 import { Post } from '../models/Post';
@@ -18,7 +19,8 @@ export class PostService {
   uri = 'http://localhost:4200/api/posts/add';
 
   constructor(private http: HttpClient,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    private router: Router) { }
 
 
   savePost(post : Post) {
