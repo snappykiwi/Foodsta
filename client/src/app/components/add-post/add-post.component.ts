@@ -56,7 +56,7 @@ export class AddPostComponent implements OnInit {
   // this gets the posts from the db
   // needs to be added in html
   // not sure where you want it
-  // to show that it works, I put it on line 49 so it loads with the component
+  // to show that it works, I put it in the ngOnInit() so it loads with the component
   getPosts() {
     this.postService.getPost(this.post);
   }
