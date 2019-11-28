@@ -1,15 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { PhotoContainerComponent } from '../photo-container/photo-container.component';
-
+import { SearchService } from '../../services/searches/search.service';
+import { Search } from '../../models/Search';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-browse',
   templateUrl: './browse.component.html',
   styleUrls: ['./browse.component.scss']
 })
-export class BrowseComponent {
+
+export class BrowseComponent implements OnInit {
+
+  searches : Search[];
+
+  constructor(
+    private breakpointObserver : BreakpointObserver,
+    private searchService : SearchService
+    ) { }
+
+  onSearch(search : string) {
+
+    this.searchService.getSearch(search).subscribe(searches => {
+      console.log("searches : ", searches);
+      console.log("input : ", search);
+    }, (err) => {
+      console.log(err);
+    })
+
+  }
+
+  ngOnInit() { }
+
   /** Based on the screen size, switch from standard to one column per row */
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(({ matches }) => {
@@ -31,5 +55,4 @@ export class BrowseComponent {
     })
   );
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
 }

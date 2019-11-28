@@ -121,52 +121,43 @@ routes.get('/test', (req, res) => {
 
 /* GOOGLE SEARCH */
 
-routes.get('/google/place/:searchInput', (req, res) => {
+routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
 
     const
         googleApiKey = process.env.GOOGLE_API_KEY,
-        searchInput = req.params.searchInput || "restaurant",
-        radius = 3,
-        dataResult = [];
+        searchInput = req.query.searchInput || "restaurant",
+        radius = req.query.radius || 20;
 
-    axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchInput}&radius=${radius}&key=${googleApiKey}`).then((response) => {
+    // why is it req.query and not req.params???????????????????
+    // console.log(searchInput);
+    // console.log(req.query.searchInput);
+
+    axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchInput}&radius=${radius}&key=${googleApiKey}`)
+    .then((response) => {
 
         const datas = response.data.results;
 
-        datas.map((elem) => {
+        return Promise.resolve(datas);
 
-            const placeId = elem.place_id;
-
-            axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=${googleApiKey}`).then((placedetail) => {
-
-                const placeDetailsDatas = placedetail.data.result;
-
-                let dataArr = []
-
-                dataArr.push(placeDetailsDatas);
-
-                dataArr.map((place) => {
-
-                    let placeObjt = {
-                        name: place.name,
-                        address: place.formatted_address,
-                        phoneNumber: place.formatted_phone_number,
-                        openingHour: place.opening_hours.weekday_text,
-                        priceLevel: place.price_level,
-                        websiteUrl: place.website
-
-                    };
-
-                    dataResult.push(placeObjt);
-
-                    console.log(dataResult);
-                })
-            })
-        });
-
-    });
-
-    res.send(dataResult);
+    }).then((results) => {
+        return Promise.all(results.map((el) => {
+            return axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${el.place_id}&key=${googleApiKey}`)
+            .catch(err => err)
+        }))
+    }).then((resData) => {
+        const resDetails = resData.map((restaurant) => {
+            const restData = restaurant.data.result;
+            return {
+                name: restData.name !== undefined ? restData.name : "N/A",
+                address: restData.formatted_address !== undefined ? restData.formatted_address : "N/A",
+                phoneNumber: restData.formatted_phone_number !== undefined ? restData.formatted_phone_number : "N/A",
+                openingHour: restData.opening_hours.weekday_text !== undefined ? restData.opening_hours.weekday_text : "N/A",
+                priceLevel: restData.price_level !== undefined ? restData.price_level : "N/A" ,
+                websiteUrl: restData.website !== undefined ? restData.website : "N/A"
+            }
+        })
+        res.json(resDetails);
+    }).catch(err => console.log(err))
 });
 
 routes.post("/picUpload", upload.single('picture'), (req, res) => {
