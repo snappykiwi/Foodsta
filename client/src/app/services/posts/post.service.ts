@@ -15,14 +15,22 @@ import { Post } from '../../models/Post';
 
 export class PostService {
 
-  url = 'http://localhost:4200/api/posts/add';
+  postURL = 'http://localhost:4200/api/posts/add';
+  getPostURL = 'http://localhost:4200/api/posts';
 
-  constructor(private http: HttpClient,
-    private snackBar: MatSnackBar) { }
+  constructor(
+    private http: HttpClient,
+    private snackBar: MatSnackBar
+  ) { }
+
+  getPost(post : Post) {
+    this.http.get(`${this.getPostURL}`)
+      .subscribe(res => console.log("Got Posts!", res));
+  }
 
   savePost(post : Post) {
     console.log(post);
-    this.http.post(`${this.url}`, post)
+    this.http.post(`${this.postURL}`, post)
         .subscribe(res => {
           console.log('Done')
           this.openSnackBar("Post Uploaded!", "Done");

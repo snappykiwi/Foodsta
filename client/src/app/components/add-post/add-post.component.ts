@@ -33,21 +33,26 @@ export class AddPostComponent implements OnInit {
     user : ""
   };
 
-  // newPost : boolean = true;
-
   constructor(
     private postService: PostService,
     private uploadService: UploadService
-    ) { }
+  ) { }
 
   imageObj: File;
   imgURL: any;
+
+  // this gets the posts from the db
+  // needs to be added in html
+  // not sure where you want it
+  // to show that it works, i put it on line 105 so it loads with the component
+  getPosts() {
+    this.postService.getPost(this.post);
+  }
 
   savePhoto() {
     console.log(this.post);
     this.postService.savePost(this.post);
   }
-
 
   onImagePicked(event: Event): void {
     const FILE = (event.target as HTMLInputElement).files[0];
@@ -76,7 +81,6 @@ export class AddPostComponent implements OnInit {
     });
   }
 
-
   categories: SelectOptions[] = [
     { value: 'Mexican', viewValue: 'Mexican' },
     { value: 'Thai', viewValue: 'Thai' },
@@ -99,7 +103,7 @@ export class AddPostComponent implements OnInit {
   ];
 
   ngOnInit() {
-
+      this.postService.getPost(this.post);
   }
 
 }
