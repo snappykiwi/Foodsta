@@ -16,7 +16,7 @@ export class PhotoContainerComponent {
   ngOnInit() {
     let obs = this.http.get('/api/test');
     obs.subscribe((res) => {
-      console.log(res);
+      // console.log(res);
     })
   }
 

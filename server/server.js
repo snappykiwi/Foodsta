@@ -12,7 +12,7 @@ app
     .use(cors())
     .use(bodyParser.json())
     .use(bodyParser.urlencoded({ extended: false }))
-    .use(express.static(path.join(__dirname, 'dist')))
+    .use(express.static(path.join(__dirname, '..', 'client', 'dist', 'project-three')))
     .use(routes);
 
 app.get('/', routes);
