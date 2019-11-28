@@ -18,33 +18,38 @@ export interface SelectOptions {
 })
 
 export class AddPostComponent implements OnInit {
-
-  image = "";
-
-  // starRating : RatingComponent
-
+  
   post : Post = {
     image : "",
     title : "",
-    restaurant: "",
+    caption : "",
     cuisine : "",
     category : "",
+    gf : "",
+    vegan : "",
+    vegetarian : "",
     rating : 0,
+    restaurant: "",
     user : ""
   };
+  
+  image = "";
+  imageObj: File;
+  imgURL: any;
 
   constructor(
     private postService: PostService,
     private uploadService: UploadService
   ) { }
 
-  imageObj: File;
-  imgURL: any;
+  ngOnInit() {
+    this.postService.getPost(this.post);
+  }
 
   // this gets the posts from the db
   // needs to be added in html
   // not sure where you want it
-  // to show that it works, i put it on line 105 so it loads with the component
+  // to show that it works, I put it on line 49 so it loads with the component
   getPosts() {
     this.postService.getPost(this.post);
   }
@@ -101,9 +106,5 @@ export class AddPostComponent implements OnInit {
     { value: 'Soup', viewValue: 'Soup' },
     { value: 'Other', viewValue: 'Other' }
   ];
-
-  ngOnInit() {
-      this.postService.getPost(this.post);
-  }
 
 }

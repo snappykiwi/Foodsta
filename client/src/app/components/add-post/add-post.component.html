@@ -28,7 +28,7 @@
 
       <div>
         <mat-form-field class="full-width">
-          <input [(ngModel)]="post.foodName" matInput required placeholder="Name of Meal">
+          <input [(ngModel)]="post.title" matInput required placeholder="Name of Meal">
         </mat-form-field>
 
         <br>
@@ -58,6 +58,13 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+
+        <h4>Preferences</h4>
+        <div>
+          <mat-checkbox class="mr-2" matInput [(ngModel)]="post.gf" >GF</mat-checkbox>
+          <mat-checkbox class="mr-2" matInput [(ngModel)]="post.vegan" >Vegan</mat-checkbox>
+          <mat-checkbox matInput [(ngModel)]="post.vegetarian" >Vegetarian</mat-checkbox>
+        </div>
       </div>
   
       <button mat-button matStepperPrevious type="button">Back</button>
@@ -91,16 +98,17 @@
     <!-- <h4> Photo : </h4> -->
     <br />
     <img *ngIf="imageObj" width="200px" src="{{imgURL}}"/>
-    <p> Name of Meal : {{ post.foodName }} </p>
+    <p> Name of Meal : {{ post.title }} </p>
     <p> Type of Meal : {{ post.cuisine }} </p>
     <p> Category : {{ post.category }} </p>
     <p> Rating : {{ post.rating }} </p>
     <p> Location : {{ post.restaurant }} </p>
-    <!-- <p> Time : {{ post.date | shortDate }} </p> -->
 
       <div>
         <button mat-button matStepperPrevious type="button">Back</button>
         <button mat-button (click)="onImageUpload()">Upload!</button>
+        <!-- test button below -->
+        <button mat-button (click)="savePhoto()">Submit Post Data!</button>
       </div>
 
   </mat-step>
