@@ -40,7 +40,7 @@
         <h4>Cuisine</h4>
         <mat-form-field>
           <mat-label>Type</mat-label>
-          <mat-select [(ngModel)]="post.cuisine" matInput>
+          <mat-select [(ngModel)]="post.cuisine" matInput required>
               <mat-option>None</mat-option>
               <mat-option *ngFor="let category of categories" [value]="category.value">
                 {{category.viewValue}}
@@ -51,7 +51,7 @@
         <h4>Category</h4>
         <mat-form-field>
           <mat-label>Food</mat-label>
-          <mat-select [(ngModel)]="post.category" matInput>
+          <mat-select [(ngModel)]="post.category" matInput required>
             <mat-option>None</mat-option>
             <mat-option required *ngFor="let food of foods" [value]="food.value">
               {{food.viewValue}}
@@ -79,9 +79,18 @@
     <div>
 
       <mat-label>How was your meal?</mat-label>
-      <mat-slider [(ngModel)]="post.rating" class="rating" color="primary" thumbLabel tickInterval="1" step="0.5" max="5"></mat-slider>
+      <!-- <mat-slider [(ngModel)]="post.rating" class="rating" color="primary" thumbLabel tickInterval="1" step="0.5" max="5"></mat-slider> -->
       <!-- left in slider & star rating for your preference -->
-      <app-rating></app-rating>
+      <!-- <app-rating></app-rating> -->
+      <div class="mt-3">
+        <ngb-rating [(ngModel)]="post.rating" (hover)="hovered=$event" (leave)="hovered=0" [readonly]="readonly"></ngb-rating>
+      </div>
+
+      <div class="mt-3">
+        <mat-form-field>
+          <textarea [(ngModel)]="post.caption" matInput placeholder="Comments" cdkTextareaAutosize cdkAutosizeMinRows="2"></textarea>
+        </mat-form-field>
+      </div>
 
       <div>
         <button mat-button matStepperPrevious type="button">Back</button>

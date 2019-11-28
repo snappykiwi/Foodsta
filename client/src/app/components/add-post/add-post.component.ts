@@ -5,6 +5,7 @@ import { PostService } from 'src/app/services/posts/post.service';
 import { Post } from 'src/app/models/Post';
 import { CommonModule } from '@angular/common';
 import { UploadService } from '../../services/uploads/upload.service';
+import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 
 export interface SelectOptions {
   value: string;
@@ -12,9 +13,10 @@ export interface SelectOptions {
 }
 
 @Component({
-  selector: 'app-add-post',
-  templateUrl: './add-post.component.html',
-  styleUrls: ['./add-post.component.scss']
+  selector : 'app-add-post',
+  templateUrl : './add-post.component.html',
+  styleUrls : ['./add-post.component.scss'],
+  providers : [NgbRatingConfig]
 })
 
 export class AddPostComponent implements OnInit {
@@ -39,8 +41,13 @@ export class AddPostComponent implements OnInit {
 
   constructor(
     private postService: PostService,
-    private uploadService: UploadService
-  ) { }
+    private uploadService: UploadService,
+    private config: NgbRatingConfig
+  ) 
+  {     
+    config.max = 5;
+    config.readonly = true;
+  }
 
   ngOnInit() {
     this.postService.getPost(this.post);
