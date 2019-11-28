@@ -13,12 +13,7 @@ export class PhotoContainerComponent {
 
   constructor(private breakpointObserver: BreakpointObserver, private http: HttpClient) { }
 
-  ngOnInit() {
-    let obs = this.http.get('/api/test');
-    obs.subscribe((res) => {
-      // console.log(res);
-    })
-  }
+  ngOnInit() { }
 
   /** Based on the screen size, switch from standard to one column per row */
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(

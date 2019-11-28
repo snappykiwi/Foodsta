@@ -21,6 +21,7 @@ export interface SelectOptions {
 
 export class AddPostComponent implements OnInit {
   
+  // sets 'post' to the Post model to access/set it's properties
   post : Post = {
     image : "",
     title : "",
@@ -44,7 +45,8 @@ export class AddPostComponent implements OnInit {
     private uploadService: UploadService,
     private config: NgbRatingConfig
   ) 
-  {     
+  {
+    // sets star rating to have only 5 stars instead of 10
     config.max = 5;
     config.readonly = true;
   }

@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 
 export class BrowseComponent implements OnInit {
 
+  // set variable to search interface
   searches : Search[];
 
   constructor(
@@ -21,6 +22,7 @@ export class BrowseComponent implements OnInit {
     private searchService : SearchService
     ) { }
 
+  // when users click on the search button, it uses the getSearch() function and returns restaurant data from the google api
   onSearch(search : string) {
 
     this.searchService.getSearch(search).subscribe(searches => {

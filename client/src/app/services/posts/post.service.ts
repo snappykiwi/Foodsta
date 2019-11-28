@@ -15,7 +15,9 @@ import { Post } from '../../models/Post';
 
 export class PostService {
 
+  // url for submitting form data
   postURL = 'http://localhost:4200/api/posts/add';
+  // url for getting all posts from db
   getPostURL = 'http://localhost:4200/api/posts';
 
   constructor(
@@ -23,6 +25,7 @@ export class PostService {
     private snackBar: MatSnackBar
   ) { }
 
+  // function that gets the users posts from db
   getPost(post : Post) {
     this.http.get(`${this.getPostURL}`)
       .subscribe(res => console.log("Got Posts!", res));
