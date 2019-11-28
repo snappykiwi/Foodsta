@@ -1,13 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { RatingComponent } from '../rating/rating.component';
-import { CommonModule } from '@angular/common';
+import { PostService } from 'src/app/services/posts/post.service';
 import { Post } from 'src/app/models/Post';
-import { PostService } from 'src/app/services/post.service';
+import { CommonModule } from '@angular/common';
 import { UploadService } from '../../services/uploads/upload.service';
 import { Router } from '@angular/router';
 
 
+import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 
 export interface SelectOptions {
   value: string;
@@ -15,44 +16,60 @@ export interface SelectOptions {
 }
 
 @Component({
-  selector: 'app-add-post',
-  templateUrl: './add-post.component.html',
-  styleUrls: ['./add-post.component.scss']
+  selector : 'app-add-post',
+  templateUrl : './add-post.component.html',
+  styleUrls : ['./add-post.component.scss'],
+  providers : [NgbRatingConfig]
 })
 
 export class AddPostComponent implements OnInit {
-
-  // starRating : RatingComponent
-
-  post: Post = {
-    image: "",
-    foodName: "",
+  
+  post : Post = {
+    image : "",
+    title : "",
+    caption : "",
+    cuisine : "",
+    category : "",
+    gf : false,
+    vegan : false,
+    vegetarian : false,
+    rating : 0,
     restaurant: "",
-    cuisine: "",
-    category: "",
-    rating: 0,
-    user: "",
-    date: new Date()
+    user : ""
   };
-
-  // newPost : boolean = true;
+  
+  image = "";
+  imageObj: File;
+  imgURL: any;
 
   constructor(
     private postService: PostService,
     private uploadService: UploadService,
-    private router: Router) { }
+    private router: Router,
+    private config: NgbRatingConfig)
 
+  {     
+    config.max = 5;
+    config.readonly = true;
+  }
 
-  imageObj: File;
-  imgURL: any;
+  ngOnInit() {
+    this.postService.getPost(this.post);
+  }
 
+  // this gets the posts from the db
+  // needs to be added in html
+  // not sure where you want it
+  // to show that it works, I put it in the ngOnInit() so it loads with the component
+  getPosts() {
+    this.postService.getPost(this.post);
+  }
 
   savePhoto() {
     console.log(this.post);
     this.postService.savePost(this.post);
     this.router.navigate(['browse']);
   }
-
 
   onImagePicked(event: Event): void {
     const FILE = (event.target as HTMLInputElement).files[0];
@@ -81,7 +98,6 @@ export class AddPostComponent implements OnInit {
     });
   }
 
-
   categories: SelectOptions[] = [
     { value: 'Mexican', viewValue: 'Mexican' },
     { value: 'Thai', viewValue: 'Thai' },
@@ -102,19 +118,5 @@ export class AddPostComponent implements OnInit {
     { value: 'Soup', viewValue: 'Soup' },
     { value: 'Other', viewValue: 'Other' }
   ];
-
-  ngOnInit() {
-    // this.postService.selectedPost.subscribe(post => {
-    //   if (post.id !== null) {
-    //     this.id = post.id;
-    //     this.foodName = post.foodName;
-    //     this.rating = post.rating;
-    //     this.restaurant = post.restaurant;
-    //     this.user = post.user;
-    //     this.date = post.date;
-    //     this.newPost = false;
-    //   }
-    // });
-  }
 
 }

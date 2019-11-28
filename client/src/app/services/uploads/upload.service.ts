@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
-import { PostService } from '../post.service';
+import { PostService } from '../posts/post.service';
 
 
 @Injectable({

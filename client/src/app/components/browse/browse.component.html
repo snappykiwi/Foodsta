@@ -3,8 +3,9 @@
   <p>
     <mat-form-field appearance="outline">
       <mat-label>Search</mat-label>
-      <input matInput placeholder="Search">
+      <input type="text" #search matInput placeholder="Search">
     </mat-form-field>
+    <button class="mat-button" (click)="onSearch(search.value)">Search</button>
   </p>
 
   <h1 class="mat-h1">Dashboard</h1>

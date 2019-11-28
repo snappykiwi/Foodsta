@@ -19,8 +19,9 @@ import { PhotoContainerComponent } from './components/photo-container/photo-cont
 import { BottomNavModule } from 'ngx-bottom-nav';
 import { HttpClientModule } from '@angular/common/http';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
-import { PostService } from './services/post.service';
+import { PostService } from './services/posts/post.service';
 import { CommonModule } from '@angular/common';
+import { SearchService } from './services/searches/search.service';
 import { ListComponent } from './components/list/list.component';
 import { RestaurantComponent } from './components/restaurant/restaurant.component';
 
@@ -54,8 +55,10 @@ import { RestaurantComponent } from './components/restaurant/restaurant.componen
     CommonModule
   ],
   providers: [
-    PostService
+    PostService,
+    SearchService
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

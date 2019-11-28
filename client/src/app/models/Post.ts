@@ -1,10 +1,13 @@
 export interface Post {
   image : any,
-  foodName : string,
+  title : string,
+  caption : string,
   cuisine : string,
   category : string,
+  gf : string,
+  vegan : string,
+  vegetarian : string,
   rating : number,
   restaurant : string,
   user : string,
-  date : any
 }
