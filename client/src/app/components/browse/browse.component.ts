@@ -14,15 +14,6 @@ import { Observable } from 'rxjs';
 
 export class BrowseComponent implements OnInit {
 
-  // search : Search = {
-  //   name: "",
-  //   address: "",
-  //   phoneNumber: "",
-  //   openingHour: "",
-  //   priceLevel: "",
-  //   websiteUrl: ""
-  // }
-
   searches : Search[];
 
   constructor(
@@ -30,18 +21,18 @@ export class BrowseComponent implements OnInit {
     private searchService : SearchService
     ) { }
 
-  ngOnInit() {
-    this.searchService.getSearch().subscribe(searches => {
-      console.log(searches);
+  onSearch(search : string) {
+
+    this.searchService.getSearch(search).subscribe(searches => {
+      console.log("searches : ", searches);
+      console.log("input : ", search);
     }, (err) => {
       console.log(err);
     })
+
   }
 
-  // getSearch() {
-  //   console.log(this.search);
-  //   this.searchService.getSearch(this.search);
-  // }
+  ngOnInit() { }
 
   /** Based on the screen size, switch from standard to one column per row */
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(

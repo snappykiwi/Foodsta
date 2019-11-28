@@ -125,8 +125,12 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
 
     const
         googleApiKey = process.env.GOOGLE_API_KEY,
-        searchInput = req.params.searchInput || "restaurant",
-        radius = req.params.radius || 10;
+        searchInput = req.query.searchInput || "restaurant",
+        radius = req.query.radius || 20;
+
+    // why is it req.query and not req.params???????????????????
+    // console.log(searchInput);
+    // console.log(req.query.searchInput);
 
     axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchInput}&radius=${radius}&key=${googleApiKey}`)
     .then((response) => {
@@ -152,7 +156,6 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
                 websiteUrl: restData.website !== undefined ? restData.website : "N/A"
             }
         })
-        console.log(resDetails);
         res.json(resDetails);
     }).catch(err => console.log(err))
 });
