@@ -136,17 +136,24 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
     .then((response) => {
 
         const datas = response.data.results;
+        console.log(response);
+        console.log(response.data.results);
 
         return Promise.resolve(datas);
 
     }).then((results) => {
+
         return Promise.all(results.map((el) => {
             return axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${el.place_id}&key=${googleApiKey}`)
             .catch(err => err)
         }))
+
     }).then((resData) => {
+
         const resDetails = resData.map((restaurant) => {
+
             const restData = restaurant.data.result;
+
             return {
                 name: restData.name !== undefined ? restData.name : "N/A",
                 address: restData.formatted_address !== undefined ? restData.formatted_address : "N/A",
@@ -155,13 +162,17 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
                 priceLevel: restData.price_level !== undefined ? restData.price_level : "N/A" ,
                 websiteUrl: restData.website !== undefined ? restData.website : "N/A"
             }
+
         })
         res.json(resDetails);
+
     }).catch(err => console.log(err))
 });
 
 routes.post("/picUpload", upload.single('picture'), (req, res) => {
+
     console.log(req.file);
+
     if (!req.file || Object.keys(req.file).length === 0) {
       return res.status(400).send("No files were uploaded.");
     }
