@@ -197,8 +197,10 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
                     address: restData.formatted_address !== undefined ? restData.formatted_address : "N/A",
                     phoneNumber: restData.formatted_phone_number !== undefined ? restData.formatted_phone_number : "N/A",
                     openingHour: restData.opening_hours.weekday_text !== undefined ? restData.opening_hours.weekday_text : "N/A",
-                    priceLevel: restData.price_level !== undefined ? restData.price_level : "N/A",
-                    websiteUrl: restData.website !== undefined ? restData.website : "N/A"
+                    priceLevel: restData.price_level !== undefined ? restData.price_level : 0,
+                    websiteUrl: restData.website !== undefined ? restData.website : "N/A",
+                    id: restData.place_id,
+                    openNow: restData.opening_hours.open_now !== undefined ? restData.opening_hours.open_now : null
                 }
             })
             res.json(resDetails);
@@ -206,7 +208,9 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
 });
 
 routes.post("/picUpload", upload.single('picture'), (req, res) => {
+
     console.log(req.file);
+
     if (!req.file || Object.keys(req.file).length === 0) {
         return res.status(400).send("No files were uploaded.");
     }

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 
 import { Post } from '../../models/Post';
@@ -18,10 +19,9 @@ export class PostService {
   postURL = 'http://localhost:4200/api/posts/add';
   getPostURL = 'http://localhost:4200/api/posts';
 
-  constructor(
-    private http: HttpClient,
-    private snackBar: MatSnackBar
-  ) { }
+  constructor(private http: HttpClient,
+    private snackBar: MatSnackBar,
+    private router: Router) { }
 
   getPost(post : Post) {
     this.http.get(`${this.getPostURL}`)
