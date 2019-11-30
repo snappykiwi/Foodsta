@@ -17,6 +17,18 @@ export class SearchService {
   public restaurantSource : BehaviorSubject<Search[]> = new BehaviorSubject([]);
   public restaurants = this.restaurantSource.asObservable();
 
+  public currentRestaurantSource: BehaviorSubject<Restaurant> = new BehaviorSubject({
+    id: "",
+    name: "",
+    address: "",
+    phoneNumber: "",
+    openingHour: "",
+    openNow: null,
+    priceLevel: 1,
+    websiteUrl: ""});
+  public currentRestaurant = this.currentRestaurantSource.asObservable;
+
+
   constructor(private http: HttpClient) { }
 
   getSearch(input: string) : Observable<Search[]> {
@@ -24,7 +36,7 @@ export class SearchService {
     let searchInput = new HttpParams().set('searchInput', input)
     console.log(this.url + input);
     return this.http.get<Search[]>(`${this.url}`, { params : searchInput });
-    
+
   }
 
 }

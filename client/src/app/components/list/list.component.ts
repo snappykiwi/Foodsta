@@ -11,7 +11,6 @@ import { SearchService } from '../../services/searches/search.service'
 })
 export class ListComponent implements OnInit {
 
-  // private currentRestaurantSource = new BehaviorSubject<any>();
 
   restaurants = []
 
@@ -21,6 +20,8 @@ export class ListComponent implements OnInit {
   ngOnInit() {}
 
   goToRestaurantPg(clickedRestaurant: Restaurant) {
+
+    this.searchService.currentRestaurantSource.next(clickedRestaurant);
 
     this.router.navigate(['restaurant', clickedRestaurant.id]);
   };

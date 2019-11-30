@@ -1,2 +1,48 @@
-<h1>Restaurant Title</h1>
+<h1 class="restaurantName mb-3">{{this.currentRestaurant.name | uppercase}}</h1>
 
+
+<div class="container">
+  <mat-divider></mat-divider>
+
+  <div class="row mt-3">
+
+    <div class="col col-sm-12 col-md-6">
+      <p>{{this.currentRestaurant.address}}</p>
+      <p>{{this.currentRestaurant.phoneNumber}}</p>
+      <a target="_blank" href="{{this.currentRestaurant.websiteUrl}}">View Website</a>
+    </div>
+
+    <div class="col col-sm-12 col-md-6">
+      <p>Price Level: {{this.currentRestaurant.priceLevel}}</p>
+
+      <div *ngIf="this.currentRestaurant.openNow; else closedNow">
+        <p class="open">Open Now</p>
+      </div>
+
+      <ng-template #closedNow>
+        <p class="closed">Closed Now</p>
+      </ng-template>
+
+      <button type="button" mat-button (click)="hoursCollapsed = !hoursCollapsed">Hours</button>
+    </div>
+    <div class="col col-sm-12">
+      <div [ngbCollapse]="hoursCollapsed">
+        <div class="card">
+          <div class="card-body">
+            <p *ngFor="let hours of this.currentRestaurant.openingHour">{{hours}}</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <mat-divider></mat-divider>
+
+  <div>
+    <h4 class="noPosts">No Posts Yet</h4>
+  </div>
+
+</div>
