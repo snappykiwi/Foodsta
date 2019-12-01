@@ -1,6 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@angular/material/prebuilt-themes/pink-bluegrey.css';
 @import "../node_modules/ng2-slim-loading-bar/style.css";
+@import url('https://fonts.googleapis.com/css?family=Muli|Shadows+Into+Light&display=swap');
+
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { 
+  margin: 0; 
+  // font-family: Roboto, "Helvetica Neue", sans-serif; 
+  font-family: 'Muli', sans-serif;
+
+}
+
+h1 {
+  font-family: 'Shadows Into Light', cursive;
+}

@@ -5,8 +5,8 @@
     <mat-sidenav-container class="sidenav-container">
       <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
         [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
-        <mat-toolbar>Menu</mat-toolbar>
-        <mat-nav-list>
+        <mat-toolbar class="fixed-toolbar">Menu</mat-toolbar>
+        <mat-nav-list class="fixed-toolbar">
           <a mat-list-item routerLink="/profile" *ngIf="auth.loggedIn">Profile</a>
           <a mat-list-item routerLink="/browse">Browse</a>
           <a mat-list-item routerLink="/add-post">Add Post</a>
@@ -15,9 +15,9 @@
           <a mat-list-item routerLink="/login" (click)="auth.login()" *ngIf="!auth.loggedIn">Login</a>
           <!-- <a mat-list-item routerLink="/login" (click)="auth.logout()" *ngIf="auth.loggedIn">Logout</a> -->
         </mat-nav-list>
-        <mat-divider></mat-divider>
-        <mat-toolbar>Restaurants</mat-toolbar>
-        <app-list></app-list>
+        <mat-divider class="fixed-toolbar"></mat-divider>
+        <mat-toolbar class="fixed-toolbar">Restaurants</mat-toolbar>
+        <app-list class="scrolling-toolbar"></app-list>
       </mat-sidenav>
       <mat-sidenav-content>
         <mat-toolbar color="primary">
@@ -25,7 +25,7 @@
             *ngIf="isHandset$ | async">
             <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
           </button>
-          <span>Foodsta</span>
+          <span class="siteTitle">Foodsta</span>
         </mat-toolbar>
         
         <router-outlet></router-outlet>

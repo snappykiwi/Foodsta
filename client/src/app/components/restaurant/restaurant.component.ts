@@ -3,6 +3,8 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import { Restaurant } from '../../models/Restaurant';
 import { SearchService } from 'src/app/services/searches/search.service';
+import { PostService } from 'src/app/services/posts/post.service';
+import { PhotoContainerComponent } from '../photo-container/photo-container.component'
 
 @Component({
   selector: 'app-restaurant',
@@ -13,6 +15,8 @@ export class RestaurantComponent implements OnInit {
 
   public hoursCollapsed = true;
 
+
+
   @Input() restaurant: Restaurant
 
   restaurantId: string = null
@@ -21,10 +25,12 @@ export class RestaurantComponent implements OnInit {
   constructor(
     private route: ActivatedRoute, 
     private location: Location,
-    private searchService: SearchService) { 
+    private searchService: SearchService,
+    private postService: PostService) { 
 
       this.searchService.currentRestaurantSource.subscribe(restaurant => {
         this.currentRestaurant = restaurant;
+        this.postService.getRestPosts(restaurant);
         console.log(this.currentRestaurant);
       });
 
