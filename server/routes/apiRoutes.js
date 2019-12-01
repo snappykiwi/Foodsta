@@ -192,18 +192,25 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
         }).then((resData) => {
             const resDetails = resData.map((restaurant) => {
                 const restData = restaurant.data.result;
-                return {
-                    name: restData.name !== undefined ? restData.name : "N/A",
-                    address: restData.formatted_address !== undefined ? restData.formatted_address : "N/A",
-                    phoneNumber: restData.formatted_phone_number !== undefined ? restData.formatted_phone_number : "N/A",
-                    openingHour: restData.opening_hours.weekday_text !== undefined ? restData.opening_hours.weekday_text : "N/A",
-                    priceLevel: restData.price_level !== undefined ? restData.price_level : 0,
-                    websiteUrl: restData.website !== undefined ? restData.website : "N/A",
-                    id: restData.place_id,
-                    openNow: restData.opening_hours.open_now !== undefined ? restData.opening_hours.open_now : null
+                const weekday = restData.opening_hours;
+                console.log(restData.opening_hours);
+                if (typeof weekday !== 'undefined') {
+
+                    return {
+                        name: restData.name !== undefined ? restData.name : "N/A",
+                        address: restData.formatted_address !== undefined ? restData.formatted_address : "N/A",
+                        phoneNumber: restData.formatted_phone_number !== undefined ? restData.formatted_phone_number : "N/A",
+                        openingHour: restData.opening_hours.weekday_text !== undefined ? restData.opening_hours.weekday_text : "N/A",
+                        priceLevel: restData.price_level !== undefined ? restData.price_level : 0,
+                        websiteUrl: restData.website !== undefined ? restData.website : "N/A",
+                        id: restData.place_id,
+                        openNow: restData.opening_hours.open_now !== undefined ? restData.opening_hours.open_now : null
+                    }
+                    
                 }
             })
-            res.json(resDetails);
+            const ih8this = resDetails.filter((luvyunus) => luvyunus !== undefined);
+            res.json(ih8this);
         }).catch(err => console.log(err))
 });
 
