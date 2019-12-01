@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { PhotoContainerComponent } from '../photo-container/photo-container.component';
+import { PostService } from 'src/app/services/posts/post.service';
 
 @Component({
   selector: 'app-profile',
@@ -10,7 +11,8 @@ import { PhotoContainerComponent } from '../photo-container/photo-container.comp
 
 export class ProfileComponent implements OnInit {
 
-  constructor(public auth: AuthService) { }
+  constructor(public auth: AuthService,
+    private postService: PostService) { }
 
   ngOnInit() {
   }

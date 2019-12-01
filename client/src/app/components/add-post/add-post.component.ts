@@ -6,9 +6,14 @@ import { Post } from 'src/app/models/Post';
 import { CommonModule } from '@angular/common';
 import { UploadService } from '../../services/uploads/upload.service';
 import { Router } from '@angular/router';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Restaurant } from 'src/app/models/Restaurant';
+import { Search } from 'src/app/models/Search';
+import { SearchService } from 'src/app/services/searches/search.service';
 
 export interface SelectOptions {
   value: string;
@@ -42,9 +47,14 @@ export class AddPostComponent implements OnInit {
   imageObj: File;
   imgURL: any;
 
+  // code for location search 
+  restaurants$: Observable<Search[]>;
+  private searchTerms = new Subject<string>();
+
   constructor(
     private postService: PostService,
     private uploadService: UploadService,
+    private searchService: SearchService,
     private router: Router,
     private config: NgbRatingConfig)
 
@@ -53,8 +63,21 @@ export class AddPostComponent implements OnInit {
     config.readonly = true;
   }
 
-  ngOnInit() {
-    this.postService.getPost(this.post);
+  search(term: string): void {
+    this.searchTerms.next(term);
+  }
+
+  ngOnInit(): void {
+    this.restaurants$ = this.searchTerms.pipe(
+      // wait 300ms after each keystroke before considering the term
+      debounceTime(300),
+
+      // ignore new term if same as previous term
+      distinctUntilChanged(),
+
+      // switch to new search observable each time the term changes
+      switchMap((term: string) => this.searchService.getSearch(term)),
+    );
   }
 
   // this gets the posts from the db
@@ -97,6 +120,8 @@ export class AddPostComponent implements OnInit {
 
     });
   }
+
+  
 
   categories: SelectOptions[] = [
     { value: 'Mexican', viewValue: 'Mexican' },

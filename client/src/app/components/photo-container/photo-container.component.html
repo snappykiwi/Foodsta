@@ -4,10 +4,10 @@
     class="mdc-image-list mdc-image-list--masonry my-masonry-image-list">
     <li class="mdc-image-list__item" *ngFor="let item of postService.postSource | async" placement="bottom"
       [ngbPopover]="popContent" [openDelay]="650" [closeDelay]="1500" triggers="mouseenter:mouseleave">
-      <ng-template #popContent><b>{{item.label}}</b><br />
+      <ng-template #popContent><b>{{item.title}}</b><br />
         Rating: <b>{{item.rating}}</b><br />
-        From: <a target=_blank href="{{item.link}}"><b>{{item.restaurant}}</b></a><br />
-        Posted By: {{name}}</ng-template>
+        From: <a *ngIf="item.Restaurant" target=_blank href="{{item.link}}"><b>{{item.Restaurant.name}}</b></a><br />
+        Posted By: <span *ngIf="item.User">{{item.User.name}}</span></ng-template>
       <img class="mdc-image-list__image" src="{{item.image}}" />
       <!-- <div class="mdc-image-list__supporting">
             <span class="mdc-image-list__label">{{item.label}}</span>
