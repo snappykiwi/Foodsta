@@ -29,6 +29,7 @@ export interface SelectOptions {
 
 export class AddPostComponent implements OnInit {
   
+  // sets 'post' to the Post model to access/set it's properties
   post : Post = {
     image : "",
     title : "",
