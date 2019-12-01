@@ -13,7 +13,7 @@
     </div>
 
     <div class="col col-sm-12 col-md-6">
-      <p>Price Level: {{this.currentRestaurant.priceLevel}}</p>
+      <p>Price Level: {{this.currentRestaurant.priceLevel===0 ? "N/A" : this.currentRestaurant.priceLevel}}</p>
 
       <div *ngIf="this.currentRestaurant.openNow; else closedNow">
         <p class="open">Open Now</p>
@@ -41,8 +41,6 @@
 
   <mat-divider></mat-divider>
 
-  <div>
-    <h4 class="noPosts">No Posts Yet</h4>
-  </div>
+  <app-photo-container></app-photo-container>
 
 </div>

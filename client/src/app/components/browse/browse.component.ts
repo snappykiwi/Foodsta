@@ -5,6 +5,7 @@ import { PhotoContainerComponent } from '../photo-container/photo-container.comp
 import { SearchService } from '../../services/searches/search.service';
 import { Search } from '../../models/Search';
 import { Observable } from 'rxjs';
+import { PostService } from 'src/app/services/posts/post.service';
 
 @Component({
   selector: 'app-browse',
@@ -19,7 +20,8 @@ export class BrowseComponent implements OnInit {
 
   constructor(
     private breakpointObserver : BreakpointObserver,
-    private searchService : SearchService
+    private searchService : SearchService,
+    private postService: PostService
     ) { }
 
   // when users click on the search button, it uses the getSearch() function and returns restaurant data from the google api
@@ -40,6 +42,7 @@ export class BrowseComponent implements OnInit {
 
   ngOnInit() {
     this.onSearch("restaurants");
+    this.postService.getPost();
    }
 
 }
