@@ -6,6 +6,7 @@ export interface Restaurant {
   address: string,
   phoneNumber: string,
   openingHour: string,
+  openNow: boolean,
   priceLevel: number,
   websiteUrl: string
 }
