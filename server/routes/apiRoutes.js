@@ -21,9 +21,10 @@ routes.post('/posts/add', (req, res) => {
         "gf": post.gf,
         "vegan": post.vegan,
         "vegetarian": post.vegetarian,
+        "restaurantId": post.restaurantId,
+        "restaurantName": post.restaurantName.name,
         "MealId": post.MealId,
-        "UserId": post.UserId,
-        "RestaurantId": post.restaurantId
+        "UserId": post.UserId
     }).then((response) => {
 
         res.json(response);

@@ -27,19 +27,26 @@
     <div>
 
       <div>
-        <mat-form-field class="full-width mr-5 mb-3">
-          <input [(ngModel)]="post.title" matInput required placeholder="Name of Meal">
-        </mat-form-field>
+        <div class="row">
 
-        <div>
+          <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
+            <input [(ngModel)]="post.title" matInput required placeholder="Name of Meal">
+          </mat-form-field>
 
-          <mat-form-field class="full-width">
+        </div>
+
+
+        <div class="row">
+
+          <mat-form-field class="col col-sm-12 col-md-6 offset-md-3">
             <input [(ngModel)]="post.restaurantName" #location (input)="search(location.value)" matInput required
               placeholder="Restaurant" [matAutocomplete]="auto">
           </mat-form-field>
 
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)='getInfo($event.option.value)' [displayWith]="getRestaurantName">
-            <mat-option *ngFor="let restaurant of restaurants$ | async" id="{{restaurant.id}}" [value]="restaurant" >{{restaurant.name}}</mat-option>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)='getInfo($event.option.value)'
+            [displayWith]="getRestaurantName">
+            <mat-option *ngFor="let restaurant of restaurants$ | async" id="{{restaurant.id}}" [value]="restaurant">
+              {{restaurant.name}}</mat-option>
           </mat-autocomplete>
 
         </div>
@@ -71,7 +78,7 @@
           <input [(ngModel)]="post.category" matInput required placeholder="Category">
         </mat-form-field>
 
-        <h4>Preferences</h4>
+        <h4>Dietary</h4>
         <div class="mt-4 mb-3">
           <mat-checkbox class="mr-3" matInput [(ngModel)]="post.gf">GF</mat-checkbox>
           <mat-checkbox class="mr-3" matInput [(ngModel)]="post.vegan">Vegan</mat-checkbox>
