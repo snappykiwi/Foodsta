@@ -46,8 +46,8 @@
             </li>
           </ul> -->
 
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let restaurant of restaurants$ | async" [value]="option">{{restaurant.name}}</mat-option>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)='getId($event.option.id)'>
+            <mat-option *ngFor="let restaurant of restaurants$ | async" id="{{restaurant.id}}" [value]="restaurant.name">{{restaurant.name}}</mat-option>
           </mat-autocomplete>
 
         </div>

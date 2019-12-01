@@ -23,7 +23,7 @@ routes.post('/posts/add', (req, res) => {
         "vegetarian": post.vegetarian,
         "MealId": post.MealId,
         "UserId": post.UserId,
-        "RestaurantId": post.RestaurantId
+        "RestaurantId": post.restaurant
     }).then((response) => {
 
         res.json(response);
@@ -193,7 +193,7 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
             const resDetails = resData.map((restaurant) => {
                 const restData = restaurant.data.result;
                 const weekday = restData.opening_hours;
-                console.log(restData.opening_hours);
+                // console.log(restData);
                 if (typeof weekday !== 'undefined') {
 
                     return {
@@ -204,13 +204,18 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
                         priceLevel: restData.price_level !== undefined ? restData.price_level : 0,
                         websiteUrl: restData.website !== undefined ? restData.website : "N/A",
                         id: restData.place_id,
-                        openNow: restData.opening_hours.open_now !== undefined ? restData.opening_hours.open_now : null
+                        openNow: restData.opening_hours.open_now !== undefined ? restData.opening_hours.open_now : null,
+                        types: restData.types !== undefined ? restData.types : []
                     }
                     
                 }
             })
-            const ih8this = resDetails.filter((luvyunus) => luvyunus !== undefined);
-            res.json(ih8this);
+            console.log(resDetails);
+            const filteredRestaurants = resDetails.filter((restaurant) => {
+                return (restaurant !== undefined) && restaurant.types.includes('restaurant')
+            });
+            console.log(filteredRestaurants);
+            res.json(filteredRestaurants);
         }).catch(err => console.log(err))
 });
 

@@ -70,15 +70,21 @@ export class AddPostComponent implements OnInit {
 
   ngOnInit(): void {
     this.restaurants$ = this.searchTerms.pipe(
-      // wait 300ms after each keystroke before considering the term
+
       debounceTime(300),
 
-      // ignore new term if same as previous term
       distinctUntilChanged(),
 
-      // switch to new search observable each time the term changes
       switchMap((term: string) => this.searchService.getSearch(term)),
     );
+  }
+
+  getId(optionId){
+    this.post.restaurant = optionId;
+    // let url = 'https://jsonplaceholder.typicode.com/posts?userId='+userId;
+    // this.http.get(`${url}`).subscribe(posts => {
+    //     this.posts = [...posts];
+    // });
   }
 
   // this gets the posts from the db
