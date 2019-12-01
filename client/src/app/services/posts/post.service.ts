@@ -41,14 +41,14 @@ export class PostService {
       });
   }
 
-  getRestPosts(restaurant: Restaurant) {
-    this.http.get(`${this.getRestPostURL}restaurant.id`)
-      .subscribe(res => {
-        console.log('Got restaurant posts', res)
-        this.postSource.next(res);
-        console.log(this.postSource.value.length);
-      });
-  }
+  // getRestPosts(restaurant: Restaurant) {
+  //   this.http.get(`${this.getRestPostURL}restaurant.id`)
+  //     .subscribe(res => {
+  //       console.log('Got restaurant posts', res)
+  //       this.postSource.next(res);
+  //       console.log(this.postSource.value.length);
+  //     });
+  // }
 
   savePost(post: Post) {
     console.log(post);
@@ -59,12 +59,12 @@ export class PostService {
       });
   }
 
-  updatePost(post: Post) {
-    console.log(post);
-    this.http.put(`${this.updatePostURL}`, post)
+  getRestPosts(restaurant: Restaurant) {
+    console.log(restaurant.id);
+    this.http.get(`${this.getRestPostURL}${restaurant.id}`)
       .subscribe(res => {
         console.log('Updated')
-        
+
       })
   }
 

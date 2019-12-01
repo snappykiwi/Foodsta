@@ -8,5 +8,8 @@ export interface Restaurant {
   openingHour: string,
   openNow: boolean,
   priceLevel: number,
-  websiteUrl: string
+  websiteUrl: string,
+  mapUrl: string,
+  latitude: string,
+  longitude: string
 }

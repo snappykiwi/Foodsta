@@ -7,7 +7,7 @@
   <div class="row mt-3">
 
     <div class="col col-sm-12 col-md-6">
-      <p>{{this.currentRestaurant.address}}</p>
+      <a target="_blank" href="{{this.currentRestaurant.mapUrl}}">{{this.currentRestaurant.address}}</a>
       <p>{{this.currentRestaurant.phoneNumber}}</p>
       <a target="_blank" href="{{this.currentRestaurant.websiteUrl}}">View Website</a>
     </div>
@@ -23,7 +23,10 @@
         <p class="closed">Closed Now</p>
       </ng-template>
 
-      <button type="button" mat-button (click)="hoursCollapsed = !hoursCollapsed">Hours</button>
+      <button type="button" mat-button (click)="hoursCollapsed = !hoursCollapsed">Hours
+        <mat-icon *ngIf="hoursCollapsed">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="!hoursCollapsed">arrow_drop_up</mat-icon>
+      </button>
     </div>
     <div class="col col-sm-12">
       <div [ngbCollapse]="hoursCollapsed">

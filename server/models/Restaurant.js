@@ -1,6 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Restaurant = sequelize.define('Restaurant', {
+    id: {
+      type: DataTypes.STRING,
+      primaryKey: true
+    },
     name: DataTypes.STRING,
     streetAddr: DataTypes.STRING,
     lat: DataTypes.FLOAT(10,6),

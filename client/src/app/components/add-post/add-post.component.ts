@@ -6,9 +6,14 @@ import { Post } from 'src/app/models/Post';
 import { CommonModule } from '@angular/common';
 import { UploadService } from '../../services/uploads/upload.service';
 import { Router } from '@angular/router';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Restaurant } from 'src/app/models/Restaurant';
+import { Search } from 'src/app/models/Search';
+import { SearchService } from 'src/app/services/searches/search.service';
 
 export interface SelectOptions {
   value: string;
@@ -35,7 +40,8 @@ export class AddPostComponent implements OnInit {
     vegan : false,
     vegetarian : false,
     rating : 0,
-    restaurant: "",
+    restaurantName: {},
+    restaurantId: "",
     user : ""
   };
   
@@ -43,9 +49,14 @@ export class AddPostComponent implements OnInit {
   imageObj: File;
   imgURL: any;
 
+  // code for location search 
+  restaurants$: Observable<Search[]>;
+  private searchTerms = new Subject<string>();
+
   constructor(
     private postService: PostService,
     private uploadService: UploadService,
+    private searchService: SearchService,
     private router: Router,
     private config: NgbRatingConfig)
 
@@ -54,8 +65,34 @@ export class AddPostComponent implements OnInit {
     config.readonly = true;
   }
 
-  ngOnInit() {
-    this.postService.getPost(this.post);
+  search(term: string): void {
+    this.searchTerms.next(term);
+  }
+
+  ngOnInit(): void {
+    this.restaurants$ = this.searchTerms.pipe(
+
+      debounceTime(300),
+
+      distinctUntilChanged(),
+
+      switchMap((term: string) => this.searchService.getSearch(term)),
+    );
+  }
+
+  getInfo(optionInfo){
+    this.post.restaurantId = optionInfo.id;
+    // this.post.restaurantName = optionInfo.name;
+    console.log(optionInfo);
+    console.log(this.post.restaurantName);
+    // let url = 'https://jsonplaceholder.typicode.com/posts?userId='+userId;
+    // this.http.get(`${url}`).subscribe(posts => {
+    //     this.posts = [...posts];
+    // });
+  }
+
+  getRestaurantName(option) {
+    return option.name
   }
 
   // this gets the posts from the db
@@ -98,6 +135,8 @@ export class AddPostComponent implements OnInit {
 
     });
   }
+
+  
 
   categories: SelectOptions[] = [
     { value: 'Mexican', viewValue: 'Mexican' },
