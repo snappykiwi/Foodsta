@@ -21,7 +21,9 @@ export class PostService {
   postURL = 'http://localhost:4200/api/posts/add';
   // url for getting all posts from db
   getPostURL = 'http://localhost:4200/api/posts';
-  getRestPostURL = 'http://localhost:4200/api/posts/restaurant/'
+  getRestPostURL = 'http://localhost:4200/api/posts/restaurant/';
+  // url for updating posts
+  updatePostURL = 'http://localhost:4200/api/posts/:id';
 
   constructor(private http: HttpClient,
     private snackBar: MatSnackBar,
@@ -39,15 +41,6 @@ export class PostService {
       });
   }
 
-  savePost(post: Post) {
-    console.log(post);
-    this.http.post(`${this.postURL}`, post)
-      .subscribe(res => {
-        console.log('Done')
-        this.openSnackBar("Post Uploaded!", "Done");
-      });
-  }
-
   getRestPosts(restaurant: Restaurant) {
     this.http.get(`${this.getRestPostURL}restaurant.id`)
       .subscribe(res => {
@@ -57,6 +50,23 @@ export class PostService {
       });
   }
 
+  savePost(post: Post) {
+    console.log(post);
+    this.http.post(`${this.postURL}`, post)
+      .subscribe(res => {
+        console.log('Done')
+        this.openSnackBar("Post Uploaded!", "Done");
+      });
+  }
+
+  updatePost(post: Post) {
+    console.log(post);
+    this.http.put(`${this.updatePostURL}`, post)
+      .subscribe(res => {
+        console.log('Updated')
+        
+      })
+  }
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
