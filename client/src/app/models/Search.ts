@@ -4,5 +4,8 @@ export interface Search {
   phoneNumber: any,
   openingHour: any,
   priceLevel: any,
-  websiteUrl: string
+  websiteUrl: string,
+  latitude: string,
+  longitude: string,
+  mapUrl: string
 }

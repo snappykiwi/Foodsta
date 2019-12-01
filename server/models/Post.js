@@ -8,7 +8,9 @@ module.exports = (sequelize, DataTypes) => {
     rating: DataTypes.INTEGER,
     gf: DataTypes.BOOLEAN,
     vegan: DataTypes.BOOLEAN,
-    vegetarian: DataTypes.BOOLEAN
+    vegetarian: DataTypes.BOOLEAN,
+    // restaurantId: DataTypes.STRING,
+    // restaurantName: DataTypes.STRING
   }, {});
   Post.associate = function(models) {
     // associations can be defined here

@@ -26,7 +26,10 @@ export class SearchService {
     openingHour: "",
     openNow: null,
     priceLevel: 1,
-    websiteUrl: ""});
+    websiteUrl: "",
+    mapUrl: "",
+    latitude: "",
+    longitude: ""});
   public currentRestaurant = this.currentRestaurantSource.asObservable;
 
 
