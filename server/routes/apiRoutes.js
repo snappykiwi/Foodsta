@@ -23,7 +23,7 @@ routes.post('/posts/add', (req, res) => {
         "vegetarian": post.vegetarian,
         "MealId": post.MealId,
         "UserId": post.UserId,
-        "RestaurantId": post.restaurant
+        "RestaurantId": post.restaurantId
     }).then((response) => {
 
         res.json(response);
@@ -131,6 +131,7 @@ routes.get('/posts/meal/:MealId', (req, res) => {
 
 routes.get('/posts/restaurant/:RestaurantId', (req, res) => {
     const { RestaurantId } = req.params;
+    console.log(RestaurantId);
 
     db.Post
         .findAll({
@@ -193,7 +194,7 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
             const resDetails = resData.map((restaurant) => {
                 const restData = restaurant.data.result;
                 const weekday = restData.opening_hours;
-                // console.log(restData);
+                console.log(restData.url);
                 if (typeof weekday !== 'undefined') {
 
                     return {
@@ -205,12 +206,15 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
                         websiteUrl: restData.website !== undefined ? restData.website : "N/A",
                         id: restData.place_id,
                         openNow: restData.opening_hours.open_now !== undefined ? restData.opening_hours.open_now : null,
-                        types: restData.types !== undefined ? restData.types : []
+                        types: restData.types !== undefined ? restData.types : [],
+                        mapUrl: restData.url !== undefined ? restData.url : "",
+                        latitude: restData.geometry !== undefined ? restData.geometry.location.lat : "",
+                        longitude: restData.geometry !== undefined ? restData.geometry.location.lng : ""
                     }
                     
                 }
             })
-            console.log(resDetails);
+            console.log(resDetails.mapUrl);
             const filteredRestaurants = resDetails.filter((restaurant) => {
                 return (restaurant !== undefined) && restaurant.types.includes('restaurant')
             });

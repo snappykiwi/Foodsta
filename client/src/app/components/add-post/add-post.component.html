@@ -34,20 +34,12 @@
         <div>
 
           <mat-form-field class="full-width">
-            <input [(ngModel)]="post.restaurant" #location (input)="search(location.value)" matInput required
-              placeholder="Location" [matAutocomplete]="auto">
+            <input [(ngModel)]="post.restaurantName" #location (input)="search(location.value)" matInput required
+              placeholder="Restaurant" [matAutocomplete]="auto">
           </mat-form-field>
-<!-- 
-          <ul class="search-result">
-            <li *ngFor="let restaurant of restaurants$ | async">
-              <a routerLink="/restaurant/{{restaurant.id}}">
-                {{restaurant.name}}
-              </a>
-            </li>
-          </ul> -->
 
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)='getId($event.option.id)'>
-            <mat-option *ngFor="let restaurant of restaurants$ | async" id="{{restaurant.id}}" [value]="restaurant.name">{{restaurant.name}}</mat-option>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)='getInfo($event.option.value)' [displayWith]="getRestaurantName">
+            <mat-option *ngFor="let restaurant of restaurants$ | async" id="{{restaurant.id}}" [value]="restaurant" >{{restaurant.name}}</mat-option>
           </mat-autocomplete>
 
         </div>
@@ -126,20 +118,19 @@
   <mat-step label="Review">
 
     <h2>Post Review</h2>
-    <!-- <h4> Photo : </h4> -->
     <br />
     <img *ngIf="imageObj" width="200px" src="{{imgURL}}" />
     <p> Name of Meal : {{ post.title }} </p>
     <p> Type of Meal : {{ post.cuisine }} </p>
     <p> Category : {{ post.category }} </p>
     <p> Rating : {{ post.rating }} </p>
-    <p> Location : {{ post.restaurant }} </p>
+    <p> Restaurant : {{ post.restaurantName.name }} </p>
 
     <div>
       <button mat-button matStepperPrevious type="button">Back</button>
       <button mat-button (click)="onImageUpload()">Upload!</button>
       <!-- test button below -->
-      <button mat-button (click)="savePhoto()">Submit Post Data!</button>
+      <!-- <button mat-button (click)="savePhoto()">Submit Post Data!</button> -->
     </div>
 
   </mat-step>

@@ -8,6 +8,7 @@ export interface Post {
   vegan : boolean,
   vegetarian : boolean,
   rating : number,
-  restaurant : string,
-  user : string,
+  restaurantName : string,
+  restaurantId: string,
+  user : string
 }

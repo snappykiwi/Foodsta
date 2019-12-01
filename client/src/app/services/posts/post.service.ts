@@ -49,7 +49,8 @@ export class PostService {
   }
 
   getRestPosts(restaurant: Restaurant) {
-    this.http.get(`${this.getRestPostURL}restaurant.id`)
+    console.log(restaurant.id);
+    this.http.get(`${this.getRestPostURL}${restaurant.id}`)
       .subscribe(res => {
         console.log('Got restaurant posts', res)
         this.postSource.next(res);

@@ -40,7 +40,8 @@ export class AddPostComponent implements OnInit {
     vegan : false,
     vegetarian : false,
     rating : 0,
-    restaurant: "",
+    restaurantName: "",
+    restaurantId: "",
     user : ""
   };
   
@@ -79,12 +80,17 @@ export class AddPostComponent implements OnInit {
     );
   }
 
-  getId(optionId){
-    this.post.restaurant = optionId;
+  getInfo(optionInfo){
+    this.post.restaurantId = optionInfo.id;
+    console.log(optionInfo);
     // let url = 'https://jsonplaceholder.typicode.com/posts?userId='+userId;
     // this.http.get(`${url}`).subscribe(posts => {
     //     this.posts = [...posts];
     // });
+  }
+
+  getRestaurantName(option) {
+    return option.name
   }
 
   // this gets the posts from the db
