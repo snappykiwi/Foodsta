@@ -5,6 +5,9 @@ import { PostService } from 'src/app/services/posts/post.service';
 import { Post } from 'src/app/models/Post';
 import { CommonModule } from '@angular/common';
 import { UploadService } from '../../services/uploads/upload.service';
+import { Router } from '@angular/router';
+
+
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 
 export interface SelectOptions {
@@ -28,9 +31,9 @@ export class AddPostComponent implements OnInit {
     caption : "",
     cuisine : "",
     category : "",
-    gf : "",
-    vegan : "",
-    vegetarian : "",
+    gf : false,
+    vegan : false,
+    vegetarian : false,
     rating : 0,
     restaurant: "",
     user : ""
@@ -43,10 +46,10 @@ export class AddPostComponent implements OnInit {
   constructor(
     private postService: PostService,
     private uploadService: UploadService,
-    private config: NgbRatingConfig
-  ) 
-  {
-    // sets star rating to have only 5 stars instead of 10
+    private router: Router,
+    private config: NgbRatingConfig)
+
+  {     
     config.max = 5;
     config.readonly = true;
   }
@@ -66,6 +69,7 @@ export class AddPostComponent implements OnInit {
   savePhoto() {
     console.log(this.post);
     this.postService.savePost(this.post);
+    this.router.navigate(['browse']);
   }
 
   onImagePicked(event: Event): void {

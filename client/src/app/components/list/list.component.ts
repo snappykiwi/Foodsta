@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Restaurant } from '../../models/Restaurant';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { SearchService } from '../../services/searches/search.service'
 
 @Component({
   selector: 'app-list',
@@ -9,20 +11,18 @@ import { Router } from '@angular/router';
 })
 export class ListComponent implements OnInit {
 
-  constructor(private router: Router) { }
 
-  ngOnInit() {
-  }
+  restaurants = []
 
-  restaurants = [
-    {name: "Five Guys", id:"1", address: "somewhere", phoneNumber: "(603)455-1010", openingHour: "open some hours", priceLevel: "2", websiteUrl: "website"},
-    {name: "Sal's Pizza", id:"2", address: "somewhere", phoneNumber: "(603)455-1010", openingHour: "open some hours", priceLevel: "2", websiteUrl: "website"},
-    {name: "Hong Kong Taste", id:"3", address: "somewhere", phoneNumber: "(603)455-1010", openingHour: "open some hours", priceLevel: "2", websiteUrl: "website"},
-    {name: "Olive Garden", id:"4", address: "somewhere", phoneNumber: "(603)455-1010", openingHour: "open some hours", priceLevel: "2", websiteUrl: "website"},
-    {name: "Masa", id:"5", address: "somewhere", phoneNumber: "(603)455-1010", openingHour: "open some hours", priceLevel: "2", websiteUrl: "website"}
-  ] 
+  constructor(private router: Router,
+    private searchService: SearchService) { }
+
+  ngOnInit() {}
 
   goToRestaurantPg(clickedRestaurant: Restaurant) {
+
+    this.searchService.currentRestaurantSource.next(clickedRestaurant);
+
     this.router.navigate(['restaurant', clickedRestaurant.id]);
   };
 }
