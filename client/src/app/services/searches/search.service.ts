@@ -12,6 +12,7 @@ import { Restaurant } from 'src/app/models/Restaurant';
 
 export class SearchService {
 
+  // url to access get back data from google api
   private url : string = `http://localhost:4200/api/google/place/`;
 
   public restaurantSource : BehaviorSubject<Search[]> = new BehaviorSubject([]);
@@ -31,6 +32,7 @@ export class SearchService {
 
   constructor(private http: HttpClient) { }
 
+  // gets user input from search bar and uses the google api to search for restaurants
   getSearch(input: string) : Observable<Search[]> {
 
     let searchInput = new HttpParams().set('searchInput', input)

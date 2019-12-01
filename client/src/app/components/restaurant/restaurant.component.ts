@@ -15,8 +15,6 @@ export class RestaurantComponent implements OnInit {
 
   public hoursCollapsed = true;
 
-
-
   @Input() restaurant: Restaurant
 
   restaurantId: string = null
@@ -35,7 +33,6 @@ export class RestaurantComponent implements OnInit {
       });
 
     }
-
 
   ngOnInit() {
     this.route.params.forEach((urlParameters) => {

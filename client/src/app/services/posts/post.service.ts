@@ -17,7 +17,9 @@ import { Restaurant } from 'src/app/models/Restaurant';
 
 export class PostService {
 
+  // url for submitting form data
   postURL = 'http://localhost:4200/api/posts/add';
+  // url for getting all posts from db
   getPostURL = 'http://localhost:4200/api/posts';
   getRestPostURL = 'http://localhost:4200/api/posts/restaurant/'
 
@@ -25,10 +27,8 @@ export class PostService {
     private snackBar: MatSnackBar,
     private router: Router) { }
 
-
     public postSource : BehaviorSubject<any> = new BehaviorSubject([]);
     public posts = this.postSource.asObservable();
-
 
   getPost(post?: Post) {
     this.http.get(`${this.getPostURL}`)
@@ -39,7 +39,6 @@ export class PostService {
       });
   }
 
-
   savePost(post: Post) {
     console.log(post);
     this.http.post(`${this.postURL}`, post)
@@ -48,7 +47,6 @@ export class PostService {
         this.openSnackBar("Post Uploaded!", "Done");
       });
   }
-
 
   getRestPosts(restaurant: Restaurant) {
     this.http.get(`${this.getRestPostURL}restaurant.id`)
