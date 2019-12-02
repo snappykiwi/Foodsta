@@ -9,13 +9,12 @@ module.exports = (sequelize, DataTypes) => {
     gf: DataTypes.BOOLEAN,
     vegan: DataTypes.BOOLEAN,
     vegetarian: DataTypes.BOOLEAN,
-    // restaurantId: DataTypes.STRING,
-    // restaurantName: DataTypes.STRING
+    restaurantId: DataTypes.STRING,
+    restaurantName: DataTypes.STRING
   }, {});
   Post.associate = function(models) {
     // associations can be defined here
     Post.belongsTo(models.User);
-    Post.belongsTo(models.Restaurant);
     Post.belongsTo(models.Meal);
   };
   return Post;
