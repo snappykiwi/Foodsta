@@ -35,21 +35,6 @@ module.exports = {
           onDelete: 'SET NULL',
         }
       )
-    }).then(() => {
-      // post hasOne Restaurant
-      return queryInterface.addColumn(
-        'Posts',
-        'RestaurantId',
-        {
-          type: Sequelize.INTEGER,
-          references: {
-            model: 'Restaurants',
-            key: 'id',
-          },
-          onUpdate: 'CASCADE',
-          onDelete: 'SET NULL',
-        }
-      );
     });
   },
 
@@ -58,17 +43,12 @@ module.exports = {
     return queryInterface.removeColumn(
       'Posts',
       'UserId'
-    )
-      .then(() => {
-        return queryInterface.removeColumn(
-          'Posts',
-          'RestaurantId',
-        ).then(() => {
-          return queryInterface.removeColumn(
-            'Posts',
-            'MealId'
-          )
-        });
-      });
+    ).then(() => {
+      return queryInterface.removeColumn(
+        'Posts',
+        'MealId'
+      )
+    });
+
   }
 };

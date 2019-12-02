@@ -32,6 +32,12 @@ module.exports = {
       vegetarian: {
         type: Sequelize.BOOLEAN
       },
+      restaurantId: {
+        type: Sequelize.STRING
+      },
+      restaurantName: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
