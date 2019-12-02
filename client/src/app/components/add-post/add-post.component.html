@@ -132,6 +132,9 @@
     <p> Category : {{ post.category }} </p>
     <p> Rating : {{ post.rating }} </p>
     <p> Restaurant : {{ post.restaurantName.name }} </p>
+    <pre *ngIf="auth.userProfile$ | async as profile">
+        <p> {{ profile.sub }} </p>
+    </pre>
 
     <div>
       <button mat-button matStepperPrevious type="button">Back</button>

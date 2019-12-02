@@ -28,6 +28,7 @@
 
   <pre *ngIf="auth.userProfile$ | async as profile">
     <code>{{ profile | json }}</code>
+    <p> {{ profile.sub | json }} </p>
     <app-photo-container></app-photo-container>
   </pre>
 

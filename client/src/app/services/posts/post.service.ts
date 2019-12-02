@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
@@ -22,8 +22,8 @@ export class PostService {
   // url for getting all posts from db
   getPostURL = 'http://localhost:4200/api/posts';
   getRestPostURL = 'http://localhost:4200/api/posts/restaurant/';
-  // url for updating posts
-  updatePostURL = 'http://localhost:4200/api/posts/:id';
+  // url for updating/deleting posts
+  updateOrDeletePostURL = 'http://localhost:4200/api/posts/:id';
 
   constructor(private http: HttpClient,
     private snackBar: MatSnackBar,
@@ -66,6 +66,19 @@ export class PostService {
         console.log('Updated')
 
       })
+  }
+
+  updatePost(userId : string) : Observable<Post[]> {
+    let user = new HttpParams().set('userId', userId);
+    console.log(`${this.updateOrDeletePostURL}${userId}`);
+    return this.http.put<Post[]>(`${this.updateOrDeletePostURL}`, { params : userId });
+  }
+
+  deletePost(userId : string) : Observable<Post[]> {
+    let user = new HttpParams().set('userId', userId);
+    let options = { params : user }
+    console.log(`${this.updateOrDeletePostURL}${userId}`);
+    return this.http.delete<Post[]>(`${this.updateOrDeletePostURL}`, options);
   }
 
   openSnackBar(message: string, action: string) {

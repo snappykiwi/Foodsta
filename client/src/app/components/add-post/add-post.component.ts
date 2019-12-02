@@ -8,7 +8,7 @@ import { UploadService } from '../../services/uploads/upload.service';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-
+import { AuthService } from '../../auth.service';
 
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Restaurant } from 'src/app/models/Restaurant';
@@ -54,6 +54,7 @@ export class AddPostComponent implements OnInit {
   private searchTerms = new Subject<string>();
 
   constructor(
+    public auth: AuthService,
     private postService: PostService,
     private uploadService: UploadService,
     private searchService: SearchService,

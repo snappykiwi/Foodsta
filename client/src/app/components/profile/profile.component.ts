@@ -11,8 +11,10 @@ import { PostService } from 'src/app/services/posts/post.service';
 
 export class ProfileComponent implements OnInit {
 
-  constructor(public auth: AuthService,
-    private postService: PostService) { }
+  constructor(
+    public auth: AuthService,
+    private postService: PostService
+    ) { }
 
   ngOnInit() { }
 
