@@ -42,7 +42,7 @@ export class AddPostComponent implements OnInit {
     rating : 0,
     restaurantName: {},
     restaurantId: "",
-    user : ""
+    user : this.auth.userProfileSubject$.value.sub
   };
   
   image = "";
@@ -71,6 +71,9 @@ export class AddPostComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    console.log(this.auth.userProfileSubject$.value.sub);
+
     this.restaurants$ = this.searchTerms.pipe(
 
       debounceTime(300),
