@@ -68,6 +68,6 @@ module.exports = {
       return queryInterface.bulkDelete('People', null, {});
     */
 
-    return queryInterface.bulkDelete('posts', null, {});
+    return queryInterface.bulkDelete('Posts', null, {});
   }
 };
