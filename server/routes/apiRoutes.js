@@ -10,6 +10,19 @@ const
     Op = Sequelize.Op;
 awsPhotoUpload = require("../awsPhotoUpload");
 
+routes.get('/meals', (req, res) => {
+    db.Meal
+        .findAll({})
+        .then((response) => {
+
+            res.json(response);
+        })
+        .catch((err) => {
+            console.log(err);
+            throw err;
+        })
+})
+
 routes.post('/posts/add', (req, res) => {
     const post = req.body;
     console.log(post);
