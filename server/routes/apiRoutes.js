@@ -106,6 +106,7 @@ routes.get('/posts/:id?', (req, res) => {
 })
 
 routes.get('/posts/partial/:searchString', (req, res) => {
+    console.log(req.params.searchString);
     let searchString = req.params.searchString.toLowerCase().trim();
     db.Post
         .findAll({
@@ -119,6 +120,10 @@ routes.get('/posts/partial/:searchString', (req, res) => {
                         }
                     }, {
                         '$Meal.name$': {
+                            [Op.like]: `%${searchString}%`
+                        }
+                    }, {
+                        restaurantName: {
                             [Op.like]: `%${searchString}%`
                         }
                     }
@@ -220,7 +225,7 @@ routes.get('/posts/restaurant/:RestaurantId', (req, res) => {
             where: {
                 restaurantId: RestaurantId
             },
-            include: [db.User, db.Restaurant, db.Meal]
+            include: [db.User, db.Meal]
         })
         .then(data => {
             res.json(data);
@@ -272,7 +277,7 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
             const resDetails = resData.map((restaurant) => {
                 const restData = restaurant.data.result;
                 const weekday = restData.opening_hours;
-                console.log(restData.url);
+                // console.log(restData.url);
                 if (typeof weekday !== 'undefined') {
 
                     return {
@@ -292,11 +297,11 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
 
                 }
             })
-            console.log(resDetails.mapUrl);
+            // console.log(resDetails.mapUrl);
             const filteredRestaurants = resDetails.filter((restaurant) => {
                 return (restaurant !== undefined) && restaurant.types.includes('restaurant')
             });
-            console.log(filteredRestaurants);
+            // console.log(filteredRestaurants);
             res.json(filteredRestaurants);
         }).catch(err => console.log(err))
 });

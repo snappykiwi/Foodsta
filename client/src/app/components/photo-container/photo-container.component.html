@@ -6,7 +6,7 @@
       [ngbPopover]="popContent" [openDelay]="650" [closeDelay]="1500" triggers="mouseenter:mouseleave">
       <ng-template #popContent><b>{{item.title}}</b><br />
         Rating: <b>{{item.rating}}</b><br />
-        From: <a *ngIf="item.Restaurant" target=_blank href="{{item.link}}"><b>{{item.Restaurant.name}}</b></a><br />
+        From: <a *ngIf="item.restaurantName" [routerLink]="['/restaurant', item.restaurantId]"><b>{{item.restaurantName}}</b></a><br />
         Posted By: <span *ngIf="item.User">{{item.User.name}}</span></ng-template>
       <img class="mdc-image-list__image" src="{{item.image}}" (click)="openDialog(item)" />
       <!-- <div class="mdc-image-list__supporting">
