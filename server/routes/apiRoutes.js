@@ -1,11 +1,13 @@
 require('dotenv').config();
 const multer = require('multer');
 const upload = multer();
+const Sequelize = require('sequelize');
 
 const
     routes = require('express').Router(),
     db = require('../models'),
-    axios = require('axios');
+    axios = require('axios'),
+    Op = Sequelize.Op;
 awsPhotoUpload = require("../awsPhotoUpload");
 
 routes.post('/posts/add', (req, res) => {
@@ -87,6 +89,36 @@ routes.get('/posts/:id?', (req, res) => {
                 throw err;
             });
     }
+})
+
+routes.get('/posts/partial/:searchString', (req, res) => {
+    let searchString = req.params.searchString.toLowerCase().trim();
+    db.Post
+        .findAll({
+            include: [db.Meal],
+            where: {
+
+                [Op.or]: [
+                    {
+                        title: {
+                            [Op.like]: `%${searchString}%`
+                        }
+                    }, {
+                        '$Meal.name$': {
+                            [Op.like]: `%${searchString}%`
+                        }
+                    }
+                ]
+            }
+        })
+        .then(data => {
+            res.json(data);
+            console.log("data", data);
+        })
+        .catch(err => {
+            console.log(err);
+            throw err;
+        });
 })
 
 routes.delete('/posts/:id', (req, res) => {
@@ -212,7 +244,7 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
                         latitude: restData.geometry !== undefined ? restData.geometry.location.lat : "",
                         longitude: restData.geometry !== undefined ? restData.geometry.location.lng : ""
                     }
-                    
+
                 }
             })
             console.log(resDetails.mapUrl);
