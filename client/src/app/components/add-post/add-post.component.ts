@@ -8,7 +8,7 @@ import { UploadService } from '../../services/uploads/upload.service';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-
+import { AuthService } from '../../auth.service';
 
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Restaurant } from 'src/app/models/Restaurant';
@@ -31,6 +31,7 @@ export class AddPostComponent implements OnInit {
   
   // sets 'post' to the Post model to access/set it's properties
   post : Post = {
+    id : "",
     image : "",
     title : "",
     caption : "",
@@ -42,7 +43,7 @@ export class AddPostComponent implements OnInit {
     rating : 0,
     restaurantName: {},
     restaurantId: "",
-    user : ""
+    user : this.auth.userProfileSubject$.value.sub
   };
   
   image = "";
@@ -54,6 +55,7 @@ export class AddPostComponent implements OnInit {
   private searchTerms = new Subject<string>();
 
   constructor(
+    public auth: AuthService,
     private postService: PostService,
     private uploadService: UploadService,
     private searchService: SearchService,
@@ -71,6 +73,9 @@ export class AddPostComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    console.log(this.auth.userProfileSubject$.value.sub);
+
     this.restaurants$ = this.searchTerms.pipe(
 
       debounceTime(300),
@@ -109,7 +114,7 @@ export class AddPostComponent implements OnInit {
   savePhoto() {
     console.log(this.post);
     this.postService.savePost(this.post);
-    this.router.navigate(['browse']);
+    this.router.navigate(['home']);
   }
 
   onImagePicked(event: Event): void {

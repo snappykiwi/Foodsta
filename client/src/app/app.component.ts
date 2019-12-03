@@ -29,7 +29,6 @@ export class AppComponent implements OnInit {
       {icon: 'account_circle', label: 'Profile', routerLink: '/profile'},
     ];
 
-
   constructor(
     private auth: AuthService,
     private breakpointObserver: BreakpointObserver,

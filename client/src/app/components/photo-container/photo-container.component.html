@@ -8,7 +8,7 @@
         Rating: <b>{{item.rating}}</b><br />
         From: <a *ngIf="item.restaurantName" [routerLink]="['/restaurant', item.restaurantId]"><b>{{item.restaurantName}}</b></a><br />
         Posted By: <span *ngIf="item.User">{{item.User.name}}</span></ng-template>
-      <img class="mdc-image-list__image" src="{{item.image}}" />
+      <img class="mdc-image-list__image" src="{{item.image}}" (click)="openDialog(item)" />
       <!-- <div class="mdc-image-list__supporting">
             <span class="mdc-image-list__label">{{item.label}}</span>
           </div> -->

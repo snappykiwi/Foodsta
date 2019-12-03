@@ -246,10 +246,6 @@ routes.get('/posts/restaurant/:RestaurantId', (req, res) => {
 //         })
 // })
 
-routes.get('/test', (req, res) => {
-    res.json({ status: 200 });
-})
-
 /* GOOGLE SEARCH */
 
 routes.get('/google/place/:searchInput?/:radius?', (req, res) => {

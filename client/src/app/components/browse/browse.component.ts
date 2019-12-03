@@ -25,7 +25,6 @@ export class BrowseComponent implements OnInit {
     ) { }
 
   // when users click on the search button, it uses the getSearch() function and returns restaurant data from the google api
-
   onSearch(search : string) {
 
     this.searchService.getSearch(search).subscribe(searches => {

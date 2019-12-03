@@ -24,6 +24,7 @@ import { CommonModule } from '@angular/common';
 import { SearchService } from './services/searches/search.service';
 import { ListComponent } from './components/list/list.component';
 import { RestaurantComponent } from './components/restaurant/restaurant.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { RestaurantComponent } from './components/restaurant/restaurant.componen
     RatingComponent,
     PhotoContainerComponent,
     ListComponent,
-    RestaurantComponent
+    RestaurantComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +60,8 @@ import { RestaurantComponent } from './components/restaurant/restaurant.componen
     PostService,
     SearchService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ModalComponent]
 })
 
 export class AppModule { }
