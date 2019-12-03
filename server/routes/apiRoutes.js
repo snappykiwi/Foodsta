@@ -1,12 +1,14 @@
 require('dotenv').config();
-const multer = require('multer');
-const upload = multer();
 
 const
     routes = require('express').Router(),
+    Sequelize = require('sequelize'),
     db = require('../models'),
-    axios = require('axios');
-awsPhotoUpload = require("../awsPhotoUpload");
+    axios = require('axios'),
+    multer = require('multer'),
+    upload = multer(),
+    Op = Sequelize.Op,
+    awsPhotoUpload = require("../awsPhotoUpload");
 
 routes.post('/posts/add', (req, res) => {
     const post = req.body;
@@ -111,6 +113,42 @@ routes.delete('/posts/:id', (req, res) => {
         })
 })
 
+//Getting all the post by userId, restaurantId, gluttenFree, vegan, vegetarian
+routes.get('/posts/searchby/user/:userId?/restaurant/:restaurantId?/gf/:gf?/vegan/:vegan?/vegetarian/:vegetarian?', (req, res) => {
+
+    const
+        searchby = req.params,
+        parameters = Object.keys(searchby);
+
+    let paramatersArray = [];
+
+    parameters.forEach((param) => {
+
+        if (searchby[param] !== undefined) paramatersArray.push(
+            {
+                [param]: searchby[param]
+            }
+        )
+    })
+
+    db.Post
+        .findAll({
+            where: {
+                [Op.or]: paramatersArray
+            }
+        })
+        .then(data => {
+            res.json(data);
+            console.log("data", data);
+        })
+        .catch(err => {
+            console.log(err);
+            throw err;
+        });
+
+
+})
+
 routes.get('/posts/meal/:MealId', (req, res) => {
     const { MealId } = req.params;
 
@@ -212,7 +250,7 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
                         latitude: restData.geometry !== undefined ? restData.geometry.location.lat : "",
                         longitude: restData.geometry !== undefined ? restData.geometry.location.lng : ""
                     }
-                    
+
                 }
             })
             console.log(resDetails.mapUrl);
