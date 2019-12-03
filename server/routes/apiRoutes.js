@@ -1,15 +1,15 @@
 require('dotenv').config();
 
 const
-    multer = require('multer')
+    multer = require('multer'),
     upload = multer(),
     routes = require('express').Router(),
     Sequelize = require('sequelize'),
     db = require('../models'),
-    axios = require('axios'),
-    Op = Sequelize.Op;
-
-awsPhotoUpload = require("../awsPhotoUpload");
+    axios = require('axios').default,
+    request = require('request'),
+    Op = Sequelize.Op,
+    awsPhotoUpload = require("../awsPhotoUpload");
 
 routes.get('/meals', (req, res) => {
     db.Meal
@@ -162,7 +162,7 @@ routes.delete('/posts/:id', (req, res) => {
 })
 
 //Getting all the post by userId, restaurantId, gluttenFree, vegan, vegetarian
-routes.get('/posts/searchby/user/:userId?/restaurant/:restaurantId?/gf/:gf?/vegan/:vegan?/vegetarian/:vegetarian?', (req, res) => {
+routes.get('/posts/searchby/userid/:userId?/restaurant/:restaurantId?/gf/:gf?/vegan/:vegan?/vegetarian/:vegetarian?', (req, res) => {
 
     const
         searchby = req.params,
@@ -193,8 +193,6 @@ routes.get('/posts/searchby/user/:userId?/restaurant/:restaurantId?/gf/:gf?/vega
             console.log(err);
             throw err;
         });
-
-
 })
 
 routes.get('/posts/meal/:MealId', (req, res) => {
@@ -321,5 +319,61 @@ routes.post("/picUpload", upload.single('picture'), (req, res) => {
     awsPhotoUpload(req, res);
 });
 
+
+/* Auth0 API 
+---------------- */
+
+//get Auth0 User information
+routes.get("/auth0/user/:userId", (req, res) => {
+
+    const { userId } = req.params;
+
+    const options = {
+        url: `${process.env.AUDIENCE_AUTH0}${userId}`,
+        headers: {
+            authorization: `Bearer ${process.env.REFRESH_TOKEN_AUTH0}`
+        }
+    };
+
+    axios(options)
+        .then((response) => {
+
+            const userDatas = response.data;
+
+            return Promise.resolve(userDatas);
+        })
+        .then((results) => {
+            console.log(results);
+            res.json(results);
+        })
+        .catch((err) => console.log(err));
+});
+
+// Update Auth0 User information
+routes.patch("/auth0/update/:userId", (req, res) => {
+
+    const { userId } = req.params;
+    const datas = JSON.stringify(req.body);
+
+    console.log(userId, datas);
+
+    const options = {
+        method: 'PATCH',
+        url: `${process.env.AUDIENCE_AUTH0}${userId}`,
+        headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${process.env.REFRESH_TOKEN_AUTH0}`
+        },
+        data: datas
+    };
+
+    axios(options)
+        .then((results) => {
+
+            res.json("ok:200");
+        })
+        .catch((err) => console.log(err));
+
+});
 
 module.exports = routes
