@@ -38,14 +38,4 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() { }
 
-  editPost() {
-    this.postService.updatePost(this.post);
-    console.log(this.post);
-  }
-
-  deletePost() {
-    console.log(this.post);
-    this.postService.deletePost(this.post);
-  }
-
 }

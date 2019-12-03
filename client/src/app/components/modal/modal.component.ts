@@ -14,23 +14,6 @@ import { PhotoContainerComponent } from '../photo-container/photo-container.comp
 })
 export class ModalComponent implements OnInit {
 
-  // sets 'post' to the Post model to access/set it's properties
-  // post : Post = {
-  //   id : "",
-  //   image : "",
-  //   title : "",
-  //   caption : "",
-  //   cuisine : "",
-  //   category : "",
-  //   gf : false,
-  //   vegan : false,
-  //   vegetarian : false,
-  //   rating : 0,
-  //   restaurantName: {},
-  //   restaurantId: "",
-  //   user : this.auth.userProfileSubject$.value.sub
-  // };
-
   constructor(
     public auth: AuthService,
     public dialogRef: MatDialogRef<ModalComponent>,
@@ -49,14 +32,17 @@ export class ModalComponent implements OnInit {
 
   ngOnInit() { }
 
-  editPost(post: Post) {
-    this.postService.updatePost(this.post);
+  editPost() {
+    this.postService.updatePost(this.post).subscribe(() => console.log("I just clicked update"));
     console.log(this.post);
   }
 
-  deletePost(post: Post) {
+  deletePost(postId : number) {
     console.log(this.post);
-    this.postService.deletePost(this.post);
+    this.postService.deletePost(postId).subscribe(_ => {
+      // this.post = this.post.filter(eachPost => eachPost.id !== postId);
+      console.log(`I just clicked delete`);
+    });
   }
 
 }

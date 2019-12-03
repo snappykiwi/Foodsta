@@ -17,22 +17,7 @@ import { Post } from '../../models/Post';
 
 export class PhotoContainerComponent {
 
-  // sets 'post' to the Post model to access/set it's properties
-  post : Post = {
-    id : "",
-    image : "",
-    title : "",
-    caption : "",
-    cuisine : "",
-    category : "",
-    gf : false,
-    vegan : false,
-    vegetarian : false,
-    rating : 0,
-    restaurantName: {},
-    restaurantId: "",
-    user : this.auth.userProfileSubject$.value.sub
-  };
+  @Input() post : Post;
 
   constructor(
     public auth: AuthService,
@@ -54,16 +39,6 @@ export class PhotoContainerComponent {
     dialogRef.afterClosed().subscribe(result => {
       this.post = result;
     });
-  }
-
-  editPost(post: Post) {
-    this.postService.updatePost(this.post);
-    console.log(this.post);
-  }
-
-  deletePost(post: Post) {
-    console.log(this.post);
-    this.postService.deletePost(this.post);
   }
 
   /** Based on the screen size, switch from standard to one column per row */
