@@ -19,6 +19,7 @@ export class PhotoContainerComponent {
 
   // sets 'post' to the Post model to access/set it's properties
   post : Post = {
+    id : "",
     image : "",
     title : "",
     caption : "",
@@ -53,6 +54,16 @@ export class PhotoContainerComponent {
     dialogRef.afterClosed().subscribe(result => {
       this.post = result;
     });
+  }
+
+  editPost(post: Post) {
+    this.postService.updatePost(this.post);
+    console.log(this.post);
+  }
+
+  deletePost(post: Post) {
+    console.log(this.post);
+    this.postService.deletePost(this.post);
   }
 
   /** Based on the screen size, switch from standard to one column per row */

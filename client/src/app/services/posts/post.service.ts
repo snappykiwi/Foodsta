@@ -23,7 +23,7 @@ export class PostService {
   getPostURL = 'http://localhost:4200/api/posts';
   getRestPostURL = 'http://localhost:4200/api/posts/restaurant/';
   // url for updating/deleting posts
-  updateOrDeletePostURL = 'http://localhost:4200/api/posts/:id';
+  updateOrDeletePostURL = 'http://localhost:4200/api/posts/';
 
   constructor(private http: HttpClient,
     private snackBar: MatSnackBar,
@@ -69,13 +69,13 @@ export class PostService {
   }
 
   updatePost(post : Post) : Observable<Post[]> {
-    let user = new HttpParams().set('user', post.user);
+    let user = new HttpParams().set('id', post.id);
     console.log(`${this.updateOrDeletePostURL}${user}`);
     return this.http.put<Post[]>(`${this.updateOrDeletePostURL}`, { params : user });
   }
 
   deletePost(post : Post) : Observable<Post[]> {
-    let user = new HttpParams().set('user', post.user);
+    let user = new HttpParams().set('id', post.id);
     let options = { params : user }
     console.log(`${this.updateOrDeletePostURL}${user}`);
     return this.http.delete<Post[]>(`${this.updateOrDeletePostURL}`, options);

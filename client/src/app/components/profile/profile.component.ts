@@ -15,6 +15,7 @@ export class ProfileComponent implements OnInit {
 
   // sets 'post' to the Post model to access/set it's properties
   post : Post = {
+    id : "",
     image : "",
     title : "",
     caption : "",
