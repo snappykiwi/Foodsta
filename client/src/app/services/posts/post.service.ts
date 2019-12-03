@@ -68,16 +68,16 @@ export class PostService {
       })
   }
 
-  updatePost(userId : string) : Observable<Post[]> {
-    let user = new HttpParams().set('userId', userId);
-    console.log(`${this.updateOrDeletePostURL}${userId}`);
-    return this.http.put<Post[]>(`${this.updateOrDeletePostURL}`, { params : userId });
+  updatePost(post : Post) : Observable<Post[]> {
+    let user = new HttpParams().set('user', post.user);
+    console.log(`${this.updateOrDeletePostURL}${user}`);
+    return this.http.put<Post[]>(`${this.updateOrDeletePostURL}`, { params : user });
   }
 
-  deletePost(userId : string) : Observable<Post[]> {
-    let user = new HttpParams().set('userId', userId);
+  deletePost(post : Post) : Observable<Post[]> {
+    let user = new HttpParams().set('user', post.user);
     let options = { params : user }
-    console.log(`${this.updateOrDeletePostURL}${userId}`);
+    console.log(`${this.updateOrDeletePostURL}${user}`);
     return this.http.delete<Post[]>(`${this.updateOrDeletePostURL}`, options);
   }
 

@@ -110,7 +110,7 @@ export class AddPostComponent implements OnInit {
   savePhoto() {
     console.log(this.post);
     this.postService.savePost(this.post);
-    this.router.navigate(['browse']);
+    this.router.navigate(['home']);
   }
 
   onImagePicked(event: Event): void {

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { HttpClient } from '@angular/common/http';
 import { PostService } from 'src/app/services/posts/post.service';
+import { ProfileComponent } from '../profile/profile.component';
 
 @Component({
   selector: 'app-photo-container',
@@ -12,12 +13,13 @@ import { PostService } from 'src/app/services/posts/post.service';
 
 export class PhotoContainerComponent {
 
-  constructor(private breakpointObserver: BreakpointObserver, 
+  constructor(
+    private breakpointObserver: BreakpointObserver, 
     private http: HttpClient,
     private postService: PostService) { }
 
     private posts: [];
-
+  
   ngOnInit() { }
 
   /** Based on the screen size, switch from standard to one column per row */
