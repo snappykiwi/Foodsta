@@ -1,8 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { AuthService } from '../../auth.service';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { HttpClient } from '@angular/common/http';
 import { PostService } from 'src/app/services/posts/post.service';
+import { ProfileComponent } from '../profile/profile.component';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ModalComponent } from '../modal/modal.component';
+import { Post } from '../../models/Post';
 
 @Component({
   selector: 'app-photo-container',
@@ -12,13 +17,29 @@ import { PostService } from 'src/app/services/posts/post.service';
 
 export class PhotoContainerComponent {
 
-  constructor(private breakpointObserver: BreakpointObserver, 
+  @Input() post : Post;
+
+  constructor(
+    public auth: AuthService,
+    public dialog: MatDialog,
+    private breakpointObserver: BreakpointObserver, 
     private http: HttpClient,
     private postService: PostService) { }
 
     private posts: [];
-
+  
   ngOnInit() { }
+
+  openDialog(post : Post): void {
+    const dialogRef = this.dialog.open(ModalComponent, {
+      width: '500px',
+      data : post
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.post = result;
+    });
+  }
 
   /** Based on the screen size, switch from standard to one column per row */
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
@@ -41,7 +62,7 @@ export class PhotoContainerComponent {
     })
   );
 
-  name = "Emily"
+  // name = "Emily"
 
   // masonryImages = [
   //   { image: "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80", label: "Greek Salad", rating: "7", restaurant: "Giovanni's", link: "http://www.fiveguys.com/menu" },

@@ -8,14 +8,16 @@
         <mat-toolbar class="fancyFont">Menu
         </mat-toolbar>
         <mat-nav-list>
-          <a mat-list-item routerLink="/browse">
+          <a mat-list-item routerLink="/home">
             <!-- <mat-icon>dashboard</mat-icon> -->
-            Browse</a>
+            <i class="material-icons mr-2">home</i>
+            Home</a>
           <a mat-list-item routerLink="/add-post">
             <!-- <mat-icon>add_a_photo</mat-icon> -->
+            <i class="material-icons mr-2">add_a_photo</i>
             Add Post</a>
           <!-- <a mat-list-item routerLink="/add-photo">Settings</a> -->
-          <a mat-list-item routerLink="/profile" *ngIf="auth.loggedIn">Profile</a>
+          <a mat-list-item routerLink="/profile" *ngIf="auth.loggedIn"><i class="material-icons mr-2">account_circle</i>Profile</a>
 
           <a mat-list-item routerLink="/login" (click)="auth.login()" *ngIf="!auth.loggedIn">Login</a>
           <!-- <a mat-list-item routerLink="/login" (click)="auth.logout()" *ngIf="auth.loggedIn">Logout</a> -->
@@ -34,6 +36,10 @@
             <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
           </button>
           <span class="siteTitle">Foodsta</span>
+            <!-- <div id="searchBar" class="form-group">
+              <input type="text" #search matInput placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default"><i class="material-icons mr-2">search</i></button> -->
         </mat-toolbar>
         
         <router-outlet></router-outlet>

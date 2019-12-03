@@ -8,16 +8,16 @@ import { UploadService } from '../../services/uploads/upload.service';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-
+import { AuthService } from '../../auth.service';
 
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Restaurant } from 'src/app/models/Restaurant';
 import { Search } from 'src/app/models/Search';
 import { SearchService } from 'src/app/services/searches/search.service';
+import { AutocompleteService } from 'src/app/services/autocompletes/autocomplete.service';
 
 export interface SelectOptions {
   value: string;
-  viewValue: string;
 }
 
 @Component({
@@ -31,6 +31,7 @@ export class AddPostComponent implements OnInit {
   
   // sets 'post' to the Post model to access/set it's properties
   post : Post = {
+    id : "",
     image : "",
     title : "",
     caption : "",
@@ -42,7 +43,7 @@ export class AddPostComponent implements OnInit {
     rating : 0,
     restaurantName: {},
     restaurantId: "",
-    user : ""
+    user : this.auth.userProfileSubject$.value.sub
   };
   
   image = "";
@@ -54,9 +55,11 @@ export class AddPostComponent implements OnInit {
   private searchTerms = new Subject<string>();
 
   constructor(
+    public auth: AuthService,
     private postService: PostService,
     private uploadService: UploadService,
     private searchService: SearchService,
+    private autocompleteService: AutocompleteService,
     private router: Router,
     private config: NgbRatingConfig)
 
@@ -70,6 +73,9 @@ export class AddPostComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    console.log(this.auth.userProfileSubject$.value.sub);
+
     this.restaurants$ = this.searchTerms.pipe(
 
       debounceTime(300),
@@ -78,6 +84,8 @@ export class AddPostComponent implements OnInit {
 
       switchMap((term: string) => this.searchService.getSearch(term)),
     );
+
+    
   }
 
   getInfo(optionInfo){
@@ -106,7 +114,7 @@ export class AddPostComponent implements OnInit {
   savePhoto() {
     console.log(this.post);
     this.postService.savePost(this.post);
-    this.router.navigate(['browse']);
+    this.router.navigate(['home']);
   }
 
   onImagePicked(event: Event): void {
@@ -139,24 +147,33 @@ export class AddPostComponent implements OnInit {
   
 
   categories: SelectOptions[] = [
-    { value: 'Mexican', viewValue: 'Mexican' },
-    { value: 'Thai', viewValue: 'Thai' },
-    { value: 'Chinese', viewValue: 'Chinese' },
-    { value: 'Italian', viewValue: 'Italian' },
-    { value: 'American', viewValue: 'American' },
-    { value: 'Fast Food', viewValue: 'Fast Food' },
-    { value: 'Other', viewValue: 'Other' }
+    { value: 'Mexican' },
+    { value: 'Thai' },
+    { value: 'Chinese' },
+    { value: 'Italian' },
+    { value: 'American' },
+    { value: 'Fast Food' },
+    { value: 'Vietnamese' },
+    { value: 'Barbeque' },
+    { value: 'Seafood' },
+    { value: 'Central American' },
+    { value: 'Spanish' },
+    { value: 'Brazilian' },
+    { value: 'Caribbean' },
+    { value: 'Cajun' },
+    { value: 'African' },
+    { value: 'Other' }
   ];
 
-  foods: SelectOptions[] = [
-    { value: 'Steak', viewValue: 'Steak' },
-    { value: 'Pizza', viewValue: 'Pizza' },
-    { value: 'Tacos', viewValue: 'Tacos' },
-    { value: 'Burgers', viewValue: 'Burger' },
-    { value: 'Salad', viewValue: 'Salad' },
-    { value: 'Sandwich', viewValue: 'Sandwich' },
-    { value: 'Soup', viewValue: 'Soup' },
-    { value: 'Other', viewValue: 'Other' }
-  ];
+  // foods: SelectOptions[] = [
+  //   { value: 'Steak' },
+  //   { value: 'Pizza' },
+  //   { value: 'Tacos' },
+  //   { value: 'Burgers' },
+  //   { value: 'Salad' },
+  //   { value: 'Sandwich' },
+  //   { value: 'Soup' },
+  //   { value: 'Other' }
+  // ];
 
 }

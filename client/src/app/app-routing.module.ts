@@ -8,10 +8,10 @@ import { AddPostComponent } from './components/add-post/add-post.component';
 import { RestaurantComponent } from './components/restaurant/restaurant.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/', pathMatch: 'full' },
+  { path: '', redirectTo:'/home', pathMatch:'full' },
   { path: 'login', component: LoginComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'browse', component: BrowseComponent },
+  { path: 'home', component: BrowseComponent },
   { path: 'add-post', component: AddPostComponent },
   { path: 'restaurant/:id', component: RestaurantComponent}
 ];
