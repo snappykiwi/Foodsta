@@ -36,7 +36,9 @@ export class BrowseComponent implements OnInit {
 
     }, (err) => {
       console.log(err);
-    })
+    });
+
+    this.postService.getSearchPosts(search);
 
   }
 

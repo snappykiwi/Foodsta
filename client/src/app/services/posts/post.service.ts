@@ -17,11 +17,10 @@ import { Restaurant } from 'src/app/models/Restaurant';
 
 export class PostService {
 
-  // url for submitting form data
-  postURL = 'http://localhost:4200/api/posts/add';
-  // url for getting all posts from db
-  getPostURL = 'http://localhost:4200/api/posts';
-  getRestPostURL = 'http://localhost:4200/api/posts/restaurant/'
+  postURL = 'http://localhost:4200/api/posts/add'; // url for submitting form data
+  getPostURL = 'http://localhost:4200/api/posts'; // url for getting all posts from db
+  getRestPostURL = 'http://localhost:4200/api/posts/restaurant/'; //url for getting posts for specific restaurant
+  getSearchPostURL = 'http://localhost:4200/api/posts/partial/'; //url for getting posts based on user search
 
   constructor(private http: HttpClient,
     private snackBar: MatSnackBar,
@@ -56,6 +55,16 @@ export class PostService {
         this.postSource.next(res);
         console.log(this.postSource.value.length);
       });
+  }
+
+  getSearchPosts(search: string) {
+    console.log(search);
+    this.http.get(`${this.getSearchPostURL}${search}`)
+      .subscribe(res => {
+        console.log('Got search posts', res)
+        this.postSource.next(res);
+        console.log(this.postSource.value.length);
+      })
   }
 
 
