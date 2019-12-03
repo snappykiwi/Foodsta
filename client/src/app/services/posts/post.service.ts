@@ -89,7 +89,6 @@ export class PostService {
       })
   }
 
-
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 2000,
