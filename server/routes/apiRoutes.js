@@ -1,12 +1,28 @@
 require('dotenv').config();
-const multer = require('multer');
-const upload = multer();
 
 const
+    multer = require('multer')
+    upload = multer(),
     routes = require('express').Router(),
+    Sequelize = require('sequelize'),
     db = require('../models'),
-    axios = require('axios');
+    axios = require('axios'),
+    Op = Sequelize.Op;
+
 awsPhotoUpload = require("../awsPhotoUpload");
+
+routes.get('/meals', (req, res) => {
+    db.Meal
+        .findAll({})
+        .then((response) => {
+
+            res.json(response);
+        })
+        .catch((err) => {
+            console.log(err);
+            throw err;
+        })
+})
 
 routes.post('/posts/add', (req, res) => {
     const post = req.body;
@@ -89,6 +105,35 @@ routes.get('/posts/:id?', (req, res) => {
     }
 })
 
+routes.get('/posts/partial/:searchString', (req, res) => {
+    let searchString = req.params.searchString.toLowerCase().trim();
+    db.Post
+        .findAll({
+            include: [db.Meal],
+            where: {
+
+                [Op.or]: [
+                    {
+                        title: {
+                            [Op.like]: `%${searchString}%`
+                        }
+                    }, {
+                        '$Meal.name$': {
+                            [Op.like]: `%${searchString}%`
+                        }
+                    }
+                ]
+            }
+        })
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            console.log(err);
+            throw err;
+        });
+})
+
 routes.delete('/posts/:id', (req, res) => {
     db.Post
         .findOne({
@@ -109,6 +154,42 @@ routes.delete('/posts/:id', (req, res) => {
             console.log(err);
             throw err;
         })
+})
+
+//Getting all the post by userId, restaurantId, gluttenFree, vegan, vegetarian
+routes.get('/posts/searchby/user/:userId?/restaurant/:restaurantId?/gf/:gf?/vegan/:vegan?/vegetarian/:vegetarian?', (req, res) => {
+
+    const
+        searchby = req.params,
+        parameters = Object.keys(searchby);
+
+    let paramatersArray = [];
+
+    parameters.forEach((param) => {
+
+        if (searchby[param] !== undefined) paramatersArray.push(
+            {
+                [param]: searchby[param]
+            }
+        )
+    })
+
+    db.Post
+        .findAll({
+            where: {
+                [Op.or]: paramatersArray
+            }
+        })
+        .then(data => {
+            res.json(data);
+            console.log("data", data);
+        })
+        .catch(err => {
+            console.log(err);
+            throw err;
+        });
+
+
 })
 
 routes.get('/posts/meal/:MealId', (req, res) => {
@@ -212,7 +293,7 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
                         latitude: restData.geometry !== undefined ? restData.geometry.location.lat : "",
                         longitude: restData.geometry !== undefined ? restData.geometry.location.lng : ""
                     }
-                    
+
                 }
             })
             console.log(resDetails.mapUrl);
