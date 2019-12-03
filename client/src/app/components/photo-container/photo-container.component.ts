@@ -4,6 +4,8 @@ import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { HttpClient } from '@angular/common/http';
 import { PostService } from 'src/app/services/posts/post.service';
 import { ProfileComponent } from '../profile/profile.component';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-photo-container',
@@ -13,7 +15,11 @@ import { ProfileComponent } from '../profile/profile.component';
 
 export class PhotoContainerComponent {
 
+  animal: string;
+  name: string;
+
   constructor(
+    public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver, 
     private http: HttpClient,
     private postService: PostService) { }
@@ -21,6 +27,17 @@ export class PhotoContainerComponent {
     private posts: [];
   
   ngOnInit() { }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ModalComponent, {
+      width: '250px',
+      data: {name: this.name, animal: this.animal}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.animal = result;
+    });
+  }
 
   /** Based on the screen size, switch from standard to one column per row */
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
@@ -43,7 +60,7 @@ export class PhotoContainerComponent {
     })
   );
 
-  name = "Emily"
+  // name = "Emily"
 
   // masonryImages = [
   //   { image: "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80", label: "Greek Salad", rating: "7", restaurant: "Giovanni's", link: "http://www.fiveguys.com/menu" },
