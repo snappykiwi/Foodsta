@@ -1,13 +1,14 @@
 require('dotenv').config();
-const multer = require('multer');
-const upload = multer();
-const Sequelize = require('sequelize');
 
 const
+    multer = require('multer')
+    upload = multer(),
     routes = require('express').Router(),
+    Sequelize = require('sequelize'),
     db = require('../models'),
     axios = require('axios'),
     Op = Sequelize.Op;
+
 awsPhotoUpload = require("../awsPhotoUpload");
 
 routes.get('/meals', (req, res) => {
@@ -126,7 +127,6 @@ routes.get('/posts/partial/:searchString', (req, res) => {
         })
         .then(data => {
             res.json(data);
-            console.log("data", data);
         })
         .catch(err => {
             console.log(err);
@@ -154,6 +154,42 @@ routes.delete('/posts/:id', (req, res) => {
             console.log(err);
             throw err;
         })
+})
+
+//Getting all the post by userId, restaurantId, gluttenFree, vegan, vegetarian
+routes.get('/posts/searchby/user/:userId?/restaurant/:restaurantId?/gf/:gf?/vegan/:vegan?/vegetarian/:vegetarian?', (req, res) => {
+
+    const
+        searchby = req.params,
+        parameters = Object.keys(searchby);
+
+    let paramatersArray = [];
+
+    parameters.forEach((param) => {
+
+        if (searchby[param] !== undefined) paramatersArray.push(
+            {
+                [param]: searchby[param]
+            }
+        )
+    })
+
+    db.Post
+        .findAll({
+            where: {
+                [Op.or]: paramatersArray
+            }
+        })
+        .then(data => {
+            res.json(data);
+            console.log("data", data);
+        })
+        .catch(err => {
+            console.log(err);
+            throw err;
+        });
+
+
 })
 
 routes.get('/posts/meal/:MealId', (req, res) => {
