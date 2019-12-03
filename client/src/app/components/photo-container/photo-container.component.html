@@ -1,22 +1,5 @@
 <div class="grid-container">
 
-    <div>
-        <ol>
-          <li>
-            <mat-form-field>
-              <input matInput [(ngModel)]="name" placeholder="What's your name?">
-            </mat-form-field>
-          </li>
-          <li>
-            <button mat-raised-button (click)="openDialog()">Pick one</button>
-          </li>
-          <br />
-          <li *ngIf="animal">
-            You chose: <p style="font-weight: bold">{{animal}}</p>
-          </li>
-        </ol>
-      </div>
-
   <ul *ngIf="postService.postSource.value.length; else noPosts"
     class="mdc-image-list mdc-image-list--masonry my-masonry-image-list">
     <li class="mdc-image-list__item" *ngFor="let item of postService.postSource | async" placement="bottom"
@@ -25,7 +8,7 @@
         Rating: <b>{{item.rating}}</b><br />
         From: <a *ngIf="item.Restaurant" target=_blank href="{{item.link}}"><b>{{item.Restaurant.name}}</b></a><br />
         Posted By: <span *ngIf="item.User">{{item.User.name}}</span></ng-template>
-      <img class="mdc-image-list__image" src="{{item.image}}" />
+      <img class="mdc-image-list__image" src="{{item.image}}" (click)="openDialog(item)" />
       <!-- <div class="mdc-image-list__supporting">
             <span class="mdc-image-list__label">{{item.label}}</span>
           </div> -->

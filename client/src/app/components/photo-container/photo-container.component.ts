@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { AuthService } from '../../auth.service';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { HttpClient } from '@angular/common/http';
@@ -6,6 +7,7 @@ import { PostService } from 'src/app/services/posts/post.service';
 import { ProfileComponent } from '../profile/profile.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ModalComponent } from '../modal/modal.component';
+import { Post } from '../../models/Post';
 
 @Component({
   selector: 'app-photo-container',
@@ -15,10 +17,24 @@ import { ModalComponent } from '../modal/modal.component';
 
 export class PhotoContainerComponent {
 
-  animal: string;
-  name: string;
+  // sets 'post' to the Post model to access/set it's properties
+  post : Post = {
+    image : "",
+    title : "",
+    caption : "",
+    cuisine : "",
+    category : "",
+    gf : false,
+    vegan : false,
+    vegetarian : false,
+    rating : 0,
+    restaurantName: {},
+    restaurantId: "",
+    user : this.auth.userProfileSubject$.value.sub
+  };
 
   constructor(
+    public auth: AuthService,
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver, 
     private http: HttpClient,
@@ -28,14 +44,14 @@ export class PhotoContainerComponent {
   
   ngOnInit() { }
 
-  openDialog(): void {
+  openDialog(post : Post): void {
     const dialogRef = this.dialog.open(ModalComponent, {
-      width: '250px',
-      data: {name: this.name, animal: this.animal}
+      width: '500px',
+      data : post
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.animal = result;
+      this.post = result;
     });
   }
 

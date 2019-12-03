@@ -1,11 +1,58 @@
-<h1 mat-dialog-title>Hi {{data.name}}</h1>
-<div mat-dialog-content>
-  <p>What's your favorite animal?</p>
-  <mat-form-field>
-    <input matInput [(ngModel)]="data.animal">
+<h1 mat-dialog-title class="text-center">Update Your Post</h1>
+
+<div mat-dialog-content class="text-center">
+
+  <img src="{{ post.image }}" style="width:250px;" class="mb-4" />
+  <!-- <p class="mt-3"> Cuisine : {{ post.cuisine }} </p>
+  <p class="mb-3"> Category : {{ post.category }} </p> -->
+
+  <br/>
+
+  <mat-form-field class="mb-3">
+    <input class="disabledInput" matInput [(ngModel)]="post.cuisine" placeholder="Cuisine" disabled>
   </mat-form-field>
+
+  <br/>
+
+  <mat-form-field class="mb-3">
+    <input class="disabledInput" matInput [(ngModel)]="post.category" placeholder="Category" disabled>
+  </mat-form-field>
+
+  <br/>
+
+  <!-- <p class="mb-5"> Rating : {{ post.rating }} </p> -->
+  <ngb-rating class="mb-5" [(ngModel)]="post.rating" (hover)="hovered=$event" (leave)="hovered=0" [readonly]="readonly">
+  </ngb-rating>
+
+  <br/>
+
+  <mat-form-field class="mb-3">
+    <input matInput [(ngModel)]="post.title" placeholder="Edit your meal">
+  </mat-form-field>
+
+  <br/>
+
+  <mat-form-field class="mb-4">
+      <input matInput [(ngModel)]="post.body" placeholder="Edit your comment">
+  </mat-form-field>
+
+  <h4>Dietary Info</h4>
+  <div class="mt-4 mb-3">
+    <mat-checkbox class="mr-3" matInput [(ngModel)]="post.gf">GF</mat-checkbox>
+    <mat-checkbox class="mr-3" matInput [(ngModel)]="post.vegan">Vegan</mat-checkbox>
+    <mat-checkbox matInput [(ngModel)]="post.vegetarian">Vegetarian</mat-checkbox>
+  </div>
+
+  <div class="modalAction mt-5">
+    <button class="deleteBtn" mat-button>Delete Post</button>
+  </div>
+
+  
+
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+
+<div class="modalAction" mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="" cdkFocusInitial>Update</button>
+  <!-- <button class="deleteBtn" mat-button>Delete</button> -->
 </div>
