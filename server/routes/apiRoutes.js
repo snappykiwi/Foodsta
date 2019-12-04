@@ -258,6 +258,17 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
     // console.log(searchInput);
     // console.log(req.query.searchInput);
 
+    // when page first load 
+    /* 
+    - check session storage for an existing array of nearby restaurant
+    - if have something in the session we pull from it otherwise we make a api call
+    - when listing the restaurant we only display the minimum information that comes with the first call
+    - if a user click on a specific restaurant save that call in an object store placeid as a key name in the restauranDetailsObject 
+    in the session storage
+    - In developement we can save them into localstorage (If NODE_ENV=="production" then save the results into session storage otherwise
+    save in localstorage )
+
+    */
     axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchInput}&radius=${radius}&key=${googleApiKey}`)
         .then((response) => {
 
