@@ -13,6 +13,7 @@ module.exports = {
       }], {});
     */
     return queryInterface.bulkInsert('Posts', [{
+      userId: "eliasisaiah@outlook.com",
       title: 'TITLE test title',
       body: 'BODY test body',
       tags: '["TAG", "TagTwo"]',
@@ -22,12 +23,12 @@ module.exports = {
       vegan: 'false',
       vegetarian: 'true',
       MealId: '1',
-      UserId: '1',
       RestaurantId: '1',
       createdAt: new Date(),
       updatedAt: new Date()
     },
     {
+      userId: "eliasisaiah@outlook.com",
       title: 'TITLE2 test title',
       body: 'BODY2 test body',
       tags: '["TAG", "TagTwo"]',
@@ -37,12 +38,12 @@ module.exports = {
       vegan: 'false',
       vegetarian: 'true',
       MealId: '2',
-      UserId: '2',
       RestaurantId: '2',
       createdAt: new Date(),
       updatedAt: new Date()
     },
     {
+      userId: "eliasisaiah@outlook.com",
       title: 'TITLE3 test title',
       body: 'BODY3 test body',
       tags: '["TAG", "TagTwo"]',
@@ -52,7 +53,6 @@ module.exports = {
       vegan: 'false',
       vegetarian: 'true',
       MealId: '3',
-      UserId: '3',
       RestaurantId: '3',
       createdAt: new Date(),
       updatedAt: new Date()
