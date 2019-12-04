@@ -11,44 +11,23 @@ module.exports = {
     */
     return queryInterface.addColumn(
       'Posts',
-      'UserId',
+      'MealId',
       {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Users',
+          model: 'Meals',
           key: 'id',
         },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
-      }
-    ).then(() => {
-      return queryInterface.addColumn(
-        'Posts',
-        'MealId',
-        {
-          type: Sequelize.INTEGER,
-          references: {
-            model: 'Meals',
-            key: 'id',
-          },
-          onUpdate: 'CASCADE',
-          onDelete: 'SET NULL',
-        }
-      )
-    });
+      })
   },
 
   down: (queryInterface, Sequelize) => {
 
     return queryInterface.removeColumn(
       'Posts',
-      'UserId'
-    ).then(() => {
-      return queryInterface.removeColumn(
-        'Posts',
-        'MealId'
-      )
-    });
-
+      'MealId'
+    )
   }
-};
+}

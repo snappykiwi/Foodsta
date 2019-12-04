@@ -7,7 +7,7 @@ const
     Sequelize = require('sequelize'),
     db = require('../models'),
     axios = require('axios').default,
-    request = require('request'),
+    //request = require('request'),
     Op = Sequelize.Op,
     awsPhotoUpload = require("../awsPhotoUpload");
 
