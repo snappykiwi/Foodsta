@@ -7,9 +7,10 @@ const
     Sequelize = require('sequelize'),
     db = require('../models'),
     axios = require('axios').default,
-    //request = require('request'),
     Op = Sequelize.Op,
-    awsPhotoUpload = require("../awsPhotoUpload");
+    awsPhotoUpload = require("../awsPhotoUpload"),
+    rp = require('request-promise'),
+    getTokenAuth0 = require('../functions/getTokenAuth0');
 
 routes.get('/meals', (req, res) => {
     db.Meal
@@ -259,6 +260,17 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
     // console.log(searchInput);
     // console.log(req.query.searchInput);
 
+    // when page first load 
+    /* 
+    - check session storage for an existing array of nearby restaurant
+    - if have something in the session we pull from it otherwise we make a api call
+    - when listing the restaurant we only display the minimum information that comes with the first call
+    - if a user click on a specific restaurant save that call in an object store placeid as a key name in the restauranDetailsObject 
+    in the session storage
+    - In developement we can save them into localstorage (If NODE_ENV=="production" then save the results into session storage otherwise
+    save in localstorage )
+
+    */
     axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchInput}&radius=${radius}&key=${googleApiKey}`)
         .then((response) => {
 
@@ -322,54 +334,49 @@ routes.post("/picUpload", upload.single('picture'), (req, res) => {
 //get Auth0 User information
 routes.get("/auth0/user/:userId", (req, res) => {
 
-    const { userId } = req.params;
+    getTokenAuth0().then((tokenDataResponse) => {
 
-    const options = {
-        url: `${process.env.AUDIENCE_AUTH0}${userId}`,
-        headers: {
-            authorization: `Bearer ${process.env.REFRESH_TOKEN_AUTH0}`
-        }
-    };
+        const
+            { access_token, token_type } = tokenDataResponse,
+            { userId } = req.params,
+            options = {
+                url: `${process.env.AUDIENCE_USERS_AUTH0}${userId}`,
+                headers: {
+                    authorization: `${token_type} ${access_token}`
+                }
+            };
 
-    axios(options)
-        .then((response) => {
-
-            const userDatas = response.data;
-
-            return Promise.resolve(userDatas);
-        })
-        .then((results) => {
-            console.log(results);
-            res.json(results);
-        })
-        .catch((err) => console.log(err));
+        axios(options)
+            .then((response) => Promise.resolve(response.data))
+            .then((results) => res.json(results))
+            .catch((err) => console.log(err));
+    });
 });
 
 // Update Auth0 User information
 routes.patch("/auth0/update/:userId", (req, res) => {
 
-    const { userId } = req.params;
-    const datas = JSON.stringify(req.body);
+    getTokenAuth0().then((tokenDataResponse) => {
 
-    console.log(userId, datas);
+        const
+            { access_token, token_type } = tokenDataResponse,
+            { userId } = req.params,
+            datas = JSON.stringify(req.body),
+            options = {
+                method: 'PATCH',
+                url: `${process.env.AUDIENCE_USERS_AUTH0}${userId}`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: `${token_type} ${access_token}`
+                },
+                data: datas
+            };
 
-    const options = {
-        method: 'PATCH',
-        url: `${process.env.AUDIENCE_AUTH0}${userId}`,
-        headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${process.env.REFRESH_TOKEN_AUTH0}`
-        },
-        data: datas
-    };
+        axios(options)
+            .then((results) => res.json("ok:200"))
+            .catch((err) => console.log(err));
 
-    axios(options)
-        .then((results) => {
-
-            res.json("ok:200");
-        })
-        .catch((err) => console.log(err));
-
+    });
 });
 
 module.exports = routes
