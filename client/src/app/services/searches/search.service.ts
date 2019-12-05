@@ -4,6 +4,7 @@ import { Search } from '../../models/Search';
 import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import { Restaurant } from 'src/app/models/Restaurant';
+import { shareReplay } from 'rxjs/operators';
 
 
 @Injectable({
@@ -30,13 +31,16 @@ export class SearchService {
     mapUrl: "",
     latitude: "",
     longitude: ""});
+
   public currentRestaurant = this.currentRestaurantSource.asObservable;
+
+  private restaurantCalls: any = {};
 
 
   constructor(private http: HttpClient) { }
 
   // gets user input from search bar and uses the google api to search for restaurants
-  getSearch(input: string) : Observable<Search[]> {
+  getRestaurants(input: string) : Observable<Search[]> {
 
     let searchInput = new HttpParams().set('searchInput', input)
     console.log(this.url + input);
@@ -44,4 +48,16 @@ export class SearchService {
 
   }
 
+
+  restaurantApiInfo(searchInput: string) {
+
+    if (!this.restaurantCalls[searchInput]) {
+      this.restaurantCalls[searchInput] = this.getRestaurants(searchInput).pipe(
+
+        shareReplay(1)
+      );
+    }
+
+    return this.restaurantCalls[searchInput];
+  };
 }
