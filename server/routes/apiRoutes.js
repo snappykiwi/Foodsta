@@ -10,7 +10,8 @@ const
     Op = Sequelize.Op,
     awsPhotoUpload = require("../awsPhotoUpload"),
     getTokenAuth0 = require('../controllers/getTokenAuth0'),
-    placesController = require('../controllers/placesController');
+    placesController = require('../controllers/placesController'),
+    uuid = require('uuid/v4');
 
 routes.get('/meals', (req, res) => {
     db.Meal
@@ -357,10 +358,11 @@ routes.get("/google/place/autocomplet/:searchInput/:radius?", (req, res) => {
     const
         { searchInput } = req.params,
         googleApiKey = process.env.GOOGLE_API_KEY,
-        radius = req.params.radius || 5;
+        radius = req.params.radius || 5,
+        sessionToken = uuid();
 
     placesController
-        .autoComplete(searchInput, radius, googleApiKey)
+        .autoComplete(searchInput, radius, googleApiKey, sessionToken)
         .then((results) => res.status(200).json(results))
         .catch((error) => res.status(error.statusCode).json(error))
 })

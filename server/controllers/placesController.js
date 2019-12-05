@@ -31,9 +31,9 @@ const placesController = {
                 });
             });
     },
-    autoComplete: function (searchInput, radius, googleApiKey) {
-
-        return axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${googleApiKey}&input=${searchInput}&radius=${radius}`)
+    autoComplete: function (searchInput, radius, googleApiKey, sessionToken) {
+        console.log(sessionToken);
+        return axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${googleApiKey}&input=${searchInput}&radius=${radius}&sessiontoken=${sessionToken}`)
             .then((response) => Promise.resolve(response.data))
             .catch((error) => Promise.reject(error));
     }
