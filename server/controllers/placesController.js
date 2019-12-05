@@ -3,7 +3,7 @@ const axios = require('axios');
 const placesController = {
 
     getNearByRestaurants: function (searchInput, radius, googleApiKey) {
-
+        console.log(searchInput, radius);
         return axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchInput}&radius=${radius}&key=${googleApiKey}`)
             .then((response) => Promise.resolve(response.data.results))
             .catch((error) => Promise.reject(error))
@@ -30,6 +30,12 @@ const placesController = {
                     //longitude: restData.geometry !== undefined ? restData.geometry.location.lng : ""
                 });
             });
+    },
+    autoComplete: function (searchInput, radius, googleApiKey) {
+
+        return axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${googleApiKey}&input=${searchInput}&radius=${radius}`)
+            .then((response) => Promise.resolve(response.data))
+            .catch((error) => Promise.reject(error));
     }
 }
 

@@ -322,7 +322,7 @@ routes.get("/google/place/v2/:searchInput?/:radius?", (req, res) => {
         googleApiKey = process.env.GOOGLE_API_KEY,
         searchInput = req.query.searchInput || "restaurant",
         radius = req.query.radius || 20;
-
+    console.log("am getting herre");
     placesController
         .getNearByRestaurants(searchInput, radius, googleApiKey)
         .then((restaurantNearBy) => res.status(200).json(restaurantNearBy))
@@ -351,6 +351,19 @@ routes.post("/picUpload", upload.single('picture'), (req, res) => {
 
     awsPhotoUpload(req, res);
 });
+
+routes.get("/google/place/autocomplet/:searchInput/:radius?", (req, res) => {
+
+    const
+        { searchInput } = req.params,
+        googleApiKey = process.env.GOOGLE_API_KEY,
+        radius = req.params.radius || 5;
+
+    placesController
+        .autoComplete(searchInput, radius, googleApiKey)
+        .then((results) => res.status(200).json(results))
+        .catch((error) => res.status(error.statusCode).json(error))
+})
 
 
 /* Auth0 API 
