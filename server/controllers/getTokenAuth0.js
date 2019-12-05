@@ -1,6 +1,7 @@
 const rp = require('request-promise');
 
-function getTokenAuth0() {
+// Connecting and getting the Token information from Auth0
+async function getTokenAuth0() {
 
     const optionsConnect = {
         method: 'POST',
@@ -17,9 +18,14 @@ function getTokenAuth0() {
         json: true
     };
 
-    const token = rp(optionsConnect)
-        .then((tokenData) => Promise.resolve(tokenData))
-        .catch((error) => console.log(error));
+    let token = "";
+
+    try {
+        token = await rp(optionsConnect)
+    }
+    catch (error) {
+        console.log(error);
+    }
 
     return token;
 }

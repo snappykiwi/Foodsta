@@ -9,8 +9,8 @@ const
     axios = require('axios').default,
     Op = Sequelize.Op,
     awsPhotoUpload = require("../awsPhotoUpload"),
-    rp = require('request-promise'),
-    getTokenAuth0 = require('../functions/getTokenAuth0');
+    getTokenAuth0 = require('../controllers/getTokenAuth0'),
+    placesController = require('../controllers/placesController');
 
 routes.get('/meals', (req, res) => {
     db.Meal
@@ -316,6 +316,31 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
         }).catch(err => console.log(err))
 });
 
+routes.get("/google/place/v2/:searchInput?/:radius?", (req, res) => {
+
+    const
+        googleApiKey = process.env.GOOGLE_API_KEY,
+        searchInput = req.query.searchInput || "restaurant",
+        radius = req.query.radius || 20;
+
+    placesController
+        .getNearByRestaurants(searchInput, radius, googleApiKey)
+        .then((restaurantNearBy) => res.status(200).json(restaurantNearBy))
+        .catch((error) => res.status(error.statusCode).json(error))
+
+})
+
+routes.get("/google/place/restaurantdetails/:id", (req, res) => {
+
+    const { id } = req.params;
+    const googleApiKey = process.env.GOOGLE_API_KEY;
+
+    placesController
+        .getDetailsRestaurant(id, googleApiKey)
+        .then((restaurantDetails) => res.status(200).json(restaurantDetails))
+        .catch((error) => res.status(error.statusCode).json(error))
+})
+
 routes.post("/picUpload", upload.single('picture'), (req, res) => {
 
     console.log(req.file);
@@ -347,8 +372,7 @@ routes.get("/auth0/user/:userId", (req, res) => {
             };
 
         axios(options)
-            .then((response) => Promise.resolve(response.data))
-            .then((results) => res.json(results))
+            .then((response) => res.json(response.data))
             .catch((err) => console.log(err));
     });
 });
@@ -373,9 +397,8 @@ routes.patch("/auth0/update/:userId", (req, res) => {
             };
 
         axios(options)
-            .then((results) => res.json("ok:200"))
+            .then((results) => res.status(200).json("Ok"))
             .catch((err) => console.log(err));
-
     });
 });
 
