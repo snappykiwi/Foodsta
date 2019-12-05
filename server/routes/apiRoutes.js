@@ -7,6 +7,10 @@ const
     Sequelize = require('sequelize'),
     db = require('../models'),
     axios = require('axios').default,
+<<<<<<< HEAD
+=======
+    //request = require('request'),
+>>>>>>> 483bd4794d0ffdf43d9574109b80373ce42ebfb6
     Op = Sequelize.Op,
     awsPhotoUpload = require("../awsPhotoUpload"),
     rp = require('request-promise'),
