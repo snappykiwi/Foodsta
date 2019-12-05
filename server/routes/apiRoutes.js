@@ -8,7 +8,9 @@ const
     db = require('../models'),
     axios = require('axios').default,
     Op = Sequelize.Op,
-    awsPhotoUpload = require("../awsPhotoUpload");
+    awsPhotoUpload = require("../awsPhotoUpload"),
+    rp = require('request-promise'),
+    getTokenAuth0 = require('../functions/getTokenAuth0');
 
 routes.get('/meals', (req, res) => {
     db.Meal
@@ -80,7 +82,7 @@ routes.get('/posts/:id?', (req, res) => {
                 where: {
                     id: req.params.id
                 },
-                include: [db.User, db.Meal]
+                include: [db.Meal]
             })
             .then(data => {
                 res.json(data);
@@ -92,7 +94,7 @@ routes.get('/posts/:id?', (req, res) => {
     } else {
         db.Post
             .findAll({
-                include: [db.User, db.Meal]
+                include: [db.Meal]
             })
             .then(data => {
                 res.json(data);
@@ -202,7 +204,7 @@ routes.get('/posts/meal/:MealId', (req, res) => {
             where: {
                 MealId: MealId
             },
-            include: [db.User, db.Meal]
+            include: [db.Meal]
         })
         .then(data => {
             res.json(data);
@@ -222,7 +224,7 @@ routes.get('/posts/restaurant/:RestaurantId', (req, res) => {
             where: {
                 restaurantId: RestaurantId
             },
-            include: [db.User, db.Meal]
+            include: [db.Meal]
         })
         .then(data => {
             res.json(data);
@@ -332,54 +334,49 @@ routes.post("/picUpload", upload.single('picture'), (req, res) => {
 //get Auth0 User information
 routes.get("/auth0/user/:userId", (req, res) => {
 
-    const { userId } = req.params;
+    getTokenAuth0().then((tokenDataResponse) => {
 
-    const options = {
-        url: `${process.env.AUDIENCE_AUTH0}${userId}`,
-        headers: {
-            authorization: `Bearer ${process.env.REFRESH_TOKEN_AUTH0}`
-        }
-    };
+        const
+            { access_token, token_type } = tokenDataResponse,
+            { userId } = req.params,
+            options = {
+                url: `${process.env.AUDIENCE_USERS_AUTH0}${userId}`,
+                headers: {
+                    authorization: `${token_type} ${access_token}`
+                }
+            };
 
-    axios(options)
-        .then((response) => {
-
-            const userDatas = response.data;
-
-            return Promise.resolve(userDatas);
-        })
-        .then((results) => {
-            console.log(results);
-            res.json(results);
-        })
-        .catch((err) => console.log(err));
+        axios(options)
+            .then((response) => Promise.resolve(response.data))
+            .then((results) => res.json(results))
+            .catch((err) => console.log(err));
+    });
 });
 
 // Update Auth0 User information
 routes.patch("/auth0/update/:userId", (req, res) => {
 
-    const { userId } = req.params;
-    const datas = JSON.stringify(req.body);
+    getTokenAuth0().then((tokenDataResponse) => {
 
-    console.log(userId, datas);
+        const
+            { access_token, token_type } = tokenDataResponse,
+            { userId } = req.params,
+            datas = JSON.stringify(req.body),
+            options = {
+                method: 'PATCH',
+                url: `${process.env.AUDIENCE_USERS_AUTH0}${userId}`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: `${token_type} ${access_token}`
+                },
+                data: datas
+            };
 
-    const options = {
-        method: 'PATCH',
-        url: `${process.env.AUDIENCE_AUTH0}${userId}`,
-        headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${process.env.REFRESH_TOKEN_AUTH0}`
-        },
-        data: datas
-    };
+        axios(options)
+            .then((results) => res.json("ok:200"))
+            .catch((err) => console.log(err));
 
-    axios(options)
-        .then((results) => {
-
-            res.json("ok:200");
-        })
-        .catch((err) => console.log(err));
-
+    });
 });
 
 module.exports = routes
