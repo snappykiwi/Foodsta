@@ -26,18 +26,18 @@ export class RestaurantComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private searchService: SearchService,
-    private postService: PostService) {
+    private postService: PostService) { }
 
+  setRestaurantPgInfo() {
     this.searchService.currentRestaurantSource.subscribe(restaurant => {
       this.currentRestaurant = restaurant;
 
       this.postService.getRestPosts(restaurant).subscribe((posts: any[]) => {
         this.posts = posts;
-      })
+      });
 
       console.log(this.currentRestaurant);
     });
-
   }
 
   ngOnInit() {
@@ -45,6 +45,7 @@ export class RestaurantComponent implements OnInit {
       this.restaurantId = urlParameters['id'];
     });
 
+    this.setRestaurantPgInfo();
   }
 
 }

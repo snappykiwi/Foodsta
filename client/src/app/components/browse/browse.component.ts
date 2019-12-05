@@ -25,33 +25,16 @@ export class BrowseComponent implements OnInit {
     private postService: PostService
   ) { }
 
-  // when users click on the search button, it uses the getSearch() function and returns restaurant data from the google api
-  onSearch(search: string) {
+  getRestaurants(search = "restaurants") {
+    this.searchService.restaurantApiInfo(search).subscribe(restaurants => {
+      console.log("restaurants : ", restaurants);
+      console.log("input : ", search);
 
-    if (search) {
-      this.posts = [];
+      this.searchService.restaurantSource.next(restaurants);
 
-      this.searchService.restaurantApiInfo(search).subscribe(restaurants => {
-        console.log("restaurants : ", restaurants);
-        console.log("input : ", search);
-
-        this.searchService.restaurantSource.next(restaurants);
-
-      }, (err) => {
-        console.log(err);
-      });
-
-      this.postService.getSearchPosts(search).subscribe((posts: any[]) => {
-        this.posts = posts;
-      });
-
-    }
-
-    else {
-      this.getPosts();
-    }
-
-
+    }, (err) => {
+      console.log(err);
+    });
   }
 
   getPosts() {
@@ -63,6 +46,23 @@ export class BrowseComponent implements OnInit {
 
   }
 
+  onSearch(search: string) {
+
+    if (search) {
+      this.posts = [];
+
+      this.getRestaurants(search);
+
+      this.postService.getSearchPosts(search).subscribe((posts: any[]) => {
+        this.posts = posts;
+      });
+
+    }
+    else {
+      this.getPosts();
+      this.getRestaurants();
+    }
+  }
 
 
   ngOnInit() {
