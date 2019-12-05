@@ -16,7 +16,7 @@ import { PostService } from 'src/app/services/posts/post.service';
 export class BrowseComponent implements OnInit {
 
   // set variable to search interface
-  searches: Search[] = [];
+  restaurants: Search[] = [];
   posts: any[] = [];
 
   constructor(
@@ -31,11 +31,11 @@ export class BrowseComponent implements OnInit {
     if (search) {
       this.posts = [];
 
-      this.searchService.getRestaurants(search).subscribe(searches => {
-        console.log("searches : ", searches);
+      this.searchService.restaurantApiInfo(search).subscribe(restaurants => {
+        console.log("restaurants : ", restaurants);
         console.log("input : ", search);
 
-        // this.searchService.restaurantSource.next(searches);
+        this.searchService.restaurantSource.next(restaurants);
 
       }, (err) => {
         console.log(err);

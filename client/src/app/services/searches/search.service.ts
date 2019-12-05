@@ -14,9 +14,9 @@ import { shareReplay } from 'rxjs/operators';
 export class SearchService {
 
   // url to access get back data from google api
-  private url : string = `http://localhost:4200/api/google/place/`;
+  private url: string = `http://localhost:4200/api/google/place/`;
 
-  public restaurantSource : BehaviorSubject<Search[]> = new BehaviorSubject([]);
+  public restaurantSource: BehaviorSubject<Search[]> = new BehaviorSubject([]);
   public restaurants = this.restaurantSource.asObservable();
 
   public currentRestaurantSource: BehaviorSubject<Restaurant> = new BehaviorSubject({
@@ -30,7 +30,8 @@ export class SearchService {
     websiteUrl: "",
     mapUrl: "",
     latitude: "",
-    longitude: ""});
+    longitude: ""
+  });
 
   public currentRestaurant = this.currentRestaurantSource.asObservable;
 
@@ -40,11 +41,11 @@ export class SearchService {
   constructor(private http: HttpClient) { }
 
   // gets user input from search bar and uses the google api to search for restaurants
-  getRestaurants(input: string) : Observable<Search[]> {
+  getRestaurants(input: string): Observable<Search[]> {
 
     let searchInput = new HttpParams().set('searchInput', input)
     console.log(this.url + input);
-    return this.http.get<Search[]>(`${this.url}`, { params : searchInput });
+    return this.http.get<Search[]>(`${this.url}`, { params: searchInput });
 
   }
 
@@ -56,8 +57,11 @@ export class SearchService {
 
         shareReplay(1)
       );
+
+      console.log(this.restaurantCalls);
     }
 
+    console.log(this.restaurantCalls);
     return this.restaurantCalls[searchInput];
   };
 }

@@ -36,30 +36,15 @@ export class PostService {
 
   getPosts(post?: Post) {
     return this.http.get(`${this.getPostURL}`);
-    // .subscribe(res => {
-    //   console.log("Got Posts!", res)
-    //   this.postSource.next(res);
-    //   console.log(this.postSource);
-    // });
   }
 
   getRestPosts(restaurant: Restaurant) {
     return this.http.get(`${this.getRestPostURL}${restaurant.id}`);
-    // .subscribe(res => {
-    //   console.log('Got restaurant posts', res)
-    //   this.postSource.next(res);
-    //   console.log(this.postSource.value.length);
-    // });
   }
 
   getSearchPosts(search: string) {
     console.log(search);
     return this.http.get(`${this.getSearchPostURL}${search}`);
-    // .subscribe(res => {
-    // console.log('Got search posts', res)
-    // this.postSource.next(res);
-    // console.log(this.postSource.value.length);
-    // })
   }
 
   savePost(post: Post) {
