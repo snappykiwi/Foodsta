@@ -81,7 +81,7 @@ routes.get('/posts/:id?', (req, res) => {
                 where: {
                     id: req.params.id
                 },
-                include: [db.User, db.Meal]
+                include: [db.Meal]
             })
             .then(data => {
                 res.json(data);
@@ -93,7 +93,7 @@ routes.get('/posts/:id?', (req, res) => {
     } else {
         db.Post
             .findAll({
-                include: [db.User, db.Meal]
+                include: [db.Meal]
             })
             .then(data => {
                 res.json(data);
@@ -203,7 +203,7 @@ routes.get('/posts/meal/:MealId', (req, res) => {
             where: {
                 MealId: MealId
             },
-            include: [db.User, db.Meal]
+            include: [db.Meal]
         })
         .then(data => {
             res.json(data);
@@ -223,7 +223,7 @@ routes.get('/posts/restaurant/:RestaurantId', (req, res) => {
             where: {
                 restaurantId: RestaurantId
             },
-            include: [db.User, db.Meal]
+            include: [db.Meal]
         })
         .then(data => {
             res.json(data);
