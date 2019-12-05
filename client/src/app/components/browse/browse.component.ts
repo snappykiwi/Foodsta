@@ -16,34 +16,58 @@ import { PostService } from 'src/app/services/posts/post.service';
 export class BrowseComponent implements OnInit {
 
   // set variable to search interface
-  searches : Search[];
+  searches: Search[] = [];
+  posts: any[] = [];
 
   constructor(
-    private breakpointObserver : BreakpointObserver,
-    private searchService : SearchService,
+    private breakpointObserver: BreakpointObserver,
+    private searchService: SearchService,
     private postService: PostService
-    ) { }
+  ) { }
 
   // when users click on the search button, it uses the getSearch() function and returns restaurant data from the google api
-  onSearch(search : string) {
+  onSearch(search: string) {
 
-    this.searchService.getSearch(search).subscribe(searches => {
-      console.log("searches : ", searches);
-      console.log("input : ", search);
+    if (search) {
+      this.posts = [];
 
-      this.searchService.restaurantSource.next(searches);
+      this.searchService.getRestaurants(search).subscribe(searches => {
+        console.log("searches : ", searches);
+        console.log("input : ", search);
 
-    }, (err) => {
-      console.log(err);
-    });
+        // this.searchService.restaurantSource.next(searches);
 
-    this.postService.getSearchPosts(search);
+      }, (err) => {
+        console.log(err);
+      });
+
+      this.postService.getSearchPosts(search).subscribe((posts: any[]) => {
+        this.posts = posts;
+      });
+
+    }
+
+    else {
+      this.getPosts();
+    }
+
 
   }
 
+  getPosts() {
+    console.log(this.posts);
+    this.postService.getPosts().subscribe((posts: any[]) => {
+      console.log(posts);
+      this.posts = posts;
+    });
+
+  }
+
+
+
   ngOnInit() {
     this.onSearch("restaurants");
-    this.postService.getPost();
-   }
+    this.getPosts();
+  }
 
 }
