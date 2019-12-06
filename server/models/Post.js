@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
     vegan: DataTypes.BOOLEAN,
     vegetarian: DataTypes.BOOLEAN,
     restaurantId: DataTypes.STRING,
-    restaurantName: DataTypes.STRING
+    restaurantName: DataTypes.STRING,
+    mealId: DataTypes.STRING
   }, {});
   Post.associate = function(models) {
     // associations can be defined here

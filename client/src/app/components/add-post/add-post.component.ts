@@ -28,7 +28,7 @@ export interface SelectOptions {
 })
 
 export class AddPostComponent implements OnInit {
-  
+    
   // sets 'post' to the Post model to access/set it's properties
   post : Post = {
     id : "",
@@ -43,7 +43,7 @@ export class AddPostComponent implements OnInit {
     rating : 0,
     restaurantName: {},
     restaurantId: "",
-    user : this.auth.userProfileSubject$.value.sub
+    userId : this.auth.userProfileSubject$.value.sub
   };
   
   image = "";

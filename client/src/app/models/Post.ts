@@ -11,5 +11,5 @@ export interface Post {
   rating : number,
   restaurantName : object,
   restaurantId: string,
-  user : string
+  userId : string
 }

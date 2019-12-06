@@ -30,7 +30,8 @@ routes.post('/posts/add', (req, res) => {
     const post = req.body;
     console.log(post);
     db.Post.create({
-
+        
+        "userId": post.userId,
         "title": post.title,
         "body": post.caption,
         "tags": post.tags,
@@ -41,8 +42,7 @@ routes.post('/posts/add', (req, res) => {
         "vegetarian": post.vegetarian,
         "restaurantId": post.restaurantId,
         "restaurantName": post.restaurantName.name,
-        "MealId": post.MealId,
-        "UserId": post.UserId
+        "mealId": post.mealId
     }).then((response) => {
 
         res.json(response);
