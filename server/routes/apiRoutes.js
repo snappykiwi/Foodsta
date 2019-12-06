@@ -353,7 +353,7 @@ routes.post("/picUpload", upload.single('picture'), (req, res) => {
     awsPhotoUpload(req, res);
 });
 
-routes.get("/google/place/autocomplet/:searchInput/:radius?", (req, res) => {
+routes.get("/google/place/autocomplete/:searchInput/:radius?", (req, res) => {
 
     const
         { searchInput } = req.params,
