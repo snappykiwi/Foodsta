@@ -17,11 +17,14 @@ export class ListComponent implements OnInit {
   constructor(private router: Router,
     private searchService: SearchService) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
-  goToRestaurantPg(clickedRestaurant: Restaurant) {
+  goToRestaurantPg(clickedRestaurant: any) {
 
-    this.searchService.currentRestaurantSource.next(clickedRestaurant);
+    this.searchService.getRestaurantDetails(clickedRestaurant.place_id).subscribe(currentRestaurant => {
+
+      this.searchService.currentRestaurantSource.next(currentRestaurant);
+    })
 
     this.router.navigate(['restaurant', clickedRestaurant.id]);
   };

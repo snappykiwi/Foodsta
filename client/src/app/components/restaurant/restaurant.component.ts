@@ -30,6 +30,10 @@ export class RestaurantComponent implements OnInit {
 
   setRestaurantPgInfo() {
     this.searchService.currentRestaurantSource.subscribe(restaurant => {
+      console.log(restaurant);
+
+      // this.searchService.getRestaurantDetails(restaurant.id).subscribe(currentRestaurant => {
+
       this.currentRestaurant = restaurant;
 
       this.postService.getRestPosts(restaurant).subscribe((posts: any[]) => {
@@ -37,6 +41,8 @@ export class RestaurantComponent implements OnInit {
       });
 
       console.log(this.currentRestaurant);
+      // });
+
     });
   }
 
