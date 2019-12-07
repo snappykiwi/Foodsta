@@ -14,6 +14,7 @@ module.exports = {
     */
     return queryInterface.bulkInsert('Posts', [{
       userId: "eliasisaiah@outlook.com",
+      userName: "Elias Roussos",
       title: 'TITLE test title',
       caption: 'caption test caption',
       cuisine: 'chinese',
@@ -29,9 +30,10 @@ module.exports = {
     },
     {
       userId: "eliasisaiah@outlook.com",
+      userName: "Elias Roussos",
       title: 'TITLE2 test title',
       caption: 'caption2 test caption',
-      cuisine: 'chinese',
+      cuisine: 'latvian',
       image: 'http://placekitten.com/g/200/300',
       rating: '7',
       gf: 'false',
@@ -44,9 +46,10 @@ module.exports = {
     },
     {
       userId: "eliasisaiah@outlook.com",
+      userName: "Elias Roussos",
       title: 'TITLE3 test title',
       caption: 'caption3 test caption',
-      cuisine: 'chinese',
+      cuisine: 'greek',
       image: 'http://placekitten.com/g/200/300',
       rating: '7',
       gf: 'false',
