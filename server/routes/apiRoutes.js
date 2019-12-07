@@ -18,9 +18,10 @@ routes.post('/posts/add', (req, res) => {
     console.log(post);
     db.Post.create({
         "userId": post.userId,
+        "userName": post.userName,
         "title": post.title,
         "caption": post.caption,
-        "tags": post.tags,
+        "cuisine": post.cuisine,
         "image": post.image,
         "rating": post.rating,
         "gf": post.gf,
@@ -32,6 +33,7 @@ routes.post('/posts/add', (req, res) => {
 
         res.json(response);
     }).catch(err => {
+        GET
         console.log(err);
         throw err;
     })
@@ -42,20 +44,22 @@ routes.put('/posts/:id', (req, res) => {
     db.Post.update({
         "title": post.title,
         "caption": post.caption,
-        "tags": post.tags,
+        "cuisine": post.cuisine,
         "image": post.image,
         "rating": post.rating,
         "gf": post.gf,
         "vegan": post.vegan,
         "vegetarian": post.vegetarian,
+        "RestaurantId": post.RestaurantId
     }, {
         where: {
             id: req.params.id
         }
-    }).then(db.Post.findByPk(req.params.id))
-        .then((updatedPost) => {
-            res.json(updatedPost);
-        })
+        // }).then(db.Post.findByPk(req.params.id))
+        //     .then((updatedPost) => {
+        //         res.json(updatedPost);
+        //     })
+    }).then((response) => res.json(response));
 })
 
 routes.get('/posts/:id?', (req, res) => {
@@ -134,7 +138,7 @@ routes.delete('/posts/:id', (req, res) => {
             } else foundPost.destroy()
         })
         .then((response) => {
-            res.send(response);
+            res.status(200).send("post deleted");
         })
         .catch(err => {
             console.log(err);
