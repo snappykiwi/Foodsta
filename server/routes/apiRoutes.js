@@ -32,7 +32,7 @@ routes.post('/posts/add', (req, res) => {
     }).then((response) => {
 
         res.json(response);
-    }).catch(err => {
+    }).catch(err => {GET
         console.log(err);
         throw err;
     })
@@ -54,10 +54,11 @@ routes.put('/posts/:id', (req, res) => {
         where: {
             id: req.params.id
         }
-    }).then(db.Post.findByPk(req.params.id))
-        .then((updatedPost) => {
-            res.json(updatedPost);
-        })
+    // }).then(db.Post.findByPk(req.params.id))
+    //     .then((updatedPost) => {
+    //         res.json(updatedPost);
+    //     })
+    }).then((response) => res.json(response));
 })
 
 routes.get('/posts/:id?', (req, res) => {
@@ -137,7 +138,7 @@ routes.delete('/posts/:id', (req, res) => {
             } else foundPost.destroy()
         })
         .then((response) => {
-            res.send(response);
+            res.status(200).send("post deleted");
         })
         .catch(err => {
             console.log(err);

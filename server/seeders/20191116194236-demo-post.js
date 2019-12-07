@@ -23,7 +23,6 @@ module.exports = {
       gf: 'false',
       vegan: 'false',
       vegetarian: 'true',
-      MealId: '1',
       RestaurantId: '1',
       createdAt: new Date(),
       updatedAt: new Date()
@@ -39,7 +38,6 @@ module.exports = {
       gf: 'false',
       vegan: 'false',
       vegetarian: 'true',
-      MealId: '2',
       RestaurantId: '2',
       createdAt: new Date(),
       updatedAt: new Date()
@@ -55,7 +53,6 @@ module.exports = {
       gf: 'false',
       vegan: 'false',
       vegetarian: 'true',
-      MealId: '3',
       RestaurantId: '3',
       createdAt: new Date(),
       updatedAt: new Date()
