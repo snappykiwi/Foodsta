@@ -1,8 +1,7 @@
 <div class="grid-container">
 
-  <ul *ngIf="postService.postSource.value.length; else noPosts"
-    class="mdc-image-list mdc-image-list--masonry my-masonry-image-list">
-    <li class="mdc-image-list__item" *ngFor="let item of postService.postSource | async" placement="bottom"
+  <ul class="mdc-image-list mdc-image-list--masonry my-masonry-image-list">
+    <li class="mdc-image-list__item" *ngFor="let item of posts" placement="bottom"
       [ngbPopover]="popContent" [openDelay]="650" [closeDelay]="1500" triggers="mouseenter:mouseleave">
       <ng-template #popContent><b>{{item.title}}</b><br />
         Rating: <b>{{item.rating}}</b><br />
@@ -15,10 +14,6 @@
     </li>
   </ul>
 
-  <ng-template #noPosts>
-    <div>
-      <h4 class="noPosts">No Posts Yet</h4>
-    </div>
-  </ng-template>
+
 
 </div>

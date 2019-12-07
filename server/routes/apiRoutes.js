@@ -30,7 +30,7 @@ routes.post('/posts/add', (req, res) => {
     const post = req.body;
     console.log(post);
     db.Post.create({
-
+        "userId": post.userId,
         "title": post.title,
         "caption": post.caption,
         "cuisine": post.cuisine,
@@ -40,9 +40,7 @@ routes.post('/posts/add', (req, res) => {
         "vegan": post.vegan,
         "vegetarian": post.vegetarian,
         "restaurantId": post.restaurantId,
-        "restaurantName": post.restaurantName.name,
-        "MealId": post.MealId,
-        "UserId": post.UserId
+        "restaurantName": post.restaurantName.name
     }).then((response) => {
 
         res.json(response);
@@ -288,7 +286,6 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
             const resDetails = resData.map((restaurant) => {
                 const restData = restaurant.data.result;
                 const weekday = restData.opening_hours;
-                // console.log(restData.url);
                 if (typeof weekday !== 'undefined') {
 
                     return {
@@ -308,11 +305,9 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
 
                 }
             })
-            // console.log(resDetails.mapUrl);
             const filteredRestaurants = resDetails.filter((restaurant) => {
                 return (restaurant !== undefined) && restaurant.types.includes('restaurant')
             });
-            // console.log(filteredRestaurants);
             res.json(filteredRestaurants);
         }).catch(err => console.log(err))
 });
