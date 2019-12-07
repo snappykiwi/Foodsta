@@ -18,9 +18,10 @@ routes.post('/posts/add', (req, res) => {
     console.log(post);
     db.Post.create({
         "userId": post.userId,
+        "userName": post.userName,
         "title": post.title,
-        "body": post.caption,
-        "tags": post.tags,
+        "caption": post.caption,
+        "cuisine": post.cuisine,
         "image": post.image,
         "rating": post.rating,
         "gf": post.gf,
@@ -31,7 +32,7 @@ routes.post('/posts/add', (req, res) => {
     }).then((response) => {
 
         res.json(response);
-    }).catch(err => {
+    }).catch(err => {GET
         console.log(err);
         throw err;
     })
@@ -41,23 +42,23 @@ routes.put('/posts/:id', (req, res) => {
     const post = req.body;
     db.Post.update({
         "title": post.title,
-        "body": post.caption,
-        "tags": post.tags,
+        "caption": post.caption,
+        "cuisine": post.cuisine,
         "image": post.image,
         "rating": post.rating,
         "gf": post.gf,
         "vegan": post.vegan,
         "vegetarian": post.vegetarian,
-        "MealId": post.MealId,
         "RestaurantId": post.RestaurantId
     }, {
         where: {
             id: req.params.id
         }
-    }).then(db.Post.findByPk(req.params.id))
-        .then((updatedPost) => {
-            res.json(updatedPost);
-        })
+    // }).then(db.Post.findByPk(req.params.id))
+    //     .then((updatedPost) => {
+    //         res.json(updatedPost);
+    //     })
+    }).then((response) => res.json(response));
 })
 
 routes.get('/posts/:id?', (req, res) => {
@@ -94,7 +95,6 @@ routes.get('/posts/partial/:searchString', (req, res) => {
     let searchString = req.params.searchString.toLowerCase().trim();
     db.Post
         .findAll({
-            include: [db.Meal],
             where: {
 
                 [Op.or]: [
@@ -103,7 +103,7 @@ routes.get('/posts/partial/:searchString', (req, res) => {
                             [Op.like]: `%${searchString}%`
                         }
                     }, {
-                        '$Meal.name$': {
+                        cuisine: {
                             [Op.like]: `%${searchString}%`
                         }
                     }, {
@@ -137,7 +137,7 @@ routes.delete('/posts/:id', (req, res) => {
             } else foundPost.destroy()
         })
         .then((response) => {
-            res.send(response);
+            res.status(200).send("post deleted");
         })
         .catch(err => {
             console.log(err);

@@ -2,9 +2,10 @@
 module.exports = (sequelize, DataTypes) => {
   const Post = sequelize.define('Post', {
     userId: DataTypes.STRING,
+    userName: DataTypes.STRING,
     title: DataTypes.STRING,
-    body: DataTypes.TEXT,
-    tags: DataTypes.STRING,
+    caption: DataTypes.TEXT,
+    cuisine: DataTypes.STRING,
     image: DataTypes.STRING,
     rating: DataTypes.INTEGER,
     gf: DataTypes.BOOLEAN,
@@ -15,7 +16,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Post.associate = function(models) {
     // associations can be defined here
-    Post.belongsTo(models.Meal);
   };
   return Post;
 };
