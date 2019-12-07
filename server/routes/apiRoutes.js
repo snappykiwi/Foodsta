@@ -303,10 +303,10 @@ routes.get("/google/place/restaurantdetails/:id", (req, res) => {
     placesController
         .getDetailsRestaurant(id, googleApiKey)
         .then((restaurantDetails) => {
-            console.log(restaurantDetails);
+            console.log(`detailed restaurants: ${restaurantDetails}`);
             res.status(200).json(restaurantDetails)
         })
-        .catch((error) => res.status(error.statusCode).json(error))
+        .catch((error) => res.sendStatus(404))
 
 });
 

@@ -52,8 +52,7 @@ export class SearchService {
 
   getRestaurantDetails(restaurantId: string): Observable<Restaurant> {
 
-    let restaurant = new HttpParams().set('searchRestaurant', restaurantId);
-    return this.http.get<Restaurant>(`${this.detailsUrl}`, { params: restaurant });
+    return this.http.get<Restaurant>(`${this.detailsUrl}${restaurantId}`);
 
   }
 
