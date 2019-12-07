@@ -288,7 +288,6 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
             const resDetails = resData.map((restaurant) => {
                 const restData = restaurant.data.result;
                 const weekday = restData.opening_hours;
-                // console.log(restData.url);
                 if (typeof weekday !== 'undefined') {
 
                     return {
@@ -308,11 +307,9 @@ routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
 
                 }
             })
-            // console.log(resDetails.mapUrl);
             const filteredRestaurants = resDetails.filter((restaurant) => {
                 return (restaurant !== undefined) && restaurant.types.includes('restaurant')
             });
-            // console.log(filteredRestaurants);
             res.json(filteredRestaurants);
         }).catch(err => console.log(err))
 });
@@ -353,7 +350,7 @@ routes.post("/picUpload", upload.single('picture'), (req, res) => {
     awsPhotoUpload(req, res);
 });
 
-routes.get("/google/place/autocomplet/:searchInput/:radius?", (req, res) => {
+routes.get("/google/place/autocomplete/:searchInput/:radius?", (req, res) => {
 
     const
         { searchInput } = req.params,

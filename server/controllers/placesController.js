@@ -4,7 +4,7 @@ const placesController = {
 
     getNearByRestaurants: function (searchInput, radius, googleApiKey) {
         console.log(searchInput, radius);
-        return axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchInput}&radius=${radius}&key=${googleApiKey}`)
+        return axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchInput}&radius=${radius}&types=restaurant&key=${googleApiKey}`)
             .then((response) => Promise.resolve(response.data.results))
             .catch((error) => Promise.reject(error))
     },
@@ -33,7 +33,7 @@ const placesController = {
     },
     autoComplete: function (searchInput, radius, googleApiKey, sessionToken) {
         console.log(sessionToken);
-        return axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${googleApiKey}&input=${searchInput}&radius=${radius}&sessiontoken=${sessionToken}`)
+        return axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${googleApiKey}&input=${searchInput}&radius=${radius}&types=restaurant&sessiontoken=${sessionToken}`)
             .then((response) => Promise.resolve(response.data))
             .catch((error) => Promise.reject(error));
     }
