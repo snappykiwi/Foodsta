@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const Post = sequelize.define('Post', {
     userId: DataTypes.STRING,
     title: DataTypes.STRING,
-    body: DataTypes.TEXT,
+    caption: DataTypes.TEXT,
     tags: DataTypes.STRING,
     image: DataTypes.STRING,
     rating: DataTypes.INTEGER,
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     restaurantId: DataTypes.STRING,
     restaurantName: DataTypes.STRING
   }, {});
-  Post.associate = function(models) {
+  Post.associate = function (models) {
     // associations can be defined here
     Post.belongsTo(models.Meal);
   };

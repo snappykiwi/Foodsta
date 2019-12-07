@@ -14,7 +14,8 @@ import { shareReplay } from 'rxjs/operators';
 export class SearchService {
 
   // url to access get back data from google api
-  private url: string = `http://localhost:4200/api/google/place/`;
+  private url: string = `http://localhost:4200/api/google/place/v2/`;
+  private detailsUrl: string = `http://localhost:4200/api/google/place/restaurantdetails/`
 
   public restaurantSource: BehaviorSubject<Search[]> = new BehaviorSubject([]);
   public restaurants = this.restaurantSource.asObservable();
@@ -43,9 +44,16 @@ export class SearchService {
   // gets user input from search bar and uses the google api to search for restaurants
   getRestaurants(input: string): Observable<Search[]> {
 
-    let searchInput = new HttpParams().set('searchInput', input)
+    let searchInput = new HttpParams().set('searchInput', input);
     console.log(this.url + input);
     return this.http.get<Search[]>(`${this.url}`, { params: searchInput });
+
+  }
+
+  getRestaurantDetails(restaurantId: string): Observable<Restaurant> {
+
+    let restaurant = new HttpParams().set('searchRestaurant', restaurantId);
+    return this.http.get<Restaurant>(`${this.detailsUrl}`, { params: restaurant });
 
   }
 

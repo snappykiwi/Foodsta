@@ -3,9 +3,13 @@ const axios = require('axios');
 const placesController = {
 
     getNearByRestaurants: function (searchInput, radius, googleApiKey) {
+        console.log("********************************************************************************");
         console.log(searchInput, radius);
         return axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchInput}&radius=${radius}&types=restaurant&key=${googleApiKey}`)
-            .then((response) => Promise.resolve(response.data.results))
+            .then((response) => {
+                console.log(response.data.results);
+                return Promise.resolve(response.data.results)
+            })
             .catch((error) => Promise.reject(error))
     },
     getDetailsRestaurant: function (place_id, googleApiKey) {
@@ -14,7 +18,7 @@ const placesController = {
             .then((response) => {
                 const restData = restaurant.data.result;
                 const weekday = restData.opening_hours;
-
+                console.log(response);
                 return Promise.resolve({
                     //name: restData.name !== undefined ? restData.name : "N/A",
                     //address: restData.formatted_address !== undefined ? restData.formatted_address : "N/A",
