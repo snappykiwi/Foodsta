@@ -32,16 +32,11 @@ export class RestaurantComponent implements OnInit {
     this.searchService.currentRestaurantSource.subscribe(restaurant => {
       console.log(restaurant);
 
-      // this.searchService.getRestaurantDetails(restaurant.id).subscribe(currentRestaurant => {
-
       this.currentRestaurant = restaurant;
 
-      this.postService.getRestPosts(restaurant).subscribe((posts: any[]) => {
+      this.postService.getRestPosts(this.searchService.currentRestaurantId.value).subscribe((posts: any[]) => {
         this.posts = posts;
       });
-
-      console.log(this.currentRestaurant);
-      // });
 
     });
   }

@@ -24,8 +24,11 @@ export class ListComponent implements OnInit {
     this.searchService.getRestaurantDetails(clickedRestaurant.place_id).subscribe(currentRestaurant => {
 
       this.searchService.currentRestaurantSource.next(currentRestaurant);
+
     })
 
-    this.router.navigate(['restaurant', clickedRestaurant.id]);
+    this.searchService.currentRestaurantId.next(clickedRestaurant.place_id);
+
+    this.router.navigate(['restaurant', clickedRestaurant.place_id]);
   };
 }

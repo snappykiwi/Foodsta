@@ -19,6 +19,7 @@ export class SearchService {
 
   public restaurantSource: BehaviorSubject<Search[]> = new BehaviorSubject([]);
   public restaurants = this.restaurantSource.asObservable();
+  public currentRestaurantId = new BehaviorSubject("");
 
   public currentRestaurantSource: BehaviorSubject<Restaurant> = new BehaviorSubject({
     id: "",
@@ -37,6 +38,7 @@ export class SearchService {
   public currentRestaurant = this.currentRestaurantSource.asObservable;
 
   private restaurantCalls: any = {};
+  private restaurantDetails: any = {};
 
 
   constructor(private http: HttpClient) { }
@@ -52,7 +54,14 @@ export class SearchService {
 
   getRestaurantDetails(restaurantId: string): Observable<Restaurant> {
 
-    return this.http.get<Restaurant>(`${this.detailsUrl}${restaurantId}`);
+    if (!this.restaurantDetails[restaurantId]) {
+      this.restaurantDetails[restaurantId] = this.http.get<Restaurant>(`${this.detailsUrl}${restaurantId}`).pipe(
+        shareReplay(1)
+      );
+
+    }
+
+    return this.restaurantDetails[restaurantId];
 
   }
 
