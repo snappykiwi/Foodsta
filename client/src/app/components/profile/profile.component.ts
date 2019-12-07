@@ -12,7 +12,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 })
 
 export class ProfileComponent implements OnInit {
-
+  
   // sets 'post' to the Post model to access/set it's properties
   post : Post = {
     id : "",
@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit {
     rating : 0,
     restaurantName: {},
     restaurantId: "",
-    user : this.auth.userProfileSubject$.value.sub
+    userId : this.auth.userProfileSubject$.value.sub
   };
 
   constructor(
