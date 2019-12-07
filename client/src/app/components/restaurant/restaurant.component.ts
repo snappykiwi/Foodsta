@@ -13,6 +13,8 @@ import { PhotoContainerComponent } from '../photo-container/photo-container.comp
 })
 export class RestaurantComponent implements OnInit {
 
+  posts: any[] = [];
+
   public hoursCollapsed = true;
 
   @Input() restaurant: Restaurant
@@ -21,24 +23,29 @@ export class RestaurantComponent implements OnInit {
   currentRestaurant: Restaurant
 
   constructor(
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private location: Location,
     private searchService: SearchService,
-    private postService: PostService) { 
+    private postService: PostService) { }
 
-      this.searchService.currentRestaurantSource.subscribe(restaurant => {
-        this.currentRestaurant = restaurant;
-        this.postService.getRestPosts(restaurant);
-        console.log(this.currentRestaurant);
+  setRestaurantPgInfo() {
+    this.searchService.currentRestaurantSource.subscribe(restaurant => {
+      this.currentRestaurant = restaurant;
+
+      this.postService.getRestPosts(restaurant).subscribe((posts: any[]) => {
+        this.posts = posts;
       });
 
-    }
+      console.log(this.currentRestaurant);
+    });
+  }
 
   ngOnInit() {
     this.route.params.forEach((urlParameters) => {
       this.restaurantId = urlParameters['id'];
-    });  
+    });
 
+    this.setRestaurantPgInfo();
   }
 
 }

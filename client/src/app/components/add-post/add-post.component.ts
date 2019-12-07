@@ -21,31 +21,31 @@ export interface SelectOptions {
 }
 
 @Component({
-  selector : 'app-add-post',
-  templateUrl : './add-post.component.html',
-  styleUrls : ['./add-post.component.scss'],
-  providers : [NgbRatingConfig]
+  selector: 'app-add-post',
+  templateUrl: './add-post.component.html',
+  styleUrls: ['./add-post.component.scss'],
+  providers: [NgbRatingConfig]
 })
 
 export class AddPostComponent implements OnInit {
-  
+
   // sets 'post' to the Post model to access/set it's properties
-  post : Post = {
-    id : "",
-    image : "",
-    title : "",
-    caption : "",
-    cuisine : "",
-    category : "",
-    gf : false,
-    vegan : false,
-    vegetarian : false,
-    rating : 0,
+  post: Post = {
+    id: "",
+    image: "",
+    title: "",
+    caption: "",
+    cuisine: "",
+    category: "",
+    gf: false,
+    vegan: false,
+    vegetarian: false,
+    rating: 0,
     restaurantName: {},
     restaurantId: "",
-    user : this.auth.userProfileSubject$.value.sub
+    user: this.auth.userProfileSubject$.value.sub
   };
-  
+
   image = "";
   imageObj: File;
   imgURL: any;
@@ -61,9 +61,7 @@ export class AddPostComponent implements OnInit {
     private searchService: SearchService,
     private autocompleteService: AutocompleteService,
     private router: Router,
-    private config: NgbRatingConfig)
-
-  {     
+    private config: NgbRatingConfig) {
     config.max = 5;
     config.readonly = true;
   }
@@ -74,21 +72,21 @@ export class AddPostComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log(this.auth.userProfileSubject$.value.sub);
+    // console.log(this.auth.userProfileSubject$.value.sub);
 
-    this.restaurants$ = this.searchTerms.pipe(
+    // this.restaurants$ = this.searchTerms.pipe(
 
-      debounceTime(300),
+    //   debounceTime(300),
 
-      distinctUntilChanged(),
+    //   distinctUntilChanged(),
 
-      switchMap((term: string) => this.searchService.getSearch(term)),
-    );
+    //   switchMap((term: string) => this.searchService.getSearch(term)),
+    // );
 
-    
+
   }
 
-  getInfo(optionInfo){
+  getInfo(optionInfo) {
     this.post.restaurantId = optionInfo.id;
     // this.post.restaurantName = optionInfo.name;
     console.log(optionInfo);
@@ -103,12 +101,8 @@ export class AddPostComponent implements OnInit {
     return option.name
   }
 
-  // this gets the posts from the db
-  // needs to be added in html
-  // not sure where you want it
-  // to show that it works, I put it in the ngOnInit() so it loads with the component
   getPosts() {
-    this.postService.getPost(this.post);
+    this.postService.getPosts(this.post);
   }
 
   savePhoto() {
@@ -144,12 +138,13 @@ export class AddPostComponent implements OnInit {
     });
   }
 
-  
+
 
   categories: SelectOptions[] = [
     { value: 'Mexican' },
     { value: 'Thai' },
     { value: 'Chinese' },
+    { value: 'Nepalese' },
     { value: 'Italian' },
     { value: 'American' },
     { value: 'Fast Food' },
@@ -164,16 +159,5 @@ export class AddPostComponent implements OnInit {
     { value: 'African' },
     { value: 'Other' }
   ];
-
-  // foods: SelectOptions[] = [
-  //   { value: 'Steak' },
-  //   { value: 'Pizza' },
-  //   { value: 'Tacos' },
-  //   { value: 'Burgers' },
-  //   { value: 'Salad' },
-  //   { value: 'Sandwich' },
-  //   { value: 'Soup' },
-  //   { value: 'Other' }
-  // ];
 
 }
