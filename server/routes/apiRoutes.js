@@ -13,19 +13,6 @@ const
     placesController = require('../controllers/placesController'),
     uuid = require('uuid/v4');
 
-routes.get('/meals', (req, res) => {
-    db.Meal
-        .findAll({})
-        .then((response) => {
-
-            res.json(response);
-        })
-        .catch((err) => {
-            console.log(err);
-            throw err;
-        })
-})
-
 routes.post('/posts/add', (req, res) => {
     const post = req.body;
     console.log(post);
@@ -80,8 +67,7 @@ routes.get('/posts/:id?', (req, res) => {
             .findAll({
                 where: {
                     id: req.params.id
-                },
-                include: [db.Meal]
+                }
             })
             .then(data => {
                 res.json(data);
@@ -92,9 +78,7 @@ routes.get('/posts/:id?', (req, res) => {
             });
     } else {
         db.Post
-            .findAll({
-                include: [db.Meal]
-            })
+            .findAll({})
             .then(data => {
                 res.json(data);
             })
@@ -195,25 +179,6 @@ routes.get('/posts/searchby/userid/:userId?/restaurant/:restaurantId?/gf/:gf?/ve
         });
 })
 
-routes.get('/posts/meal/:MealId', (req, res) => {
-    const { MealId } = req.params;
-
-    db.Post
-        .findAll({
-            where: {
-                MealId: MealId
-            },
-            include: [db.Meal]
-        })
-        .then(data => {
-            res.json(data);
-        })
-        .catch(err => {
-            console.log(err);
-            throw err;
-        });
-})
-
 routes.get('/posts/restaurant/:RestaurantId', (req, res) => {
     const { RestaurantId } = req.params;
     console.log(RestaurantId);
@@ -222,8 +187,7 @@ routes.get('/posts/restaurant/:RestaurantId', (req, res) => {
         .findAll({
             where: {
                 restaurantId: RestaurantId
-            },
-            include: [db.Meal]
+            }
         })
         .then(data => {
             res.json(data);

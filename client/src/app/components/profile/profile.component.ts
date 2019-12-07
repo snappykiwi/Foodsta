@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { PhotoContainerComponent } from '../photo-container/photo-container.component';
 import { PostService } from 'src/app/services/posts/post.service';
+import { ProfileService } from '../../services/profile/profile.service';
 import { Post } from 'src/app/models/Post';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -33,9 +34,12 @@ export class ProfileComponent implements OnInit {
   constructor(
     public auth: AuthService,
     public dialog: MatDialog,
-    private postService: PostService
+    private postService: PostService,
+    private profileService: ProfileService
     ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    // this.profileService.getUserData(this.userId)
+   }
 
 }
