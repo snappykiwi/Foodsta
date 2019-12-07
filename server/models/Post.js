@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     restaurantId: DataTypes.STRING,
     restaurantName: DataTypes.STRING
   }, {});
-  Post.associate = function(models) {
+  Post.associate = function (models) {
     // associations can be defined here
   };
   return Post;
