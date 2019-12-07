@@ -13,7 +13,7 @@ import { Restaurant } from 'src/app/models/Restaurant';
 
 
 const httpOptions = {
-  headers : new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 @Injectable({
@@ -32,35 +32,19 @@ export class PostService {
     private snackBar: MatSnackBar,
     private router: Router) { }
 
-    public postSource : BehaviorSubject<any> = new BehaviorSubject([]);
-    public posts = this.postSource.asObservable();
+  public postSource: BehaviorSubject<any> = new BehaviorSubject([]);
 
-  getPost(post?: Post) {
-    this.http.get(`${this.getPostURL}`)
-      .subscribe(res => {
-        console.log("Got Posts!", res)
-        this.postSource.next(res);
-        console.log(this.postSource);
-      });
+  getPosts(post?: Post) {
+    return this.http.get(`${this.getPostURL}`);
   }
 
   getRestPosts(restaurant: Restaurant) {
-    this.http.get(`${this.getRestPostURL}${restaurant.id}`)
-      .subscribe(res => {
-        console.log('Got restaurant posts', res)
-        this.postSource.next(res);
-        console.log(this.postSource.value.length);
-      });
+    return this.http.get(`${this.getRestPostURL}${restaurant.id}`);
   }
 
   getSearchPosts(search: string) {
     console.log(search);
-    this.http.get(`${this.getSearchPostURL}${search}`)
-      .subscribe(res => {
-        console.log('Got search posts', res)
-        this.postSource.next(res);
-        console.log(this.postSource.value.length);
-      })
+    return this.http.get(`${this.getSearchPostURL}${search}`);
   }
 
   savePost(post: Post) {
@@ -72,13 +56,13 @@ export class PostService {
       });
   }
 
-  updatePost(post : Post) : Observable<any> {
+  updatePost(post: Post): Observable<any> {
     return this.http.put(`${this.updateOrDeletePostURL}${post.id}`, post, httpOptions).pipe(
       tap(updatedPost => console.log(`updated post = ${JSON.stringify(updatedPost)}`))
     );
   }
 
-  deletePost(postId : number) : Observable<Post> {
+  deletePost(postId: number): Observable<Post> {
     console.log(`${this.updateOrDeletePostURL}${postId}`);
     return this.http.delete<Post>(`${this.updateOrDeletePostURL}${postId}`, httpOptions).pipe(
       tap(_ => console.log(`Deleted post with the id of ${postId}`)),
