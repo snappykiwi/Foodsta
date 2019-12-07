@@ -32,8 +32,8 @@ routes.post('/posts/add', (req, res) => {
     db.Post.create({
         "userId": post.userId,
         "title": post.title,
-        "body": post.caption,
-        "tags": post.tags,
+        "caption": post.caption,
+        "cuisine": post.cuisine,
         "image": post.image,
         "rating": post.rating,
         "gf": post.gf,
@@ -54,8 +54,8 @@ routes.put('/posts/:id', (req, res) => {
     const post = req.body;
     db.Post.update({
         "title": post.title,
-        "body": post.caption,
-        "tags": post.tags,
+        "caption": post.caption,
+        "cuisine": post.cuisine,
         "image": post.image,
         "rating": post.rating,
         "gf": post.gf,

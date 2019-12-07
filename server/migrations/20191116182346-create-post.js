@@ -16,10 +16,10 @@ module.exports = {
         type: Sequelize.STRING,
         alowNull: false
       },
-      body: {
+      caption: {
         type: Sequelize.TEXT
       },
-      tags: {
+      cuisine: {
         type: Sequelize.STRING
       },
       image: {

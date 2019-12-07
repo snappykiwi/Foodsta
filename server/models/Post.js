@@ -3,8 +3,8 @@ module.exports = (sequelize, DataTypes) => {
   const Post = sequelize.define('Post', {
     userId: DataTypes.STRING,
     title: DataTypes.STRING,
-    body: DataTypes.TEXT,
-    tags: DataTypes.STRING,
+    caption: DataTypes.TEXT,
+    cuisine: DataTypes.STRING,
     image: DataTypes.STRING,
     rating: DataTypes.INTEGER,
     gf: DataTypes.BOOLEAN,
