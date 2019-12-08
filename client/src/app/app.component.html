@@ -17,9 +17,12 @@
             <i class="material-icons mr-2">add_a_photo</i>
             Add Post</a>
           <!-- <a mat-list-item routerLink="/add-photo">Settings</a> -->
-          <a mat-list-item routerLink="/profile" *ngIf="auth.loggedIn"><i class="material-icons mr-2">account_circle</i>Profile</a>
+          <a mat-list-item routerLink="/profile" *ngIf="auth.loggedIn"><i
+              class="material-icons mr-2">account_circle</i>Profile</a>
 
-          <a mat-list-item routerLink="/login" (click)="auth.login()" *ngIf="!auth.loggedIn">Login</a>
+          <a mat-list-item routerLink="/login" (click)="auth.login()" *ngIf="!auth.loggedIn">
+            <mat-icon class="mr-2">vpn_key</mat-icon>Login
+          </a>
           <!-- <a mat-list-item routerLink="/login" (click)="auth.logout()" *ngIf="auth.loggedIn">Logout</a> -->
         </mat-nav-list>
         <mat-divider></mat-divider>
@@ -36,12 +39,12 @@
             <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
           </button>
           <span class="siteTitle">Foodsta</span>
-            <!-- <div id="searchBar" class="form-group">
+          <!-- <div id="searchBar" class="form-group">
               <input type="text" #search matInput placeholder="Search">
             </div>
             <button type="submit" class="btn btn-default"><i class="material-icons mr-2">search</i></button> -->
         </mat-toolbar>
-        
+
         <router-outlet></router-outlet>
         <ngx-bottom-nav *ngIf="isHandset$ | async" class="bottom-nav" [items]="items"></ngx-bottom-nav>
       </mat-sidenav-content>
