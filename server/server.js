@@ -15,7 +15,7 @@ app
     .use(express.static(path.join(__dirname, '..', 'client', 'dist', 'project-three')))
     .use(routes);
 
-app.get('/', routes);
+app.get('/*', routes);
 // Catch all other routes and return the index file
 
 /**

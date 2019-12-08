@@ -38,8 +38,9 @@ export class PostService {
     return this.http.get(`${this.getPostURL}`);
   }
 
-  getRestPosts(restaurant: Restaurant) {
-    return this.http.get(`${this.getRestPostURL}${restaurant.id}`);
+  getRestPosts(restaurantId: any) {
+    console.log(restaurantId);
+    return this.http.get(`${this.getRestPostURL}${restaurantId}`);
   }
 
   getSearchPosts(search: string) {
