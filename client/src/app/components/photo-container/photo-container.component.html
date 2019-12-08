@@ -1,13 +1,14 @@
 <div class="grid-container">
 
-  <ul class="mdc-image-list mdc-image-list--masonry my-masonry-image-list">
-    <li class="mdc-image-list__item" *ngFor="let item of posts" placement="bottom"
-      [ngbPopover]="popContent" [openDelay]="650" [closeDelay]="1500" triggers="mouseenter:mouseleave">
-      <ng-template #popContent><b>{{item.title}}</b><br />
-        Rating: <b>{{item.rating}}</b><br />
-        From: <a *ngIf="item.restaurantName" [routerLink]="['/restaurant', item.restaurantId]"><b>{{item.restaurantName}}</b></a><br />
-        Posted By: <span *ngIf="item.User">{{item.User.name}}</span></ng-template>
-      <img class="mdc-image-list__image" src="{{item.image}}" (click)="openDialog(item)" />
+  <ul [@listStagger]='posts.length' class="mdc-image-list mdc-image-list--masonry my-masonry-image-list">
+    <li class="mdc-image-list__item" *ngFor="let post of posts" placement="bottom" [ngbPopover]="popContent"
+      [openDelay]="650" [closeDelay]="1500" triggers="mouseenter:mouseleave">
+      <ng-template #popContent><b>{{post.title}}</b><br />
+        Rating: <b>{{post.rating}}</b><br />
+        From: <a *ngIf="post.restaurantName"
+          [routerLink]="['/restaurant', post.restaurantId]"><b>{{post.restaurantName}}</b></a><br />
+        Posted By: <span *ngIf="item.User">{{post.User.name}}</span></ng-template>
+      <img class="mdc-image-list__image" src="{{post.image}}" (click)="openDialog(item)" />
       <!-- <div class="mdc-image-list__supporting">
             <span class="mdc-image-list__label">{{item.label}}</span>
           </div> -->

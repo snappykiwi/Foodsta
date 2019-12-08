@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { trigger, state, style, animate, transition, query, stagger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { PostService } from 'src/app/services/posts/post.service';
 import { ProfileComponent } from '../profile/profile.component';
@@ -12,7 +13,30 @@ import { Post } from '../../models/Post';
 @Component({
   selector: 'app-photo-container',
   templateUrl: './photo-container.component.html',
-  styleUrls: ['./photo-container.component.scss']
+  styleUrls: ['./photo-container.component.scss'],
+  animations: [
+    trigger('listStagger', [
+      transition('* <=> *', [
+        query(
+          ':enter',
+          [
+            style({ opacity: 0, transform: 'translateY(50px)' }),
+            stagger(
+              '50ms',
+              animate(
+                '550ms ease-out',
+                style({ opacity: 1, transform: 'translateY(0px)' })
+              )
+            )
+          ],
+          { optional: true }
+        ),
+        query(':leave', animate('50ms', style({ opacity: 0 })), {
+          optional: true
+        })
+      ])
+    ])
+  ]
 })
 
 export class PhotoContainerComponent {
