@@ -17,7 +17,7 @@ export class SearchService {
   private url: string = `http://localhost:4200/api/google/place/v2/`;
   private detailsUrl: string = `http://localhost:4200/api/google/place/restaurantdetails/`
 
-  public restaurantSource: BehaviorSubject<Search[]> = new BehaviorSubject([]);
+  public restaurantSource = new BehaviorSubject([]);
   public restaurants = this.restaurantSource.asObservable();
   public currentRestaurantId = new BehaviorSubject("");
 

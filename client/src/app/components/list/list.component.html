@@ -1,3 +1,8 @@
-<mat-nav-list>
-  <mat-list-item *ngFor="let restaurant of searchService.restaurantSource | async" (click)="goToRestaurantPg(restaurant)" class="left restaurant-list">{{restaurant.name}}</mat-list-item>
-</mat-nav-list>
+<ng-container *ngIf='searchService.restaurantSource | async as restaurantList'>
+
+  <mat-nav-list [@listStagger]='restaurantList.length'>
+    <mat-list-item *ngFor="let restaurant of restaurantList" (click)="goToRestaurantPg(restaurant)"
+      class="left restaurant-list">{{restaurant.name}}</mat-list-item>
+  </mat-nav-list>
+
+</ng-container>
