@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@angular/material/prebuilt-themes/pink-bluegrey.css';
+@import './material-theme.scss';
 @import "../node_modules/ng2-slim-loading-bar/style.css";
 @import url('https://fonts.googleapis.com/css?family=Muli|Shadows+Into+Light&display=swap');
 
@@ -14,4 +15,8 @@ body {
 
 h1 {
   font-family: 'Shadows Into Light', cursive;
+}
+
+mat-toolbar.mat-toolbar.mat-primary.mat-toolbar-single-row {
+  padding: 19px;
 }

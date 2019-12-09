@@ -1,55 +1,63 @@
-<div class="mat-app-background basic-container">
+<div [ngClass]="{'dark-theme': isDarkTheme | async}">
 
-  <div class="grid-container">
+  <div class="mat-app-background basic-container">
 
-    <mat-sidenav-container class="sidenav-container">
-      <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-        [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
-        <mat-toolbar class="fancyFont">Menu
-        </mat-toolbar>
-        <mat-nav-list>
-          <a mat-list-item routerLink="/home">
-            <!-- <mat-icon>dashboard</mat-icon> -->
-            <i class="material-icons mr-2">home</i>
-            Home</a>
-          <a mat-list-item routerLink="/add-post">
-            <!-- <mat-icon>add_a_photo</mat-icon> -->
-            <i class="material-icons mr-2">add_a_photo</i>
-            Add Post</a>
-          <!-- <a mat-list-item routerLink="/add-photo">Settings</a> -->
-          <a mat-list-item routerLink="/profile" *ngIf="auth.loggedIn"><i
-              class="material-icons mr-2">account_circle</i>Profile</a>
+    <div class="grid-container">
 
-          <a mat-list-item routerLink="/login" (click)="auth.login()" *ngIf="!auth.loggedIn">
-            <mat-icon class="mr-2">vpn_key</mat-icon>Login
-          </a>
-          <!-- <a mat-list-item routerLink="/login" (click)="auth.logout()" *ngIf="auth.loggedIn">Logout</a> -->
-        </mat-nav-list>
-        <mat-divider></mat-divider>
-        <mat-toolbar class="fancyFont">
-          Restaurants
-          <mat-icon>restaurant</mat-icon>
-        </mat-toolbar>
-        <app-list></app-list>
-      </mat-sidenav>
-      <mat-sidenav-content>
-        <mat-toolbar color="primary">
-          <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
-            *ngIf="isHandset$ | async">
-            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-          </button>
-          <span class="siteTitle">Foodsta</span>
-          <!-- <div id="searchBar" class="form-group">
-              <input type="text" #search matInput placeholder="Search">
-            </div>
-            <button type="submit" class="btn btn-default"><i class="material-icons mr-2">search</i></button> -->
-        </mat-toolbar>
+      <mat-sidenav-container class="sidenav-container">
 
-        <router-outlet></router-outlet>
-        <ngx-bottom-nav *ngIf="isHandset$ | async" class="bottom-nav" [items]="items"></ngx-bottom-nav>
-      </mat-sidenav-content>
-    </mat-sidenav-container>
+        <mat-sidenav #drawer class="sidenav" fixedInViewport
+          [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
+          [opened]="(isHandset$ | async) === false">
+
+          <mat-toolbar class="fancyFont">Menu </mat-toolbar>
+
+          <mat-nav-list>
+            <a mat-list-item routerLink="/home" [routerLinkActive]="['is-active']">
+              <mat-icon class="mr-2">home</mat-icon>
+              Home
+            </a>
+
+            <a mat-list-item routerLink="/add-post" [routerLinkActive]="['is-active']">
+              <mat-icon class="mr-2">add_a_photo</mat-icon>
+              Add Post
+            </a>
+
+            <a mat-list-item routerLink="/profile" *ngIf="auth.loggedIn" [routerLinkActive]="['is-active']">
+              <mat-icon class="mr-2">account_circle</mat-icon>
+              Profile
+            </a>
+
+            <mat-list-item id="login" color="accent" (click)="auth.login()" *ngIf="!auth.loggedIn">
+              <mat-icon class="mr-2">vpn_key</mat-icon>Login
+            </mat-list-item>
+          </mat-nav-list>
+
+          <mat-divider></mat-divider>
+
+          <mat-toolbar class="fancyFont">
+            Restaurants
+            <mat-icon class="ml-2">restaurant</mat-icon>
+          </mat-toolbar>
+
+          <app-list></app-list>
+
+        </mat-sidenav>
+
+        <mat-sidenav-content>
+
+          <app-toolbar [sideNav]="drawer"></app-toolbar>
+
+          <router-outlet></router-outlet>
+
+          <ngx-bottom-nav *ngIf="isHandset$ | async" class="bottom-nav" [items]="items" color="primary">
+          </ngx-bottom-nav>
+
+        </mat-sidenav-content>
+
+      </mat-sidenav-container>
+
+    </div>
 
   </div>
-
 </div>

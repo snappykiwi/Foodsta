@@ -27,6 +27,14 @@
   color: #000000;
 }
 
+.light {
+  border: 1px solid #000000;
+}
+
+.dark {
+  border: 1px solid #ffffff;
+}
+
 .my-masonry-image-list {
   @include mdc-image-list-masonry-columns(5);
 }

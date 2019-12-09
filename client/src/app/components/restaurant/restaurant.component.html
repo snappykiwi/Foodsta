@@ -11,7 +11,8 @@
       <div class="col col-sm-12 col-md-6">
         <a target="_blank" href="{{this.currentRestaurant.mapUrl}}">{{this.currentRestaurant.address}}</a>
         <p>{{this.currentRestaurant.phoneNumber}}</p>
-        <a target="_blank" href="{{this.currentRestaurant.websiteUrl}}">View Website</a>
+        <a *ngIf="this.currentRestaurant.websiteUrl !== 'N/A'" target="_blank"
+          href="{{this.currentRestaurant.websiteUrl}}">View Website</a>
       </div>
 
       <div class="col col-sm-12 col-md-6">

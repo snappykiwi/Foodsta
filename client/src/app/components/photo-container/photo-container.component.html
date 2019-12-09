@@ -8,7 +8,8 @@
         From: <a *ngIf="post.restaurantName"
           [routerLink]="['/restaurant', post.restaurantId]"><b>{{post.restaurantName}}</b></a><br />
         Posted By: <span *ngIf="post.User">{{post.User.name}}</span></ng-template>
-      <img class="mdc-image-list__image" src="{{post.image}}" (click)="openDialog(item)" />
+      <img [ngClass]="{'dark': isDarkTheme | async}" class="mdc-image-list__image light" src="{{post.image}}"
+        (click)="openDialog(post)" />
       <!-- <div class="mdc-image-list__supporting">
         <span class="mdc-image-list__label">{{post.rating}}</span>
       </div> -->

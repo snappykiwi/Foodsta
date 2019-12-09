@@ -6,6 +6,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { BottomNavItem } from 'ngx-bottom-nav';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { NavigationCancel, Event, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
+import { ThemeService } from './services/themes/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ import { NavigationCancel, Event, NavigationEnd, NavigationError, NavigationStar
 export class AppComponent implements OnInit {
 
   title = 'Foodsta';
+  isDarkTheme: Observable<boolean>;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -23,22 +25,25 @@ export class AppComponent implements OnInit {
       shareReplay()
     );
 
-    items: BottomNavItem[] = [
-      {icon: 'home', label: 'Home', routerLink: '/browse'},
-      {icon: 'add_a_photo', label: 'Add', routerLink: '/add-photo'},
-      {icon: 'account_circle', label: 'Profile', routerLink: '/profile'},
-    ];
+  items: BottomNavItem[] = [
+    { icon: 'home', label: 'Home', routerLink: '/home' },
+    { icon: 'add_a_photo', label: 'Add', routerLink: '/add-post' },
+    { icon: 'account_circle', label: 'Profile', routerLink: '/profile' },
+  ];
+
+
 
   constructor(
     private auth: AuthService,
     private breakpointObserver: BreakpointObserver,
     private loadingBar: SlimLoadingBarService,
+    private themeService: ThemeService,
     private router: Router
-    ) { 
-      this.router.events.subscribe((event: Event) => {
-        this.navigationInterceptor(event);
-      });
-    }
+  ) {
+    this.router.events.subscribe((event: Event) => {
+      this.navigationInterceptor(event);
+    });
+  }
 
   private navigationInterceptor(event: Event): void {
     if (event instanceof NavigationStart) {
@@ -56,6 +61,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isDarkTheme = this.themeService.isDarkTheme;
     this.auth.localAuthSetup();
     this.auth.handleAuthCallback();
   }
