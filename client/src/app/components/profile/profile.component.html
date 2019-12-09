@@ -1,29 +1,23 @@
 <mat-accordion>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+
+      <mat-panel-title *ngIf="isHandset$ | async; else desktop">
+        <mat-icon>settings</mat-icon>
+      </mat-panel-title>
+      <ng-template #desktop>
+        <mat-panel-title class="right">
           Settings
         </mat-panel-title>
-        <!-- <mat-panel-description>
-          Type your name and age
-        </mat-panel-description> -->
-      </mat-expansion-panel-header>
-  
-      <a class="mat-stroked-button" routerLink="/login" (click)="auth.logout()">Logout</a>
-    </mat-expansion-panel>
-    <!-- <mat-expansion-panel (opened)="panelOpenState = true"
-                         (closed)="panelOpenState = false">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Self aware panel
-        </mat-panel-title>
-        <mat-panel-description>
-          Currently I am {{panelOpenState ? 'open' : 'closed'}}
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <p>I'm visible because I am open</p>
-    </mat-expansion-panel> -->
-  </mat-accordion>
+      </ng-template>
+
+
+    </mat-expansion-panel-header>
+
+    <a class="mat-stroked-button" routerLink="/login" (click)="auth.logout()">Logout</a>
+  </mat-expansion-panel>
+
+</mat-accordion>
 <div class="grid-container">
 
   <div class="row" *ngIf="auth.userProfile$ | async as profile">
@@ -40,28 +34,28 @@
   </div>
   <div class="row">
 
-      <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
-        <input matInput required placeholder="Enter your first name">
-      </mat-form-field>
+    <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
+      <input matInput required placeholder="Enter your first name">
+    </mat-form-field>
 
-      <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
-        <input matInput required placeholder="Enter your last name">
-      </mat-form-field>
+    <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
+      <input matInput required placeholder="Enter your last name">
+    </mat-form-field>
 
-      <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
-        <input matInput required placeholder="Enter your age">
-      </mat-form-field>
+    <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
+      <input matInput required placeholder="Enter your age">
+    </mat-form-field>
 
-      <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
-        <input matInput required placeholder="Enter your phone number">
-      </mat-form-field>
+    <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
+      <input matInput required placeholder="Enter your phone number">
+    </mat-form-field>
 
-      <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
-        <input matInput required placeholder="Enter your email address">
-      </mat-form-field>
+    <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
+      <input matInput required placeholder="Enter your email address">
+    </mat-form-field>
 
   </div>
-  <hr/>
+  <hr />
   <app-photo-container></app-photo-container>
 
 </div>
