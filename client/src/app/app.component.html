@@ -46,11 +46,15 @@
 
         <mat-sidenav-content>
 
-          <app-toolbar></app-toolbar>
+          <app-toolbar [sideNav]="drawer"></app-toolbar>
 
           <router-outlet></router-outlet>
-          <ngx-bottom-nav *ngIf="isHandset$ | async" class="bottom-nav" [items]="items"></ngx-bottom-nav>
+
+          <ngx-bottom-nav *ngIf="isHandset$ | async" class="bottom-nav" [items]="items" color="primary">
+          </ngx-bottom-nav>
+
         </mat-sidenav-content>
+
       </mat-sidenav-container>
 
     </div>

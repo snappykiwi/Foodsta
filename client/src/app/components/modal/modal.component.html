@@ -4,33 +4,33 @@
 
   <img src="{{ post.image }}" style="width:250px;" class="mb-4" />
 
-  <br/>
+  <br />
+
+  <ngb-rating class="mb-5" [(ngModel)]="post.rating" (hover)="hovered=$event" (leave)="hovered=0" [readonly]="readonly">
+  </ngb-rating>
+
+  <br />
+
+  <mat-form-field class="mb-3">
+    <input class="disabledInput" matInput [(ngModel)]="post.restaurantName" placeholder="Restaurant" disabled>
+  </mat-form-field>
+
+  <br />
 
   <mat-form-field class="mb-3">
     <input class="disabledInput" matInput [(ngModel)]="post.cuisine" placeholder="Cuisine" disabled>
   </mat-form-field>
 
-  <br/>
+  <br />
 
   <mat-form-field class="mb-3">
-    <input class="disabledInput" matInput [(ngModel)]="post.category" placeholder="Category" disabled>
+    <input matInput [(ngModel)]="post.title" placeholder="Edit meal title">
   </mat-form-field>
 
-  <br/>
-
-  <ngb-rating class="mb-5" [(ngModel)]="post.rating" (hover)="hovered=$event" (leave)="hovered=0" [readonly]="readonly">
-  </ngb-rating>
-
-  <br/>
-
-  <mat-form-field class="mb-3">
-    <input matInput [(ngModel)]="post.title" placeholder="Edit your meal">
-  </mat-form-field>
-
-  <br/>
+  <br />
 
   <mat-form-field class="mb-4">
-      <input matInput [(ngModel)]="post.body" placeholder="Edit your comment">
+    <input matInput [(ngModel)]="post.caption" placeholder="Edit comment">
   </mat-form-field>
 
   <h4>Dietary Info</h4>

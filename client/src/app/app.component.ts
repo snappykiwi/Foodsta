@@ -26,8 +26,8 @@ export class AppComponent implements OnInit {
     );
 
   items: BottomNavItem[] = [
-    { icon: 'home', label: 'Home', routerLink: '/browse' },
-    { icon: 'add_a_photo', label: 'Add', routerLink: '/add-photo' },
+    { icon: 'home', label: 'Home', routerLink: '/home' },
+    { icon: 'add_a_photo', label: 'Add', routerLink: '/add-post' },
     { icon: 'account_circle', label: 'Profile', routerLink: '/profile' },
   ];
 
