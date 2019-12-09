@@ -25,6 +25,7 @@ import { SearchService } from './services/searches/search.service';
 import { ListComponent } from './components/list/list.component';
 import { RestaurantComponent } from './components/restaurant/restaurant.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ModalComponent } from './components/modal/modal.component';
     PhotoContainerComponent,
     ListComponent,
     RestaurantComponent,
-    ModalComponent
+    ModalComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
