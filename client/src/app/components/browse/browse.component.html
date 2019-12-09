@@ -3,7 +3,7 @@
   <p>
     <mat-form-field appearance="outline">
       <mat-label>Search meal, cuisine, or restaurant...</mat-label>
-      <input (keyup.enter)="onSearch(search.value)" type="text" #search matInput
+      <input color="accent" (keyup.enter)="onSearch(search.value)" type="text" #search matInput
         placeholder="Search meal, cuisine, or restaurant">
     </mat-form-field>
     <button mat-button (click)="onSearch(search.value)"><i class="material-icons mr-2">search</i></button>
