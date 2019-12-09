@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AuthService } from '../../auth.service';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { trigger, state, style, animate, transition, query, stagger } from '@angular/animations';
@@ -9,6 +10,7 @@ import { ProfileComponent } from '../profile/profile.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ModalComponent } from '../modal/modal.component';
 import { Post } from '../../models/Post';
+import { ThemeService } from 'src/app/services/themes/theme.service';
 
 @Component({
   selector: 'app-photo-container',
@@ -44,15 +46,20 @@ export class PhotoContainerComponent {
   @Input() post: Post;
   @Input() posts;
 
+  isDarkTheme: Observable<boolean>
+
   constructor(
     public auth: AuthService,
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
     private http: HttpClient,
-    private postService: PostService) { }
+    private postService: PostService,
+    private themeService: ThemeService) { }
 
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.isDarkTheme = this.themeService.isDarkTheme;
+  }
 
   openDialog(post: Post): void {
     const dialogRef = this.dialog.open(ModalComponent, {
