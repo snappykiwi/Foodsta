@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map, shareReplay } from 'rxjs/operators';
 import { ThemeService } from 'src/app/services/themes/theme.service';
 
 @Component({
@@ -9,9 +11,19 @@ import { ThemeService } from 'src/app/services/themes/theme.service';
 })
 export class ToolbarComponent implements OnInit {
 
+  @Input() sideNav;
+
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+    .pipe(
+      map(result => result.matches),
+      shareReplay()
+    );
+
   isDarkTheme: Observable<boolean>
 
-  constructor(private themeService: ThemeService) { }
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private themeService: ThemeService) { }
 
   toggleDarkTheme(checked: boolean = true) {
     this.themeService.setDarkTheme(checked);
