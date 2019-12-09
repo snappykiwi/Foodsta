@@ -36,6 +36,7 @@
     "ngx-bottom-nav": "^0.1.2",
     "rxjs": "~6.4.0",
     "rxjs-compat": "^6.5.3",
+    "serialize-javascript": "^2.1.1",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
   },
