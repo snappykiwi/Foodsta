@@ -91,6 +91,22 @@ routes.get('/posts/:id?', (req, res) => {
     }
 })
 
+routes.get('/posts/user/:id', (req, res) => {
+    db.Post
+        .findAll({
+            where: {
+                userId: req.params.id
+            }
+        })
+        .then((data) => {
+            res.json(data);
+        })
+        .catch((err) => {
+            console.log(err);
+            throw err;
+        });
+})
+
 routes.get('/posts/partial/:searchString', (req, res) => {
     console.log(req.params.searchString);
     let searchString = req.params.searchString.toLowerCase().trim();
