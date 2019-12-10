@@ -4,10 +4,12 @@
     <li class="mdc-image-list__item" *ngFor="let post of posts" placement="bottom" [ngbPopover]="popContent"
       [openDelay]="650" [closeDelay]="1500" triggers="mouseenter:mouseleave">
       <ng-template #popContent><b>{{post.title}}</b><br />
-        Rating: <b>{{post.rating}}</b><br />
+        <ngb-rating class="mb-5" [(rate)]="post.rating" [readonly]="readonly">
+        </ngb-rating><br />
         From: <a *ngIf="post.restaurantName"
           [routerLink]="['/restaurant', post.restaurantId]"><b>{{post.restaurantName}}</b></a><br />
-        Posted By: <span *ngIf="post.User">{{post.User.name}}</span></ng-template>
+        Posted By: <span *ngIf="post.User">{{post.User.name}}</span>
+      </ng-template>
       <img [ngClass]="{'dark': isDarkTheme | async}" class="mdc-image-list__image light" src="{{post.image}}"
         (click)="openDialog(post)" />
       <!-- <div class="mdc-image-list__supporting">
