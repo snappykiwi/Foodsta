@@ -3,15 +3,22 @@
   <ul [@listStagger]='posts.length' class="mdc-image-list mdc-image-list--masonry my-masonry-image-list">
     <li class="mdc-image-list__item" *ngFor="let post of posts" placement="bottom" [ngbPopover]="popContent"
       [openDelay]="650" [closeDelay]="1500" triggers="mouseenter:mouseleave">
+
       <ng-template #popContent><b>{{post.title}}</b><br />
-        <ngb-rating class="mb-5" [(rate)]="post.rating" [readonly]="readonly">
+        <ngb-rating class="mb-2" [(rate)]="post.rating" [readonly]="readonly">
         </ngb-rating><br />
-        From: <a *ngIf="post.restaurantName"
+        <a *ngIf="post.restaurantName"
           [routerLink]="['/restaurant', post.restaurantId]"><b>{{post.restaurantName}}</b></a><br />
-        Posted By: <span *ngIf="post.User">{{post.User.name}}</span>
+        <p *ngIf="post.userName"><b>Posted By -</b> {{post.userName}}</p>
+
+        <img class="popoverImg" *ngIf="post.gf" src="../../../assets/images/gluten-free.png">
+        <img class="popoverImg" *ngIf="post.vegan" src="../../../assets/images/vegan.png">
+        <img class="popoverImg" *ngIf="post.vegetarian" src="../../../assets/images/vegetarian.png">
       </ng-template>
+
       <img [ngClass]="{'dark': isDarkTheme | async}" class="mdc-image-list__image light" src="{{post.image}}"
         (click)="openDialog(post)" />
+
       <!-- <div class="mdc-image-list__supporting">
         <span class="mdc-image-list__label">{{post.rating}}</span>
       </div> -->
