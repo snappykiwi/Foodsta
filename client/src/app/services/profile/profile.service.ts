@@ -17,18 +17,18 @@ import { Restaurant } from 'src/app/models/Restaurant';
 
 export class ProfileService {
 
-  getMetaData = 'http://localhost:4200/api/auth0/user/';
-  getUserPosts = 'http://localhost:4200/api/posts/user/';
+  getMetaData = '/api/auth0/user/';
+  getUserPosts = '/api/posts/user/';
 
   constructor(
     private http: HttpClient
   ) { }
 
-  getUserData(userId : string) {
+  getUserData(userId: string) {
     return this.http.get(`${this.getMetaData}${userId.slice(6)}`)
   }
 
-  getUsersPosts(userId : string) {
+  getUsersPosts(userId: string) {
     return this.http.get(`${this.getUserPosts}${userId.slice(6)}`)
   }
 
