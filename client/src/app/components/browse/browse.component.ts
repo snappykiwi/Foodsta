@@ -41,7 +41,12 @@ export class BrowseComponent implements OnInit {
     console.log(this.posts);
     this.postService.getPosts().subscribe((posts: any[]) => {
       console.log(posts);
-      this.posts = posts;
+
+      setTimeout(() => {
+
+        this.posts = posts;
+      }, 1000);
+
     });
 
   }

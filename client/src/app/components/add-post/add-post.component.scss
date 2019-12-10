@@ -7,3 +7,46 @@
   display: grid;
   width: 50%;
 }
+
+div.postReview {
+  padding: 3rem;
+  border: 10px solid #546E7A;
+  justify-content: center;
+
+
+  .postReviewTitle {
+    font-weight: 800;
+  }
+  
+  .postReviewItem {
+    margin-bottom: 2rem;
+  }
+
+  img.dietInfo {
+    width: 3rem;
+    margin: 0rem 1rem;
+  }
+  
+}
+
+div.dark {
+  border: 10px solid #ffffff;
+}
+
+img.imagePreview {
+  margin-bottom: 2rem;
+  border: 3px solid #546E7A;
+}
+
+img.dark {
+  border: 3px solid #ffffff;
+}
+
+div.submitButtons {
+  margin: 2rem auto;
+}
+
+p.missingInfo {
+  color: #B71C1C;
+  font-weight: 300;
+}
