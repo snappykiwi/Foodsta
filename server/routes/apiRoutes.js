@@ -259,11 +259,7 @@ routes.get("/google/place/autocomplete/:searchInput/:radius?", (req, res) => {
 
     placesController
         .autoComplete(searchInput, radius, googleApiKey, sessionToken)
-        .then((results) => {
-
-            console.log(results.predictions);
-            return res.status(200).json(results)
-        })
+        .then((results) => res.status(200).json(results.predictions))
         .catch((error) => res.status(error.statusCode).json(error))
 });
 
