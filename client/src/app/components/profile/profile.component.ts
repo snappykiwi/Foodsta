@@ -26,14 +26,14 @@ export class ProfileComponent implements OnInit {
     title: "",
     caption: "",
     cuisine: "",
-    category: "",
     gf: false,
     vegan: false,
     vegetarian: false,
     rating: 0,
-    restaurantName: {},
+    restaurantName: "",
     restaurantId: "",
-    userId: this.auth.userProfileSubject$.value.sub
+    userId: this.auth.userProfileSubject$.value.sub,
+    userName: this.auth.userProfileSubject$.value.nickname
   };
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -48,7 +48,7 @@ export class ProfileComponent implements OnInit {
     public dialog: MatDialog,
     private postService: PostService,
     private profileService: ProfileService
-    ) { }
+  ) { }
 
   ngOnInit() {
     console.log(this.post.userId.slice(6));
@@ -58,6 +58,6 @@ export class ProfileComponent implements OnInit {
     this.profileService.getUserData(this.post.userId).subscribe(res => {
       console.log(`data from auth0 : ${res}`);
     });
-   }
+  }
 
 }
