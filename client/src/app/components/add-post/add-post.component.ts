@@ -15,6 +15,7 @@ import { Restaurant } from 'src/app/models/Restaurant';
 import { Search } from 'src/app/models/Search';
 import { SearchService } from 'src/app/services/searches/search.service';
 import { AutocompleteService } from 'src/app/services/autocompletes/autocomplete.service';
+import { ThemeService } from 'src/app/services/themes/theme.service';
 
 export interface SelectOptions {
   value: string;
@@ -42,7 +43,8 @@ export class AddPostComponent implements OnInit {
     rating: 0,
     restaurantName: "",
     restaurantId: "",
-    userId: this.auth.userProfileSubject$.value.sub
+    userId: this.auth.userProfileSubject$.value.sub,
+    userName: this.auth.userProfileSubject$.value.nickname
   };
 
   image = "";
@@ -53,13 +55,16 @@ export class AddPostComponent implements OnInit {
   restaurants$: any;
   private searchTerms = new Subject<string>();
   private restaurantName = new BehaviorSubject<string>("");
+
   readonlyReview = true;
+  isDarkTheme: Observable<boolean>
 
   constructor(
     public auth: AuthService,
     private postService: PostService,
     private uploadService: UploadService,
     private searchService: SearchService,
+    private themeService: ThemeService,
     private autocompleteService: AutocompleteService,
     private router: Router,
     private config: NgbRatingConfig) {
@@ -76,7 +81,8 @@ export class AddPostComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log(this.auth.userProfileSubject$.value.sub);
+    console.log(this.auth.userProfileSubject$.value);
+    console.log(this.auth.userProfileSubject$.value.nickname);
 
     this.restaurants$ = this.searchTerms.pipe(
 
@@ -87,6 +93,7 @@ export class AddPostComponent implements OnInit {
       switchMap((term: string) => this.searchService.autocompleteRestaurants(term))
     );
 
+    this.isDarkTheme = this.themeService.isDarkTheme;
 
   }
 

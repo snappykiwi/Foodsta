@@ -10,5 +10,6 @@ export interface Post {
   rating: number,
   restaurantName: string,
   restaurantId: string,
-  userId: string
+  userId: string,
+  userName: string
 }
