@@ -146,22 +146,35 @@ routes.delete('/posts/:id', (req, res) => {
         })
 })
 
-//Getting all the post by userId, restaurantId, gluttenFree, vegan, vegetarian
-routes.get('/posts/searchby/userid/:userId?/restaurant/:restaurantId?/gf/:gf?/vegan/:vegan?/vegetarian/:vegetarian?', (req, res) => {
+//Getting all the post by restaurantId, gluttenFree, vegan, vegetarian
+routes.get('/posts/searchby/v2/', (req, res) => {
 
-    const
-        searchby = req.params,
-        parameters = Object.keys(searchby);
+    const queryParameters = Object.keys(req.query);
 
     let paramatersArray = [];
+    let sortParametersArray = [];
 
-    parameters.forEach((param) => {
+    queryParameters.forEach((param) => {
 
-        if (searchby[param] !== undefined) paramatersArray.push(
-            {
-                [param]: searchby[param]
-            }
-        )
+        switch (param) {
+            case 'restaurantId':
+            case 'gf':
+            case 'vegan':
+            case 'vegetarian':
+                if (req.query[param] !== undefined) paramatersArray.push(
+                    {
+                        [param]: req.query[param]
+                    }
+                )
+                break;
+            case 'date':
+                if (req.query[param] !== undefined) sortParametersArray.push(['createdAt', req.query[param]])
+                break;
+            case 'rating':
+                if (req.query[param] !== undefined) sortParametersArray.push(['rating', req.query[param]])
+                return
+            default: return
+        }
     })
 
     db.Post
@@ -169,7 +182,7 @@ routes.get('/posts/searchby/userid/:userId?/restaurant/:restaurantId?/gf/:gf?/ve
             where: {
                 [Op.or]: paramatersArray
             },
-            order: []
+            order: sortParametersArray
         })
         .then(data => res.json(data))
         .catch(err => {
@@ -246,7 +259,11 @@ routes.get("/google/place/autocomplete/:searchInput/:radius?", (req, res) => {
 
     placesController
         .autoComplete(searchInput, radius, googleApiKey, sessionToken)
-        .then((results) => res.status(200).json(results))
+        .then((results) => {
+
+            console.log(results.predictions);
+            return res.status(200).json(results)
+        })
         .catch((error) => res.status(error.statusCode).json(error))
 });
 
@@ -263,7 +280,7 @@ routes.get("/auth0/user/:userId", (req, res) => {
             { access_token, token_type } = tokenDataResponse,
             { userId } = req.params,
             options = {
-                url: `${process.env.AUDIENCE_USERS_AUTH0}${userId}`,
+                url: `${process.env.AUDIENCE_USERS_AUTH0}auth0|${userId}`,
                 headers: {
                     authorization: `${token_type} ${access_token}`
                 }
