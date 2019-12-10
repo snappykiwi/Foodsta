@@ -163,34 +163,45 @@ routes.delete('/posts/:id', (req, res) => {
         })
 })
 
-//Getting all the post by userId, restaurantId, gluttenFree, vegan, vegetarian
-routes.get('/posts/searchby/userid/:userId?/restaurant/:restaurantId?/gf/:gf?/vegan/:vegan?/vegetarian/:vegetarian?', (req, res) => {
+//Getting all the post by restaurantId, gluttenFree, vegan, vegetarian
+routes.get('/posts/searchby/v2/', (req, res) => {
 
-    const
-        searchby = req.params,
-        parameters = Object.keys(searchby);
+    const queryParameters = Object.keys(req.query);
 
     let paramatersArray = [];
+    let sortParametersArray = [];
 
-    parameters.forEach((param) => {
+    queryParameters.forEach((param) => {
 
-        if (searchby[param] !== undefined) paramatersArray.push(
-            {
-                [param]: searchby[param]
-            }
-        )
+        switch (param) {
+            case 'restaurantId':
+            case 'gf':
+            case 'vegan':
+            case 'vegetarian':
+                if (req.query[param] !== undefined) paramatersArray.push(
+                    {
+                        [param]: req.query[param]
+                    }
+                )
+                break;
+            case 'date':
+                if (req.query[param] !== undefined) sortParametersArray.push(['createdAt', req.query[param]])
+                break;
+            case 'rating':
+                if (req.query[param] !== undefined) sortParametersArray.push(['rating', req.query[param]])
+                return
+            default: return
+        }
     })
 
     db.Post
         .findAll({
             where: {
                 [Op.or]: paramatersArray
-            }
+            },
+            order: sortParametersArray
         })
-        .then(data => {
-            res.json(data);
-            console.log("data", data);
-        })
+        .then(data => res.json(data))
         .catch(err => {
             console.log(err);
             throw err;
@@ -216,83 +227,7 @@ routes.get('/posts/restaurant/:RestaurantId', (req, res) => {
         });
 });
 
-// routes.get('/restaurants', (req, res) => {
-//     db.Restaurant
-//         .findAll({})
-//         .then(data => {
-//             res.json(data);
-//         })
-//         .catch(err => {
-//             console.log(err);
-//             throw err;
-//         })
-// })
-
 /* GOOGLE SEARCH */
-
-// routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
-
-//     const
-//         googleApiKey = process.env.GOOGLE_API_KEY,
-//         searchInput = req.query.searchInput || "restaurant",
-//         radius = req.query.radius || 20;
-
-//     // why is it req.query and not req.params???????????????????
-//     // console.log(searchInput);
-//     // console.log(req.query.searchInput);
-
-//     // when page first load 
-//     /* 
-//     - check session storage for an existing array of nearby restaurant
-//     - if have something in the session we pull from it otherwise we make a api call
-//     - when listing the restaurant we only display the minimum information that comes with the first call
-//     - if a user click on a specific restaurant save that call in an object store placeid as a key name in the restauranDetailsObject 
-//     in the session storage
-//     - In developement we can save them into localstorage (If NODE_ENV=="production" then save the results into session storage otherwise
-//     save in localstorage )
-
-//     */
-//     axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchInput}&radius=${radius}&key=${googleApiKey}`)
-//         .then((response) => {
-
-//             const datas = response.data.results;
-
-//             return Promise.resolve(datas);
-
-//         }).then((results) => {
-//             return Promise.all(results.map((el) => {
-//                 return axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${el.place_id}&key=${googleApiKey}`)
-//                     .catch(err => err)
-//             }))
-//         }).then((resData) => {
-//             const resDetails = resData.map((restaurant) => {
-//                 const restData = restaurant.data.result;
-//                 const weekday = restData.opening_hours;
-//                 if (typeof weekday !== 'undefined') {
-
-//                     return {
-//                         name: restData.name !== undefined ? restData.name : "N/A",
-//                         address: restData.formatted_address !== undefined ? restData.formatted_address : "N/A",
-//                         phoneNumber: restData.formatted_phone_number !== undefined ? restData.formatted_phone_number : "N/A",
-//                         openingHour: restData.opening_hours.weekday_text !== undefined ? restData.opening_hours.weekday_text : "N/A",
-//                         priceLevel: restData.price_level !== undefined ? restData.price_level : 0,
-//                         websiteUrl: restData.website !== undefined ? restData.website : "N/A",
-//                         id: restData.place_id,
-//                         openNow: restData.opening_hours.open_now !== undefined ? restData.opening_hours.open_now : null,
-//                         types: restData.types !== undefined ? restData.types : [],
-//                         mapUrl: restData.url !== undefined ? restData.url : "",
-//                         latitude: restData.geometry !== undefined ? restData.geometry.location.lat : "",
-//                         longitude: restData.geometry !== undefined ? restData.geometry.location.lng : ""
-//                     }
-
-//                 }
-//             })
-//             const filteredRestaurants = resDetails.filter((restaurant) => {
-//                 return (restaurant !== undefined) && restaurant.types.includes('restaurant')
-//             });
-//             res.json(filteredRestaurants);
-//         }).catch(err => console.log(err))
-// });
 
 routes.get("/google/place/v2/:searchInput?/:radius?", (req, res) => {
 
@@ -303,26 +238,19 @@ routes.get("/google/place/v2/:searchInput?/:radius?", (req, res) => {
     console.log("called restaurant api call");
     placesController
         .getNearByRestaurants(searchInput, radius, googleApiKey)
-        .then((restaurantsNearby) => {
-            console.log(`restaurants to send: ${restaurantsNearby}`);
-            res.status(200).json(restaurantsNearby)
-        })
+        .then((restaurantsNearby) => res.status(200).json(restaurantsNearby))
         .catch((error) => res.sendStatus(500))
-
 });
 
 routes.get("/google/place/restaurantdetails/:id", (req, res) => {
 
-    const { id } = req.params;
-    console.log(id);
-    const googleApiKey = process.env.GOOGLE_API_KEY;
+    const
+        { id } = req.params,
+        googleApiKey = process.env.GOOGLE_API_KEY;
 
     placesController
         .getDetailsRestaurant(id, googleApiKey)
-        .then((restaurantDetails) => {
-            console.log(`detailed restaurants: ${restaurantDetails}`);
-            res.status(200).json(restaurantDetails)
-        })
+        .then((restaurantDetails) => res.status(200).json(restaurantDetails))
         .catch((error) => res.sendStatus(404))
 
 });
@@ -348,7 +276,7 @@ routes.get("/google/place/autocomplete/:searchInput/:radius?", (req, res) => {
 
     placesController
         .autoComplete(searchInput, radius, googleApiKey, sessionToken)
-        .then((results) => res.status(200).json(results))
+        .then((results) => res.status(200).json(results.predictions))
         .catch((error) => res.status(error.statusCode).json(error))
 });
 
