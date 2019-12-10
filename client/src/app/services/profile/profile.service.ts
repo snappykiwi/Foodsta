@@ -18,13 +18,20 @@ import { Restaurant } from 'src/app/models/Restaurant';
 export class ProfileService {
 
   getMetaData = 'http://localhost:4200/auth0/user/';
+  getUserPosts = 'http://localhost:4200/posts/searchby/userid/';
 
   constructor(
     private http: HttpClient
   ) { }
 
   getUserData(userId : string) {
+    console.log(`${this.getMetaData}${userId}`)
     return this.http.get(`${this.getMetaData}${userId}`)
+  }
+
+  getUsersPosts(userId : string) {
+    console.log(`${this.getUserPosts}${userId}`)
+    return this.http.get(`${this.getUserPosts}${userId.slice(6)}`)
   }
 
 }

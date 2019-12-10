@@ -39,7 +39,13 @@ export class ProfileComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    // this.profileService.getUserData(this.userId)
+    console.log(this.post.userId);
+    this.profileService.getUsersPosts(this.post.userId).subscribe(res => {
+      console.log(`posts from user : ${res}`);
+    });
+    this.profileService.getUserData(this.post.userId).subscribe(res => {
+      console.log(`data from auth0 : ${res}`);
+    });
    }
 
 }
