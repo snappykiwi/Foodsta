@@ -7,3 +7,20 @@
   display: grid;
   width: 50%;
 }
+
+div.postReview {
+  padding: 3rem;
+  border: 2px solid #ffffff;
+}
+
+.postReviewTitle {
+  font-weight: 800;
+}
+
+.postReviewItem {
+  margin-bottom: 2rem;
+}
+
+.submitButtons {
+  margin: 2rem auto;
+}
