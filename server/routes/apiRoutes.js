@@ -28,7 +28,7 @@ routes.post('/posts/add', (req, res) => {
         "vegan": post.vegan,
         "vegetarian": post.vegetarian,
         "restaurantId": post.restaurantId,
-        "restaurantName": post.restaurantName.name
+        "restaurantName": post.restaurantName
     }).then((response) => {
 
         res.json(response);
@@ -342,12 +342,18 @@ routes.get("/google/place/autocomplete/:searchInput/:radius?", (req, res) => {
     const
         { searchInput } = req.params,
         googleApiKey = process.env.GOOGLE_API_KEY,
-        radius = req.params.radius || 5,
+        radius = req.params.radius || 100,
         sessionToken = uuid();
+
+    console.log(searchInput)
 
     placesController
         .autoComplete(searchInput, radius, googleApiKey, sessionToken)
-        .then((results) => res.status(200).json(results))
+        .then((results) => {
+            console.log("*********************************************");
+            console.log(`restaurant autocomplete: ${JSON.stringify(results)}`);
+            res.status(200).json(results)
+        })
         .catch((error) => res.status(error.statusCode).json(error))
 });
 

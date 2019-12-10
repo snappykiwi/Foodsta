@@ -6,7 +6,7 @@ import { Post } from 'src/app/models/Post';
 import { CommonModule } from '@angular/common';
 import { UploadService } from '../../services/uploads/upload.service';
 import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { AuthService } from '../../auth.service';
 
@@ -28,7 +28,7 @@ export interface SelectOptions {
 })
 
 export class AddPostComponent implements OnInit {
-    
+
   // sets 'post' to the Post model to access/set it's properties
   post: Post = {
     id: "",
@@ -36,14 +36,13 @@ export class AddPostComponent implements OnInit {
     title: "",
     caption: "",
     cuisine: "",
-    category: "",
     gf: false,
     vegan: false,
     vegetarian: false,
     rating: 0,
-    restaurantName: {},
+    restaurantName: "",
     restaurantId: "",
-    userId : this.auth.userProfileSubject$.value.sub
+    userId: this.auth.userProfileSubject$.value.sub
   };
 
   image = "";
@@ -51,8 +50,10 @@ export class AddPostComponent implements OnInit {
   imgURL: any;
 
   // code for location search 
-  restaurants$: Observable<Search[]>;
+  restaurants$: any;
   private searchTerms = new Subject<string>();
+  private restaurantName = new BehaviorSubject<string>("");
+  readonlyReview = true;
 
   constructor(
     public auth: AuthService,
@@ -67,30 +68,36 @@ export class AddPostComponent implements OnInit {
   }
 
   search(term: string): void {
-    this.searchTerms.next(term);
+    if (term) {
+      this.searchTerms.next(term);
+      console.log(this.restaurants$);
+    }
   }
 
   ngOnInit(): void {
 
-    // console.log(this.auth.userProfileSubject$.value.sub);
+    console.log(this.auth.userProfileSubject$.value.sub);
 
-    // this.restaurants$ = this.searchTerms.pipe(
+    this.restaurants$ = this.searchTerms.pipe(
 
-    //   debounceTime(300),
+      debounceTime(300),
 
-    //   distinctUntilChanged(),
+      distinctUntilChanged(),
 
-    //   switchMap((term: string) => this.searchService.getSearch(term)),
-    // );
+      switchMap((term: string) => this.searchService.autocompleteRestaurants(term))
+    );
 
 
   }
 
   getInfo(optionInfo) {
-    this.post.restaurantId = optionInfo.id;
-    // this.post.restaurantName = optionInfo.name;
+    this.post.restaurantId = optionInfo.place_id;
+    this.post.restaurantName = optionInfo.description;
+    this.restaurantName.next(optionInfo.description);
     console.log(optionInfo);
     console.log(this.post.restaurantName);
+    console.log(this.post.restaurantId);
+    console.log(this.post);
     // let url = 'https://jsonplaceholder.typicode.com/posts?userId='+userId;
     // this.http.get(`${url}`).subscribe(posts => {
     //     this.posts = [...posts];
@@ -98,7 +105,7 @@ export class AddPostComponent implements OnInit {
   }
 
   getRestaurantName(option) {
-    return option.name
+    return option.description
   }
 
   getPosts() {

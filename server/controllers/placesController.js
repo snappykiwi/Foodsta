@@ -34,8 +34,12 @@ const placesController = {
     },
     autoComplete: function (searchInput, radius, googleApiKey, sessionToken) {
         console.log(sessionToken);
-        return axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${googleApiKey}&input=${searchInput}&radius=${radius}&types=restaurant&sessiontoken=${sessionToken}`)
-            .then((response) => Promise.resolve(response.data))
+        return axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${googleApiKey}&input=${searchInput}&types=establishment&sessiontoken=${sessionToken}`)
+            .then((response) => {
+                const filteredRestaurants = response.data.predictions.filter((restaurant) => (restaurant.types.includes('restaurant')));
+
+                return Promise.resolve(filteredRestaurants)
+            })
             .catch((error) => Promise.reject(error));
     }
 }

@@ -15,7 +15,8 @@ export class SearchService {
 
   // url to access get back data from google api
   private url: string = `http://localhost:4200/api/google/place/v2/`;
-  private detailsUrl: string = `http://localhost:4200/api/google/place/restaurantdetails/`
+  private detailsUrl: string = `http://localhost:4200/api/google/place/restaurantdetails/`;
+  private autocompleteUrl: string = 'http://localhost:4200/api/google/place/autocomplete/';
 
   public restaurantSource = new BehaviorSubject([]);
   public restaurants = this.restaurantSource.asObservable();
@@ -80,4 +81,13 @@ export class SearchService {
     console.log(this.restaurantCalls);
     return this.restaurantCalls[searchInput];
   };
+
+
+  autocompleteRestaurants(searchTerm: string) {
+    console.log(searchTerm);
+
+    return this.http.get(`${this.autocompleteUrl}${searchTerm}`)
+
+  };
+
 }
