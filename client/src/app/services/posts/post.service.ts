@@ -22,11 +22,11 @@ const httpOptions = {
 
 export class PostService {
 
-  postURL = 'http://localhost:4200/api/posts/add'; // url for submitting form data
-  getPostURL = 'http://localhost:4200/api/posts'; // url for getting all posts from db
-  getRestPostURL = 'http://localhost:4200/api/posts/restaurant/'; // url for getting posts for specific restaurant
-  getSearchPostURL = 'http://localhost:4200/api/posts/partial/'; // url for getting posts based on user search
-  updateOrDeletePostURL = 'http://localhost:4200/api/posts/'; // url for updating and deleting posts
+  postURL = '/api/posts/add'; // url for submitting form data
+  getPostURL = '/api/posts'; // url for getting all posts from db
+  getRestPostURL = '/api/posts/restaurant/'; // url for getting posts for specific restaurant
+  getSearchPostURL = '/api/posts/partial/'; // url for getting posts based on user search
+  updateOrDeletePostURL = '/api/posts/'; // url for updating and deleting posts
 
   constructor(private http: HttpClient,
     private snackBar: MatSnackBar,
