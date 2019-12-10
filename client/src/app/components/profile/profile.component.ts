@@ -5,6 +5,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { AuthService } from '../../auth.service';
 import { PhotoContainerComponent } from '../photo-container/photo-container.component';
 import { PostService } from 'src/app/services/posts/post.service';
+import { ProfileService } from '../../services/profile/profile.service';
 import { Post } from 'src/app/models/Post';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -45,9 +46,18 @@ export class ProfileComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     public auth: AuthService,
     public dialog: MatDialog,
-    private postService: PostService
-  ) { }
+    private postService: PostService,
+    private profileService: ProfileService
+    ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    console.log(this.post.userId.slice(6));
+    this.profileService.getUsersPosts(this.post.userId).subscribe((posts: any[]) => {
+      console.log(`posts from user : ${posts}`);
+    });
+    this.profileService.getUserData(this.post.userId).subscribe(res => {
+      console.log(`data from auth0 : ${res}`);
+    });
+   }
 
 }

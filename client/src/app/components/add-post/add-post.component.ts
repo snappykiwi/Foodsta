@@ -43,7 +43,7 @@ export class AddPostComponent implements OnInit {
     rating: 0,
     restaurantName: {},
     restaurantId: "",
-    userId : this.auth.userProfileSubject$.value.sub
+    userId : this.auth.userProfileSubject$.value.sub.slice(6)
   };
 
   image = "";
