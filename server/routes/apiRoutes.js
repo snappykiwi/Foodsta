@@ -91,6 +91,23 @@ routes.get('/posts/:id?', (req, res) => {
     }
 })
 
+routes.get('/posts/user/:id', (req, res) => {
+    db.Post
+        .findAll({
+            where: {
+                userId: req.params.id
+            }
+        })
+        .then((data) => {
+            console.log(data);
+            res.json(JSON.stringify(data));
+        })
+        .catch((err) => {
+            console.log(err);
+            throw err;
+        });
+})
+
 routes.get('/posts/partial/:searchString', (req, res) => {
     console.log(req.params.searchString);
     let searchString = req.params.searchString.toLowerCase().trim();
@@ -348,14 +365,19 @@ routes.get("/auth0/user/:userId", (req, res) => {
             { access_token, token_type } = tokenDataResponse,
             { userId } = req.params,
             options = {
-                url: `${process.env.AUDIENCE_USERS_AUTH0}${userId}`,
+                url: `${process.env.AUDIENCE_USERS_AUTH0}auth0|${userId}`,
                 headers: {
                     authorization: `${token_type} ${access_token}`
                 }
             };
+            console.log(`Auth Data : ${options.url}`);
 
         axios(options)
-            .then((response) => res.json(response.data))
+            .then((response) => {
+                console.log(`Auth User Data : ${JSON.stringify(response.data)}`);
+                res.json(JSON.stringify(response.data));
+            })
+                
             .catch((err) => console.log(err));
     });
 });
