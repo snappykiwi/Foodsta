@@ -9,6 +9,7 @@ import { PostService } from 'src/app/services/posts/post.service';
 import { ProfileComponent } from '../profile/profile.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ModalComponent } from '../modal/modal.component';
+import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Post } from '../../models/Post';
 import { ThemeService } from 'src/app/services/themes/theme.service';
 
@@ -16,6 +17,7 @@ import { ThemeService } from 'src/app/services/themes/theme.service';
   selector: 'app-photo-container',
   templateUrl: './photo-container.component.html',
   styleUrls: ['./photo-container.component.scss'],
+  providers: [NgbRatingConfig],
   animations: [
     trigger('listStagger', [
       transition('* <=> *', [
@@ -43,8 +45,11 @@ import { ThemeService } from 'src/app/services/themes/theme.service';
 
 export class PhotoContainerComponent {
 
+
   @Input() post: Post;
   @Input() posts;
+
+  readonly = true;
 
   isDarkTheme: Observable<boolean>
 
@@ -54,7 +59,8 @@ export class PhotoContainerComponent {
     private breakpointObserver: BreakpointObserver,
     private http: HttpClient,
     private postService: PostService,
-    private themeService: ThemeService) { }
+    private themeService: ThemeService,
+    private config: NgbRatingConfig) { config.max = 5; }
 
 
   ngOnInit() {
