@@ -341,15 +341,9 @@ routes.get("/auth0/user/:userId", (req, res) => {
 
         axios(options)
             .then((response) => {
-                let userMeta = {
-                    firstName : response.data.user_metadata.firstName, 
-                    lastName : response.data.user_metadata.lastName, 
-                    age : response.data.user_metadata.age, 
-                    phone : response.data.user_metadata.phone
-                };
                 console.log(`Auth User Data : ${JSON.stringify(response.data)}`);
                 console.log("********************" + JSON.stringify(response.data.user_metadata.age));
-                res.json(response.data);
+                res.send(response.data);
             })
 
             .catch((err) => console.log(err));
