@@ -8,12 +8,12 @@ import { AddPostComponent } from './components/add-post/add-post.component';
 import { RestaurantComponent } from './components/restaurant/restaurant.component';
 
 const routes: Routes = [
-  { path: '', redirectTo:'/home', pathMatch:'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'home', component: BrowseComponent },
   { path: 'add-post', component: AddPostComponent },
-  { path: 'restaurant/:id', component: RestaurantComponent}
+  { path: 'restaurant/:id', component: RestaurantComponent }
 ];
 
 @NgModule({
