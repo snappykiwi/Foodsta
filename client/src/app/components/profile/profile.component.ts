@@ -18,6 +18,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 export class ProfileComponent implements OnInit {
 
   posts: any[] = [];
+  currentUserId = this.auth.userProfileSubject$.value.sub;
 
   // sets 'post' to the Post model to access/set it's properties
   post: Post = {
@@ -32,7 +33,7 @@ export class ProfileComponent implements OnInit {
     rating: 0,
     restaurantName: "",
     restaurantId: "",
-    userId: this.auth.userProfileSubject$.value.sub,
+    userId: this.currentUserId,
     userName: this.auth.userProfileSubject$.value.nickname
   };
 
@@ -50,12 +51,19 @@ export class ProfileComponent implements OnInit {
     private profileService: ProfileService
   ) { }
 
-  ngOnInit() {
-    console.log(this.post.userId.slice(6));
-    this.profileService.getUsersPosts(this.post.userId).subscribe((posts: any[]) => {
+  getUserPosts() {
+    this.profileService.getUsersPosts(this.currentUserId).subscribe((posts: any[]) => {
       console.log(`posts from user : ${posts}`);
+      this.posts = posts;
     });
-    this.profileService.getUserData(this.post.userId).subscribe(res => {
+  }
+
+
+
+  ngOnInit() {
+    this.getUserPosts();
+
+    this.profileService.getUserData(this.currentUserId).subscribe(res => {
       console.log(`data from auth0 : ${res}`);
     });
   }
