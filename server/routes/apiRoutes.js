@@ -11,6 +11,7 @@ const
     awsPhotoUpload = require("../awsPhotoUpload"),
     getTokenAuth0 = require('../controllers/getTokenAuth0'),
     placesController = require('../controllers/placesController'),
+    apiHelpers = require('../controllers/apiHelpers'),
     uuid = require('uuid/v4');
 
 routes.post('/posts/add', (req, res) => {
@@ -108,8 +109,19 @@ routes.get('/posts/user/:id', (req, res) => {
 })
 
 routes.get('/posts/partial/:searchString', (req, res) => {
-    console.log(req.params.searchString);
-    let searchString = req.params.searchString.toLowerCase().trim();
+
+    let sortParametersArray = [];
+    const
+        searchString = req.params.searchString.toLowerCase().trim(),
+        queryParameters = Object.keys(req.query);
+
+    queryParameters.forEach((param) => {
+
+        const orderBy = apiHelpers.sequelizeOrderBy(param, req.query[param]);
+
+        (orderBy) && sortParametersArray.push(orderBy)
+    })
+
     db.Post
         .findAll({
             where: {
@@ -129,7 +141,8 @@ routes.get('/posts/partial/:searchString', (req, res) => {
                         }
                     }
                 ]
-            }
+            },
+            order: sortParametersArray.length ? sortParametersArray : [['createdAt', 'DESC']]
         })
         .then(data => {
             res.json(data);
@@ -166,7 +179,6 @@ routes.delete('/posts/:id', (req, res) => {
 routes.get('/posts/searchby/v2/', (req, res) => {
 
     const queryParameters = Object.keys(req.query);
-
     let paramatersArray = [];
     let sortParametersArray = [];
 
@@ -182,15 +194,12 @@ routes.get('/posts/searchby/v2/', (req, res) => {
                         [param]: req.query[param]
                     }
                 )
-                break;
-            case 'date':
-                if (req.query[param] !== undefined) sortParametersArray.push(['createdAt', req.query[param]])
-                break;
-            case 'rating':
-                if (req.query[param] !== undefined) sortParametersArray.push(['rating', req.query[param]])
                 return
-            default: return
         }
+
+        const orderBy = apiHelpers.sequelizeOrderBy(param, req.query[param]);
+
+        (orderBy) && sortParametersArray.push(orderBy)
     })
 
     db.Post
@@ -198,7 +207,7 @@ routes.get('/posts/searchby/v2/', (req, res) => {
             where: {
                 [Op.or]: paramatersArray
             },
-            order: sortParametersArray
+            order: sortParametersArray.length ? sortParametersArray : [['createdAt', 'DESC']]
         })
         .then(data => res.json(data))
         .catch(err => {
@@ -208,14 +217,24 @@ routes.get('/posts/searchby/v2/', (req, res) => {
 });
 
 routes.get('/posts/restaurant/:RestaurantId', (req, res) => {
-    const { RestaurantId } = req.params;
-    console.log(RestaurantId);
+
+    const
+        { RestaurantId } = req.params,
+        queryParameters = Object.keys(req.query),
+        queryParam = queryParameters[0],
+        queryValue = req.query[queryParameters],
+        orderBy = apiHelpers.sequelizeOrderBy(queryParam, queryValue);
+
+    let sortParametersArray = [];
+
+    (orderBy) && sortParametersArray.push(orderBy)
 
     db.Post
         .findAll({
             where: {
                 restaurantId: RestaurantId
-            }
+            },
+            order: sortParametersArray.length ? sortParametersArray : [['createdAt', 'DESC']]
         })
         .then(data => {
             res.json(data);
