@@ -63,7 +63,6 @@ export class SearchService {
     }
 
     return this.restaurantDetails[restaurantId];
-
   }
 
 
