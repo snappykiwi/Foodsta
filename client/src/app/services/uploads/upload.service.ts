@@ -16,6 +16,6 @@ export class UploadService {
   imageUpload(picture: FormData) {
     console.log('image uploading');
     this.postService.openSnackBar("Post Uploading...", "Close");
-    return this.http.post('http://localhost:3000/api/picUpload', picture);
+    return this.http.post('/api/picUpload', picture);
   }
 }
