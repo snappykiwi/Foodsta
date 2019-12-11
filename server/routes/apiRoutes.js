@@ -14,7 +14,41 @@ const
     apiHelpers = require('../controllers/apiHelpers'),
     uuid = require('uuid/v4');
 
-routes.post('/posts/add', (req, res) => {
+
+
+routes.get('/posts/:id?', (req, res) => {
+    if (req.params.id) {
+
+        db.Post
+            .findOne({
+                where: {
+                    id: req.params.id
+                }
+            })
+            .then(data => {
+                res.json(data);
+            })
+            .catch(err => {
+                console.log(err);
+                throw err;
+            });
+    } else {
+        db.Post
+            .findAll({
+                order: [['createdAt', 'DESC']]
+            })
+            .then(data => {
+                res.json(data);
+            })
+            .catch(err => {
+                console.log(err);
+                throw err;
+            });
+    };
+});
+
+
+routes.post('/posts', (req, res) => {
     const post = req.body;
     console.log(post);
     db.Post.create({
@@ -37,7 +71,7 @@ routes.post('/posts/add', (req, res) => {
         GET
         console.log(err);
         throw err;
-    })
+    });
 });
 
 routes.put('/posts/:id', (req, res) => {
@@ -60,44 +94,44 @@ routes.put('/posts/:id', (req, res) => {
         //     .then((updatedPost) => {
         //         res.json(updatedPost);
         //     })
-    }).then((response) => res.json(response));
-})
+    }).then((response) => res.json(response))
+        .catch(err => {
+            console.log(err);
+            throw err;
+        });
+});
 
-routes.get('/posts/:id?', (req, res) => {
-    if (req.params.id) {
 
-        db.Post
-            .findAll({
-                where: {
-                    id: req.params.id
-                }
-            })
-            .then(data => {
-                res.json(data);
-            })
-            .catch(err => {
-                console.log(err);
-                throw err;
-            });
-    } else {
-        db.Post
-            .findAll({})
-            .then(data => {
-                res.json(data);
-            })
-            .catch(err => {
-                console.log(err);
-                throw err;
-            });
-    }
-})
+routes.delete('/posts/:id', (req, res) => {
+    db.Post
+        .findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+        .then((foundPost) => {
+            if (!foundPost) {
+                res.status(500).send("Could not find the requested post");
+                return
+            } else foundPost.destroy()
+        })
+        .then((response) => {
+            res.status(200).send("post deleted");
+        })
+        .catch(err => {
+            console.log(err);
+            throw err;
+        });
+});
+
 
 routes.get('/posts/user/:id', (req, res) => {
     db.Post
         .findAll({
             where: {
                 userId: req.params.id
-            }
+            },
+            order: [['createdAt', 'DESC']]
         })
         .then((data) => {
             res.json(data);
@@ -106,7 +140,37 @@ routes.get('/posts/user/:id', (req, res) => {
             console.log(err);
             throw err;
         });
-})
+});
+
+
+routes.get('/posts/restaurant/:RestaurantId', (req, res) => {
+
+    const
+        { RestaurantId } = req.params,
+        queryParameters = Object.keys(req.query),
+        queryParam = queryParameters[0],
+        queryValue = req.query[queryParameters],
+        orderBy = apiHelpers.sequelizeOrderBy(queryParam, queryValue);
+
+    let sortParametersArray = [];
+
+    (orderBy) && sortParametersArray.push(orderBy)
+
+    db.Post
+        .findAll({
+            where: {
+                restaurantId: RestaurantId
+            },
+            order: sortParametersArray.length ? sortParametersArray : [['createdAt', 'DESC']]
+        })
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            console.log(err);
+            throw err;
+        });
+});
 
 routes.get('/posts/partial/:searchString', (req, res) => {
 
@@ -151,29 +215,8 @@ routes.get('/posts/partial/:searchString', (req, res) => {
             console.log(err);
             throw err;
         });
-})
+});
 
-routes.delete('/posts/:id', (req, res) => {
-    db.Post
-        .findOne({
-            where: {
-                id: req.params.id
-            }
-        })
-        .then((foundPost) => {
-            if (!foundPost) {
-                res.status(500).send("Could not find the requested post");
-                return
-            } else foundPost.destroy()
-        })
-        .then((response) => {
-            res.status(200).send("post deleted");
-        })
-        .catch(err => {
-            console.log(err);
-            throw err;
-        })
-})
 
 //Getting all the post by restaurantId, gluttenFree, vegan, vegetarian
 routes.get('/posts/searchby/v2/', (req, res) => {
@@ -216,34 +259,6 @@ routes.get('/posts/searchby/v2/', (req, res) => {
         });
 });
 
-routes.get('/posts/restaurant/:RestaurantId', (req, res) => {
-
-    const
-        { RestaurantId } = req.params,
-        queryParameters = Object.keys(req.query),
-        queryParam = queryParameters[0],
-        queryValue = req.query[queryParameters],
-        orderBy = apiHelpers.sequelizeOrderBy(queryParam, queryValue);
-
-    let sortParametersArray = [];
-
-    (orderBy) && sortParametersArray.push(orderBy)
-
-    db.Post
-        .findAll({
-            where: {
-                restaurantId: RestaurantId
-            },
-            order: sortParametersArray.length ? sortParametersArray : [['createdAt', 'DESC']]
-        })
-        .then(data => {
-            res.json(data);
-        })
-        .catch(err => {
-            console.log(err);
-            throw err;
-        });
-});
 
 /* GOOGLE SEARCH */
 
