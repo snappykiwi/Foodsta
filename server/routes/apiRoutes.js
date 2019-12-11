@@ -341,8 +341,15 @@ routes.get("/auth0/user/:userId", (req, res) => {
 
         axios(options)
             .then((response) => {
+                let userMeta = {
+                    firstName : response.data.user_metadata.firstName, 
+                    lastName : response.data.user_metadata.lastName, 
+                    age : response.data.user_metadata.age, 
+                    phone : response.data.user_metadata.phone
+                };
                 console.log(`Auth User Data : ${JSON.stringify(response.data)}`);
-                res.json(JSON.stringify(response.data));
+                console.log("********************" + JSON.stringify(response.data.user_metadata.age));
+                res.json(response.data);
             })
 
             .catch((err) => console.log(err));
@@ -363,7 +370,7 @@ routes.patch("/auth0/update/:userId", (req, res) => {
         const
             { access_token, token_type } = tokenDataResponse,
             { userId } = req.params,
-            user_metadata = req.body,
+            user_data = req.body,
             options = {
                 method: 'PATCH',
                 url: `${process.env.AUDIENCE_USERS_AUTH0}auth0|${userId}`,
@@ -372,7 +379,7 @@ routes.patch("/auth0/update/:userId", (req, res) => {
                     authorization: `${token_type} ${access_token}`
                 },
                 
-                data: datas = {user_metadata}
+                data: datas = user_data
             };
 
         console.log(`************************************** ${options.url}`);
