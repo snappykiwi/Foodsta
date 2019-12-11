@@ -352,26 +352,35 @@ routes.get("/auth0/user/:userId", (req, res) => {
 // Update Auth0 User information
 routes.patch("/auth0/update/:userId", (req, res) => {
 
+    console.log("******************************************")
+
+    console.log(`REQ : ${JSON.stringify(req.body)}`);
+
+    res.json(req.body);
+
     getTokenAuth0().then((tokenDataResponse) => {
 
         const
             { access_token, token_type } = tokenDataResponse,
             { userId } = req.params,
-            datas = JSON.stringify(req.body),
+            user_metadata = req.body,
             options = {
                 method: 'PATCH',
-                url: `${process.env.AUDIENCE_USERS_AUTH0}${userId}`,
+                url: `${process.env.AUDIENCE_USERS_AUTH0}auth0|${userId}`,
                 headers: {
                     'Content-Type': 'application/json',
                     authorization: `${token_type} ${access_token}`
                 },
-                data: datas
+                
+                data: datas = {user_metadata}
             };
 
+        console.log(`************************************** ${options.url}`);
+
         axios(options)
-            .then((results) => res.status(200).json("Ok"))
             .catch((err) => console.log(err));
     });
+
 });
 
 module.exports = routes

@@ -37,6 +37,13 @@ export class ProfileComponent implements OnInit {
     userName: this.auth.userProfileSubject$.value.nickname
   };
 
+  user_metadata : any = {
+    firstName : "",
+    lastName : "",
+    age : "",
+    phone : ""
+  }
+
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
@@ -51,6 +58,16 @@ export class ProfileComponent implements OnInit {
     private profileService: ProfileService
   ) { }
 
+  ngOnInit() {
+
+    this.getUserPosts();
+
+    this.profileService.getUserData(this.currentUserId).subscribe(res => {
+      console.log(`data from auth0 : ${res}`);
+    });
+
+  }
+
   getUserPosts() {
     this.profileService.getUsersPosts(this.currentUserId).subscribe((posts: any[]) => {
       console.log(`posts from user : ${posts}`);
@@ -58,14 +75,10 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-
-
-  ngOnInit() {
-    this.getUserPosts();
-
-    this.profileService.getUserData(this.currentUserId).subscribe(res => {
-      console.log(`data from auth0 : ${res}`);
-    });
+  updateAuthData() {
+    this.profileService.updateUserInfo(this.currentUserId, this.user_metadata).subscribe(res => {
+      console.log(res);
+    })
   }
 
 }
