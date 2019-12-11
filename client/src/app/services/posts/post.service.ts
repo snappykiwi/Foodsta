@@ -22,11 +22,9 @@ const httpOptions = {
 
 export class PostService {
 
-  postURL = 'http://localhost:4200/api/posts/add'; // url for submitting form data
-  getPostURL = 'http://localhost:4200/api/posts'; // url for getting all posts from db
-  getRestPostURL = 'http://localhost:4200/api/posts/restaurant/'; // url for getting posts for specific restaurant
-  getSearchPostURL = 'http://localhost:4200/api/posts/partial/'; // url for getting posts based on user search
-  updateOrDeletePostURL = 'http://localhost:4200/api/posts/'; // url for updating and deleting posts
+  postURL = '/api/posts'; // url for submitting form data
+  getRestPostURL = '/api/posts/restaurant/'; // url for getting posts for specific restaurant
+  getSearchPostURL = '/api/posts/partial/'; // url for getting posts based on user search
 
   constructor(private http: HttpClient,
     private snackBar: MatSnackBar,
@@ -35,7 +33,7 @@ export class PostService {
   public postSource: BehaviorSubject<any> = new BehaviorSubject([]);
 
   getPosts(post?: Post) {
-    return this.http.get(`${this.getPostURL}`);
+    return this.http.get(`${this.postURL}`);
   }
 
   getRestPosts(restaurantId: any) {
@@ -58,14 +56,14 @@ export class PostService {
   }
 
   updatePost(post: Post): Observable<any> {
-    return this.http.put(`${this.updateOrDeletePostURL}${post.id}`, post, httpOptions).pipe(
+    return this.http.put(`${this.postURL}/${post.id}`, post, httpOptions).pipe(
       tap(updatedPost => console.log(`updated post = ${JSON.stringify(updatedPost)}`))
     );
   }
 
   deletePost(postId: number): Observable<Post> {
-    console.log(`${this.updateOrDeletePostURL}${postId}`);
-    return this.http.delete<Post>(`${this.updateOrDeletePostURL}${postId}`, httpOptions).pipe(
+    console.log(`${this.postURL}/${postId}`);
+    return this.http.delete<Post>(`${this.postURL}/${postId}`, httpOptions).pipe(
       tap(_ => console.log(`Deleted post with the id of ${postId}`)),
       catchError(error => of(null))
     );

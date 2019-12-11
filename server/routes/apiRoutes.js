@@ -11,9 +11,44 @@ const
     awsPhotoUpload = require("../awsPhotoUpload"),
     getTokenAuth0 = require('../controllers/getTokenAuth0'),
     placesController = require('../controllers/placesController'),
+    apiHelpers = require('../controllers/apiHelpers'),
     uuid = require('uuid/v4');
 
-routes.post('/posts/add', (req, res) => {
+
+
+routes.get('/posts/:id?', (req, res) => {
+    if (req.params.id) {
+
+        db.Post
+            .findOne({
+                where: {
+                    id: req.params.id
+                }
+            })
+            .then(data => {
+                res.json(data);
+            })
+            .catch(err => {
+                console.log(err);
+                throw err;
+            });
+    } else {
+        db.Post
+            .findAll({
+                order: [['createdAt', 'DESC']]
+            })
+            .then(data => {
+                res.json(data);
+            })
+            .catch(err => {
+                console.log(err);
+                throw err;
+            });
+    };
+});
+
+
+routes.post('/posts', (req, res) => {
     const post = req.body;
     console.log(post);
     db.Post.create({
@@ -28,7 +63,7 @@ routes.post('/posts/add', (req, res) => {
         "vegan": post.vegan,
         "vegetarian": post.vegetarian,
         "restaurantId": post.restaurantId,
-        "restaurantName": post.restaurantName.name
+        "restaurantName": post.restaurantName
     }).then((response) => {
 
         res.json(response);
@@ -36,7 +71,7 @@ routes.post('/posts/add', (req, res) => {
         GET
         console.log(err);
         throw err;
-    })
+    });
 });
 
 routes.put('/posts/:id', (req, res) => {
@@ -59,86 +94,13 @@ routes.put('/posts/:id', (req, res) => {
         //     .then((updatedPost) => {
         //         res.json(updatedPost);
         //     })
-    }).then((response) => res.json(response));
-})
-
-routes.get('/posts/:id?', (req, res) => {
-    if (req.params.id) {
-
-        db.Post
-            .findAll({
-                where: {
-                    id: req.params.id
-                }
-            })
-            .then(data => {
-                res.json(data);
-            })
-            .catch(err => {
-                console.log(err);
-                throw err;
-            });
-    } else {
-        db.Post
-            .findAll({})
-            .then(data => {
-                res.json(data);
-            })
-            .catch(err => {
-                console.log(err);
-                throw err;
-            });
-    }
-})
-
-routes.get('/posts/user/:id', (req, res) => {
-    db.Post
-        .findAll({
-            where: {
-                userId: req.params.id
-            }
-        })
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((err) => {
-            console.log(err);
-            throw err;
-        });
-})
-
-routes.get('/posts/partial/:searchString', (req, res) => {
-    console.log(req.params.searchString);
-    let searchString = req.params.searchString.toLowerCase().trim();
-    db.Post
-        .findAll({
-            where: {
-
-                [Op.or]: [
-                    {
-                        title: {
-                            [Op.like]: `%${searchString}%`
-                        }
-                    }, {
-                        cuisine: {
-                            [Op.like]: `%${searchString}%`
-                        }
-                    }, {
-                        restaurantName: {
-                            [Op.like]: `%${searchString}%`
-                        }
-                    }
-                ]
-            }
-        })
-        .then(data => {
-            res.json(data);
-        })
+    }).then((response) => res.json(response))
         .catch(err => {
             console.log(err);
             throw err;
         });
-})
+});
+
 
 routes.delete('/posts/:id', (req, res) => {
     db.Post
@@ -159,139 +121,146 @@ routes.delete('/posts/:id', (req, res) => {
         .catch(err => {
             console.log(err);
             throw err;
-        })
-})
+        });
+});
 
-//Getting all the post by userId, restaurantId, gluttenFree, vegan, vegetarian
-routes.get('/posts/searchby/userid/:userId?/restaurant/:restaurantId?/gf/:gf?/vegan/:vegan?/vegetarian/:vegetarian?', (req, res) => {
+
+routes.get('/posts/user/:id', (req, res) => {
+    db.Post
+        .findAll({
+            where: {
+                userId: req.params.id
+            },
+            order: [['createdAt', 'DESC']]
+        })
+        .then((data) => {
+            res.json(data);
+        })
+        .catch((err) => {
+            console.log(err);
+            throw err;
+        });
+});
+
+
+routes.get('/posts/restaurant/:RestaurantId', (req, res) => {
 
     const
-        searchby = req.params,
-        parameters = Object.keys(searchby);
+        { RestaurantId } = req.params,
+        queryParameters = Object.keys(req.query),
+        queryParam = queryParameters[0],
+        queryValue = req.query[queryParameters],
+        orderBy = apiHelpers.sequelizeOrderBy(queryParam, queryValue);
 
+    let sortParametersArray = [];
+
+    (orderBy) && sortParametersArray.push(orderBy)
+
+    db.Post
+        .findAll({
+            where: {
+                restaurantId: RestaurantId
+            },
+            order: sortParametersArray.length ? sortParametersArray : [['createdAt', 'DESC']]
+        })
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            console.log(err);
+            throw err;
+        });
+});
+
+routes.get('/posts/partial/:searchString', (req, res) => {
+
+    let sortParametersArray = [];
+    const
+        searchString = req.params.searchString.toLowerCase().trim(),
+        queryParameters = Object.keys(req.query);
+
+    queryParameters.forEach((param) => {
+
+        const orderBy = apiHelpers.sequelizeOrderBy(param, req.query[param]);
+
+        (orderBy) && sortParametersArray.push(orderBy)
+    })
+
+    db.Post
+        .findAll({
+            where: {
+
+                [Op.or]: [
+                    {
+                        title: {
+                            [Op.like]: `%${searchString}%`
+                        }
+                    }, {
+                        cuisine: {
+                            [Op.like]: `%${searchString}%`
+                        }
+                    }, {
+                        restaurantName: {
+                            [Op.like]: `%${searchString}%`
+                        }
+                    }
+                ]
+            },
+            order: sortParametersArray.length ? sortParametersArray : [['createdAt', 'DESC']]
+        })
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            console.log(err);
+            throw err;
+        });
+});
+
+
+//Getting all the post by restaurantId, gluttenFree, vegan, vegetarian
+routes.get('/posts/searchby/v2/', (req, res) => {
+
+    const queryParameters = Object.keys(req.query);
     let paramatersArray = [];
+    let sortParametersArray = [];
 
-    parameters.forEach((param) => {
+    queryParameters.forEach((param) => {
 
-        if (searchby[param] !== undefined) paramatersArray.push(
-            {
-                [param]: searchby[param]
-            }
-        )
+        switch (param) {
+            case 'restaurantId':
+            case 'gf':
+            case 'vegan':
+            case 'vegetarian':
+                if (req.query[param] !== undefined) paramatersArray.push(
+                    {
+                        [param]: req.query[param]
+                    }
+                )
+                return
+        }
+
+        const orderBy = apiHelpers.sequelizeOrderBy(param, req.query[param]);
+
+        (orderBy) && sortParametersArray.push(orderBy)
     })
 
     db.Post
         .findAll({
             where: {
                 [Op.or]: paramatersArray
-            }
+            },
+            order: sortParametersArray.length ? sortParametersArray : [['createdAt', 'DESC']]
         })
-        .then(data => {
-            res.json(data);
-            console.log("data", data);
-        })
+        .then(data => res.json(data))
         .catch(err => {
             console.log(err);
             throw err;
         });
 });
 
-routes.get('/posts/restaurant/:RestaurantId', (req, res) => {
-    const { RestaurantId } = req.params;
-    console.log(RestaurantId);
-
-    db.Post
-        .findAll({
-            where: {
-                restaurantId: RestaurantId
-            }
-        })
-        .then(data => {
-            res.json(data);
-        })
-        .catch(err => {
-            console.log(err);
-            throw err;
-        });
-});
-
-// routes.get('/restaurants', (req, res) => {
-//     db.Restaurant
-//         .findAll({})
-//         .then(data => {
-//             res.json(data);
-//         })
-//         .catch(err => {
-//             console.log(err);
-//             throw err;
-//         })
-// })
 
 /* GOOGLE SEARCH */
-
-// routes.get('/google/place/:searchInput?/:radius?', (req, res) => {
-
-//     const
-//         googleApiKey = process.env.GOOGLE_API_KEY,
-//         searchInput = req.query.searchInput || "restaurant",
-//         radius = req.query.radius || 20;
-
-//     // why is it req.query and not req.params???????????????????
-//     // console.log(searchInput);
-//     // console.log(req.query.searchInput);
-
-//     // when page first load 
-//     /* 
-//     - check session storage for an existing array of nearby restaurant
-//     - if have something in the session we pull from it otherwise we make a api call
-//     - when listing the restaurant we only display the minimum information that comes with the first call
-//     - if a user click on a specific restaurant save that call in an object store placeid as a key name in the restauranDetailsObject 
-//     in the session storage
-//     - In developement we can save them into localstorage (If NODE_ENV=="production" then save the results into session storage otherwise
-//     save in localstorage )
-
-//     */
-//     axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchInput}&radius=${radius}&key=${googleApiKey}`)
-//         .then((response) => {
-
-//             const datas = response.data.results;
-
-//             return Promise.resolve(datas);
-
-//         }).then((results) => {
-//             return Promise.all(results.map((el) => {
-//                 return axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${el.place_id}&key=${googleApiKey}`)
-//                     .catch(err => err)
-//             }))
-//         }).then((resData) => {
-//             const resDetails = resData.map((restaurant) => {
-//                 const restData = restaurant.data.result;
-//                 const weekday = restData.opening_hours;
-//                 if (typeof weekday !== 'undefined') {
-
-//                     return {
-//                         name: restData.name !== undefined ? restData.name : "N/A",
-//                         address: restData.formatted_address !== undefined ? restData.formatted_address : "N/A",
-//                         phoneNumber: restData.formatted_phone_number !== undefined ? restData.formatted_phone_number : "N/A",
-//                         openingHour: restData.opening_hours.weekday_text !== undefined ? restData.opening_hours.weekday_text : "N/A",
-//                         priceLevel: restData.price_level !== undefined ? restData.price_level : 0,
-//                         websiteUrl: restData.website !== undefined ? restData.website : "N/A",
-//                         id: restData.place_id,
-//                         openNow: restData.opening_hours.open_now !== undefined ? restData.opening_hours.open_now : null,
-//                         types: restData.types !== undefined ? restData.types : [],
-//                         mapUrl: restData.url !== undefined ? restData.url : "",
-//                         latitude: restData.geometry !== undefined ? restData.geometry.location.lat : "",
-//                         longitude: restData.geometry !== undefined ? restData.geometry.location.lng : ""
-//                     }
-
-//                 }
-//             })
-//             const filteredRestaurants = resDetails.filter((restaurant) => {
-//                 return (restaurant !== undefined) && restaurant.types.includes('restaurant')
-//             });
-//             res.json(filteredRestaurants);
-//         }).catch(err => console.log(err))
-// });
 
 routes.get("/google/place/v2/:searchInput?/:radius?", (req, res) => {
 
@@ -302,26 +271,19 @@ routes.get("/google/place/v2/:searchInput?/:radius?", (req, res) => {
     console.log("called restaurant api call");
     placesController
         .getNearByRestaurants(searchInput, radius, googleApiKey)
-        .then((restaurantsNearby) => {
-            console.log(`restaurants to send: ${restaurantsNearby}`);
-            res.status(200).json(restaurantsNearby)
-        })
+        .then((restaurantsNearby) => res.status(200).json(restaurantsNearby))
         .catch((error) => res.sendStatus(500))
-
 });
 
 routes.get("/google/place/restaurantdetails/:id", (req, res) => {
 
-    const { id } = req.params;
-    console.log(id);
-    const googleApiKey = process.env.GOOGLE_API_KEY;
+    const
+        { id } = req.params,
+        googleApiKey = process.env.GOOGLE_API_KEY;
 
     placesController
         .getDetailsRestaurant(id, googleApiKey)
-        .then((restaurantDetails) => {
-            console.log(`detailed restaurants: ${restaurantDetails}`);
-            res.status(200).json(restaurantDetails)
-        })
+        .then((restaurantDetails) => res.status(200).json(restaurantDetails))
         .catch((error) => res.sendStatus(404))
 
 });
@@ -342,12 +304,18 @@ routes.get("/google/place/autocomplete/:searchInput/:radius?", (req, res) => {
     const
         { searchInput } = req.params,
         googleApiKey = process.env.GOOGLE_API_KEY,
-        radius = req.params.radius || 5,
+        radius = req.params.radius || 100,
         sessionToken = uuid();
+
+    console.log(searchInput)
 
     placesController
         .autoComplete(searchInput, radius, googleApiKey, sessionToken)
-        .then((results) => res.status(200).json(results))
+        .then((results) => {
+            console.log("*********************************************");
+            console.log(`restaurant autocomplete: ${JSON.stringify(results)}`);
+            res.status(200).json(results)
+        })
         .catch((error) => res.status(error.statusCode).json(error))
 });
 
@@ -364,14 +332,19 @@ routes.get("/auth0/user/:userId", (req, res) => {
             { access_token, token_type } = tokenDataResponse,
             { userId } = req.params,
             options = {
-                url: `${process.env.AUDIENCE_USERS_AUTH0}${userId}`,
+                url: `${process.env.AUDIENCE_USERS_AUTH0}auth0|${userId}`,
                 headers: {
                     authorization: `${token_type} ${access_token}`
                 }
             };
+        console.log(`Auth Data : ${options.url}`);
 
         axios(options)
-            .then((response) => res.json(response.data))
+            .then((response) => {
+                console.log(`Auth User Data : ${JSON.stringify(response.data)}`);
+                res.json(JSON.stringify(response.data));
+            })
+
             .catch((err) => console.log(err));
     });
 });

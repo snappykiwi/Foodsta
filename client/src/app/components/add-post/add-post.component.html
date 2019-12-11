@@ -6,17 +6,21 @@
 
       <div>
 
+        <h3 class="mb-4 mt-2">Add Your Pic</h3>
+
         <!-- <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput [(ngModel)]="post.image"> -->
 
         <input style="display: none" (change)="onImagePicked($event)" #fileInput type="file" accept='image/*' />
-        <button mat-button (click)="fileInput.click()">Select File</button>
+
+        <button *ngIf="!imageObj; else imagePicked" mat-button (click)="fileInput.click()">Choose Picture</button>
+        <ng-template #imagePicked><button mat-button (click)="fileInput.click()">Change Picture</button></ng-template>
 
         <div *ngIf="imageObj">
           <br />
-          <img width="200px" src="{{imgURL}}" />
+          <img [ngClass]="{'dark': isDarkTheme | async}" class="imagePreview" width="200px" src="{{imgURL}}" />
         </div>
 
-        <div>
+        <div *ngIf="imageObj">
           <button mat-button matStepperNext type="button">Next</button>
         </div>
 
@@ -28,27 +32,29 @@
 
       <div>
 
+        <h3 class="mb-4 mt-2">Tell Us About Your Meal</h3>
+
         <div>
           <div class="row">
 
-            <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
+            <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3 mt-2">
               <input [(ngModel)]="post.title" matInput required placeholder="Name of Meal">
             </mat-form-field>
 
           </div>
 
-
           <div class="row">
 
             <mat-form-field class="col col-sm-12 col-md-6 offset-md-3">
-              <input [(ngModel)]="post.restaurantName" #location (input)="search(location.value)" matInput required
+              <input [(ngModel)]="restaurantName$" #location (input)="search(location.value)" matInput required
                 placeholder="Restaurant" [matAutocomplete]="auto">
             </mat-form-field>
 
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)='getInfo($event.option.value)'
               [displayWith]="getRestaurantName">
-              <mat-option *ngFor="let restaurant of restaurants$ | async" id="{{restaurant.id}}" [value]="restaurant">
-                {{restaurant.name}}</mat-option>
+              <mat-option *ngFor="let restaurant of restaurants$ | async" id="{{restaurant.place_id}}"
+                [value]="restaurant">
+                {{restaurant.description}}</mat-option>
             </mat-autocomplete>
 
           </div>
@@ -68,18 +74,6 @@
             <input [(ngModel)]="post.cuisine" matInput required placeholder="Cuisine">
           </mat-form-field>
 
-          <!-- <h4>Category</h4> -->
-          <mat-form-field>
-            <!-- <mat-label>Food</mat-label>
-          <mat-select [(ngModel)]="post.category" matInput required>
-            <mat-option>None</mat-option>
-            <mat-option required *ngFor="let food of foods" [value]="food.value">
-              {{food.viewValue}}
-            </mat-option>
-          </mat-select> -->
-            <input [(ngModel)]="post.category" matInput required placeholder="Category">
-          </mat-form-field>
-
           <h4>Dietary Info</h4>
           <div class="mt-4 mb-3">
             <mat-checkbox class="mr-3" matInput [(ngModel)]="post.gf">GF</mat-checkbox>
@@ -89,7 +83,8 @@
         </div>
 
         <button mat-button matStepperPrevious type="button">Back</button>
-        <button mat-button matStepperNext type="button">Next</button>
+        <button *ngIf="post.title && post.restaurantName && post.cuisine" mat-button matStepperNext
+          type="button">Next</button>
 
       </div>
 
@@ -99,25 +94,24 @@
 
       <div>
 
-        <mat-label>How was your meal?</mat-label>
-        <!-- <mat-slider [(ngModel)]="post.rating" class="rating" color="primary" thumbLabel tickInterval="1" step="0.5" max="5"></mat-slider> -->
-        <!-- left in slider & star rating for your preference -->
-        <!-- <app-rating></app-rating> -->
+        <h3>How Was It?</h3>
+
         <div class="mt-4">
-          <ngb-rating [(ngModel)]="post.rating" (hover)="hovered=$event" (leave)="hovered=0" [readonly]="readonly">
+          <ngb-rating required [(ngModel)]="post.rating" (hover)="hovered=$event" (leave)="hovered=0"
+            [readonly]="readonly">
           </ngb-rating>
         </div>
 
-        <div class="mt-2">
+        <div class="col col-sm-12 col-md-8 offset-md-2 mt-4">
           <mat-form-field>
-            <textarea [(ngModel)]="post.caption" matInput placeholder="Comments" cdkTextareaAutosize
-              cdkAutosizeMinRows="1"></textarea>
+            <textarea class="col col-sm-12 " [(ngModel)]="post.caption" matInput placeholder="Comments"
+              cdkTextareaAutosize cdkAutosizeMinRows="1"></textarea>
           </mat-form-field>
         </div>
 
         <div>
           <button mat-button matStepperPrevious type="button">Back</button>
-          <button mat-button matStepperNext type="button">Next</button>
+          <button *ngIf="post.rating" mat-button matStepperNext type="button">Next</button>
         </div>
 
       </div>
@@ -128,21 +122,37 @@
 
       <h2>Post Review</h2>
       <br />
-      <img *ngIf="imageObj" width="200px" src="{{imgURL}}" />
-      <p> Name of Meal : {{ post.title }} </p>
-      <p> Type of Meal : {{ post.cuisine }} </p>
-      <p> Category : {{ post.category }} </p>
-      <p> Rating : {{ post.rating }} </p>
-      <p> Restaurant : {{ post.restaurantName.name }} </p>
-      <pre *ngIf="auth.userProfile$ | async as profile">
-        <p> {{ profile.sub }} </p>
-    </pre>
 
-      <div>
+      <div *ngIf="imageObj" [ngClass]="{'dark': isDarkTheme | async}" class="postReview light">
+
+        <img class="postReviewItem" *ngIf="imageObj" width="200px" src="{{imgURL}}" /> <br />
+        <h4 *ngIf="post.title" class="postReviewMeal postReviewItem"> {{ post.title }} </h4>
+        <ngb-rating *ngIf="post.rating" class="mb-5" [(rate)]="post.rating" [readonly]="readonlyReview"></ngb-rating>
+        <p *ngIf="post.caption" class="postReviewItem"> <span class="postReviewTitle">Comments - </span>
+          {{ post.caption }} </p>
+        <p *ngIf="post.restaurantName" class="postReviewItem"> <span class="postReviewTitle">Restaurant - </span>
+          {{ post.restaurantName }} </p>
+        <p *ngIf="post.cuisine" class="postReviewItem"> <span class="postReviewTitle">Cuisine - </span>
+          {{ post.cuisine }} </p>
+        <img class="dietInfo" *ngIf="post.gf" src="../../../assets/images/gluten-free.png">
+        <img class="dietInfo" *ngIf="post.vegan" src="../../../assets/images/vegan.png">
+        <img class="dietInfo" *ngIf="post.vegetarian" src="../../../assets/images/vegetarian.png">
+
+      </div>
+      <!-- <pre *ngIf="auth.userProfile$ | async as profile">
+        <p> {{ profile.sub }} </p>
+    </pre> -->
+
+      <div class="submitButtons">
+
+        <ng-template #infoMissing>
+          <p class="missingInfo">Oops. It looks like some required info is still missing. Please make sure you have an
+            image, title, restaurant, cuisine type, and rating for your post</p>
+        </ng-template>
+
         <button mat-button matStepperPrevious type="button">Back</button>
-        <button mat-button (click)="onImageUpload()">Upload!</button>
-        <!-- test button below -->
-        <!-- <button mat-button (click)="savePhoto()">Submit Post Data!</button> -->
+        <button *ngIf="imageObj && post.title && post.rating && post.restaurantName && post.cuisine; else infoMissing"
+          mat-button (click)="onImageUpload()">Looks Good!</button>
       </div>
 
     </mat-step>

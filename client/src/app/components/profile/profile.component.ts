@@ -5,6 +5,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { AuthService } from '../../auth.service';
 import { PhotoContainerComponent } from '../photo-container/photo-container.component';
 import { PostService } from 'src/app/services/posts/post.service';
+import { ProfileService } from '../../services/profile/profile.service';
 import { Post } from 'src/app/models/Post';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -17,6 +18,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 export class ProfileComponent implements OnInit {
 
   posts: any[] = [];
+  currentUserId = this.auth.userProfileSubject$.value.sub;
 
   // sets 'post' to the Post model to access/set it's properties
   post: Post = {
@@ -25,14 +27,14 @@ export class ProfileComponent implements OnInit {
     title: "",
     caption: "",
     cuisine: "",
-    category: "",
     gf: false,
     vegan: false,
     vegetarian: false,
     rating: 0,
-    restaurantName: {},
+    restaurantName: "",
     restaurantId: "",
-    userId: this.auth.userProfileSubject$.value.sub
+    userId: this.currentUserId,
+    userName: this.auth.userProfileSubject$.value.nickname
   };
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -45,9 +47,25 @@ export class ProfileComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     public auth: AuthService,
     public dialog: MatDialog,
-    private postService: PostService
+    private postService: PostService,
+    private profileService: ProfileService
   ) { }
 
-  ngOnInit() { }
+  getUserPosts() {
+    this.profileService.getUsersPosts(this.currentUserId).subscribe((posts: any[]) => {
+      console.log(`posts from user : ${posts}`);
+      this.posts = posts;
+    });
+  }
+
+
+
+  ngOnInit() {
+    this.getUserPosts();
+
+    this.profileService.getUserData(this.currentUserId).subscribe(res => {
+      console.log(`data from auth0 : ${res}`);
+    });
+  }
 
 }

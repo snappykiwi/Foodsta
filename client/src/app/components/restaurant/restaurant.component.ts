@@ -19,8 +19,8 @@ export class RestaurantComponent implements OnInit {
 
   @Input() restaurant: Restaurant
 
-  restaurantId: string = null
-  currentRestaurant: Restaurant
+  restaurantId: string = null;
+  currentRestaurant: Restaurant;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,24 +28,53 @@ export class RestaurantComponent implements OnInit {
     private searchService: SearchService,
     private postService: PostService) { }
 
+
+  getRestPosts(restaurantId) {
+
+    this.postService.getRestPosts(restaurantId).subscribe((posts: any[]) => {
+      this.posts = posts;
+      console.log(this.posts);
+    });
+
+  };
+
+
   setRestaurantPgInfo() {
+
     this.searchService.currentRestaurantSource.subscribe(restaurant => {
       console.log(restaurant);
 
       this.currentRestaurant = restaurant;
 
-      this.postService.getRestPosts(this.searchService.currentRestaurantId.value).subscribe((posts: any[]) => {
-        this.posts = posts;
-      });
+      this.getRestPosts(this.searchService.currentRestaurantId.value);
 
     });
-  }
+  };
+
+
+  setCurrentRestaurant(currentRestaurantId) {
+
+    if (currentRestaurantId !== this.searchService.currentRestaurantId) {
+
+      this.searchService.getRestaurantDetails(currentRestaurantId).subscribe(currentRestaurant => {
+
+        this.searchService.currentRestaurantSource.next(currentRestaurant);
+
+      });
+
+      this.searchService.currentRestaurantId.next(currentRestaurantId);
+    };
+
+  };
+
 
   ngOnInit() {
+
     this.route.params.forEach((urlParameters) => {
       this.restaurantId = urlParameters['id'];
     });
 
+    this.setCurrentRestaurant(this.restaurantId);
     this.setRestaurantPgInfo();
   }
 
