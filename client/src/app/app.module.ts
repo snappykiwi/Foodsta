@@ -26,6 +26,7 @@ import { ListComponent } from './components/list/list.component';
 import { RestaurantComponent } from './components/restaurant/restaurant.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { NotFoundComponent } from './components/notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
     ListComponent,
     RestaurantComponent,
     ModalComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
