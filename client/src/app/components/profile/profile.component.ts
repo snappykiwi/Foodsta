@@ -101,17 +101,20 @@ export class ProfileComponent implements OnInit {
   };
 
   onImageUpload() {
-    const imageForm = new FormData();
-    imageForm.append('picture', this.imageObj);
+    if (this.imageObj) {
 
-    this.uploadService.imageUpload(imageForm).subscribe(res => {
+      const imageForm = new FormData();
+      imageForm.append('picture', this.imageObj);
 
-      this.user_data.picture = res['Location'];
-      console.log(this.user_data.picture);
+      this.uploadService.imageUpload(imageForm).subscribe(res => {
 
-      this.updateAuthData()
+        this.user_data.picture = res['Location'];
+        console.log(this.user_data.picture);
 
-    });
+      });
+    }
+    this.updateAuthData()
+
   };
 
   setUserData() {

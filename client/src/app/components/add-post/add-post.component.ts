@@ -43,7 +43,7 @@ export class AddPostComponent implements OnInit {
     rating: 0,
     restaurantName: "",
     restaurantId: "",
-    userId: this.auth.userProfileSubject$.value.sub.slice(6),
+    userId: this.auth.userProfileSubject$.value.sub,
     userName: this.auth.userProfileSubject$.value.given_name || this.auth.userProfileSubject$.value.nickname
   };
 
