@@ -75,12 +75,7 @@ export class ProfileComponent implements OnInit {
     this.getUserPosts();
 
     this.profileService.getUserData(this.currentUserId).subscribe(res => {
-      console.log(`data from auth0 : ${JSON.stringify(res)}`);
-      // console.log(res.firstName);
-      this.user_data.user_metadata.res.firstName;
-      this.user_data.user_metadata.res.lastName;
-      this.user_data.user_metadata.res.age;
-      this.user_data.user_metadata.res.phone;
+      console.log(`data from auth0 : ${res}`);
     });
 
   }
@@ -115,12 +110,10 @@ export class ProfileComponent implements OnInit {
 
     this.uploadService.imageUpload(imageForm).subscribe(res => {
 
-      this.post.image = res['Location'];
-      console.log(this.post.image);
+      this.user_data.picture = res['Location'];
+      console.log(this.user_data.picture);
 
-      if (this.post.image) {
-        // this.savePhoto();
-      }
+      this.updateAuthData()
 
     });
   }
