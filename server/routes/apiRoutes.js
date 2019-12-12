@@ -367,7 +367,7 @@ routes.patch("/auth0/update/:userId", (req, res) => {
             user_data = req.body,
             options = {
                 method: 'PATCH',
-                url: `${process.env.AUDIENCE_USERS_AUTH0}auth0|${userId}`,
+                url: `${process.env.AUDIENCE_USERS_AUTH0}${userId}`,
                 headers: {
                     'Content-Type': 'application/json',
                     authorization: `${token_type} ${access_token}`
