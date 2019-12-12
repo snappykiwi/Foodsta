@@ -143,10 +143,10 @@ routes.get('/posts/user/:id', (req, res) => {
 });
 
 
-routes.get('/posts/restaurant/:RestaurantId', (req, res) => {
+routes.get('/posts/restaurant/:restaurantId', (req, res) => {
 
     const
-        { RestaurantId } = req.params,
+        { restaurantId } = req.params,
         queryParameters = Object.keys(req.query),
         queryParam = queryParameters[0],
         queryValue = req.query[queryParameters],
@@ -159,7 +159,7 @@ routes.get('/posts/restaurant/:RestaurantId', (req, res) => {
     db.Post
         .findAll({
             where: {
-                restaurantId: RestaurantId
+                restaurantId: restaurantId
             },
             order: sortParametersArray.length ? sortParametersArray : [['createdAt', 'DESC']]
         })

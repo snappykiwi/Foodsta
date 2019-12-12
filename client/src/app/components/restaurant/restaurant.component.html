@@ -9,9 +9,10 @@
     <div class="row mt-3">
 
       <div class="col col-sm-12 col-md-6">
-        <a target="_blank" href="{{this.currentRestaurant.mapUrl}}">{{this.currentRestaurant.address}}</a>
+        <a [ngClass]="{'dark': isDarkTheme | async}" target="_blank"
+          href="{{this.currentRestaurant.mapUrl}}">{{this.currentRestaurant.address}}</a>
         <p>{{this.currentRestaurant.phoneNumber}}</p>
-        <a *ngIf="this.currentRestaurant.websiteUrl !== 'N/A'" target="_blank"
+        <a [ngClass]="{'dark': isDarkTheme | async}" *ngIf="this.currentRestaurant.websiteUrl !== 'N/A'" target="_blank"
           href="{{this.currentRestaurant.websiteUrl}}">View Website</a>
       </div>
 
@@ -34,7 +35,7 @@
       <div class="col col-sm-12">
         <div [ngbCollapse]="hoursCollapsed">
           <div class="card">
-            <div class="card-body">
+            <div [ngClass]="{'dark': isDarkTheme | async}" class="card-body">
               <p *ngFor="let hours of this.currentRestaurant.openingHour">{{hours}}</p>
             </div>
           </div>

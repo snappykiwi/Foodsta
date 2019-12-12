@@ -5,6 +5,8 @@ import { Restaurant } from '../../models/Restaurant';
 import { SearchService } from 'src/app/services/searches/search.service';
 import { PostService } from 'src/app/services/posts/post.service';
 import { PhotoContainerComponent } from '../photo-container/photo-container.component'
+import { Observable } from 'rxjs';
+import { ThemeService } from 'src/app/services/themes/theme.service';
 
 @Component({
   selector: 'app-restaurant',
@@ -17,6 +19,8 @@ export class RestaurantComponent implements OnInit {
 
   public hoursCollapsed = true;
 
+  isDarkTheme: Observable<boolean>
+
   @Input() restaurant: Restaurant
 
   restaurantId: string = null;
@@ -26,7 +30,8 @@ export class RestaurantComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private searchService: SearchService,
-    private postService: PostService) { }
+    private postService: PostService,
+    private themeService: ThemeService) { }
 
 
   getRestPosts(restaurantId) {
@@ -69,6 +74,8 @@ export class RestaurantComponent implements OnInit {
 
 
   ngOnInit() {
+
+    this.isDarkTheme = this.themeService.isDarkTheme;
 
     this.route.params.forEach((urlParameters) => {
       this.restaurantId = urlParameters['id'];
