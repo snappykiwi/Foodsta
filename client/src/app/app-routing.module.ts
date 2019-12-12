@@ -9,6 +9,7 @@ import { RestaurantComponent } from './components/restaurant/restaurant.componen
 import { ProfileResolver } from './services/profile-resolver/profile-resolver.service';
 import { ProfileService } from './services/profile/profile.service';
 
+import { NotFoundComponent } from './components/notfound/notfound.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -23,7 +24,9 @@ const routes: Routes = [
   },
   { path: 'home', component: BrowseComponent },
   { path: 'add-post', component: AddPostComponent, canActivate: [AuthGuard] },
-  { path: 'restaurant/:id', component: RestaurantComponent }
+  { path: 'restaurant/:id', component: RestaurantComponent },
+  { path: '404', component: NotFoundComponent },
+  { path: '**', redirectTo: '/404' }
 ];
 
 @NgModule({

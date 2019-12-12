@@ -27,6 +27,7 @@ import { RestaurantComponent } from './components/restaurant/restaurant.componen
 import { ModalComponent } from './components/modal/modal.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ProfileResolver } from './services/profile-resolver/profile-resolver.service';
+import { NotFoundComponent } from './components/notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ProfileResolver } from './services/profile-resolver/profile-resolver.se
     ListComponent,
     RestaurantComponent,
     ModalComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

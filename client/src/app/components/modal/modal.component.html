@@ -41,7 +41,7 @@
   </div>
 
   <div class="modalAction mt-5">
-    <button class="deleteBtn" mat-button (click)="deletePost(post.id)">Delete Post</button>
+    <button class="deleteBtn" mat-button [mat-dialog-close]="" (click)="deletePost(post.id)">Delete Post</button>
   </div>
 
 </div>

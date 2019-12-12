@@ -27,34 +27,40 @@
       <br>
       <button mat-stroked-button class="float-left mt-5">Edit Profile</button>
 
+      <input style="display: none" (change)="onImagePicked($event)" #fileInput type="file" accept='image/*' />
+    
+      <button *ngIf="!imageObj; else imagePicked" mat-button (click)="fileInput.click()">Choose Picture</button>
+      <ng-template #imagePicked><button mat-button (click)="fileInput.click()">Change Picture</button></ng-template>
     </div>
     <br>
-    <code>{{ profile | json }}</code>
-    <p> {{ profile.sub | json }} </p>
+    <!-- <code>{{ profile | json }}</code>
+    <p> {{ profile.nickname | json }} </p> -->
   </div>
   <div class="row">
 
+
     <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
-      <input matInput required placeholder="Enter your first name">
+      <input matInput [(ngModel)]="user_data.nickname" required placeholder="Enter your nickname">
     </mat-form-field>
 
     <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
-      <input matInput required placeholder="Enter your last name">
+      <input matInput [(ngModel)]="user_data.user_metadata.firstName" required placeholder="Enter your first name">
     </mat-form-field>
 
     <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
-      <input matInput required placeholder="Enter your age">
+      <input matInput [(ngModel)]="user_data.user_metadata.lastName" required placeholder="Enter your last name">
     </mat-form-field>
 
     <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
-      <input matInput required placeholder="Enter your phone number">
+      <input matInput [(ngModel)]="user_data.user_metadata.age" required placeholder="Enter your age">
     </mat-form-field>
 
     <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
-      <input matInput required placeholder="Enter your email address">
+      <input matInput [(ngModel)]="user_data.user_metadata.phone" required placeholder="Enter your phone number">
     </mat-form-field>
-
+    
   </div>
+  <button mat-button type="button" (click)="onImageUpload()">Update</button>
   <hr />
 
   <mat-divider></mat-divider>
