@@ -332,7 +332,7 @@ routes.get("/auth0/user/:userId", (req, res) => {
             { access_token, token_type } = tokenDataResponse,
             { userId } = req.params,
             options = {
-                url: `${process.env.AUDIENCE_USERS_AUTH0}auth0|${userId}`,
+                url: `${process.env.AUDIENCE_USERS_AUTH0}${userId}`,
                 headers: {
                     authorization: `${token_type} ${access_token}`
                 }
@@ -372,7 +372,7 @@ routes.patch("/auth0/update/:userId", (req, res) => {
                     'Content-Type': 'application/json',
                     authorization: `${token_type} ${access_token}`
                 },
-                
+
                 data: datas = user_data
             };
 
