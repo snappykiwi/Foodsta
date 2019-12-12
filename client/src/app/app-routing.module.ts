@@ -6,14 +6,24 @@ import { AuthGuard } from './auth.guard';
 import { BrowseComponent } from './components/browse/browse.component';
 import { AddPostComponent } from './components/add-post/add-post.component';
 import { RestaurantComponent } from './components/restaurant/restaurant.component';
+import { ProfileResolver } from './services/profile-resolver/profile-resolver.service';
+import { ProfileService } from './services/profile/profile.service';
+
 import { NotFoundComponent } from './components/notfound/notfound.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [AuthGuard],
+    resolve: {
+      token: ProfileResolver
+    }
+  },
   { path: 'home', component: BrowseComponent },
-  { path: 'add-post', component: AddPostComponent },
+  { path: 'add-post', component: AddPostComponent, canActivate: [AuthGuard] },
   { path: 'restaurant/:id', component: RestaurantComponent },
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '/404' }
@@ -21,6 +31,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [ProfileResolver]
 })
 export class AppRoutingModule { }

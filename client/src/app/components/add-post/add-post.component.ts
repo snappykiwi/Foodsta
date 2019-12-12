@@ -43,8 +43,8 @@ export class AddPostComponent implements OnInit {
     rating: 0,
     restaurantName: "",
     restaurantId: "",
-    userId: this.auth.userProfileSubject$.value.sub.slice(6),
-    userName: this.auth.userProfileSubject$.value.nickname
+    userId: this.auth.userProfileSubject$.value.sub,
+    userName: this.auth.userProfileSubject$.value.given_name || this.auth.userProfileSubject$.value.nickname
   };
 
   image = "";
@@ -52,7 +52,8 @@ export class AddPostComponent implements OnInit {
   imgURL: any;
 
   // code for location search 
-  restaurants$: any;
+  restaurantsSubject$ = new BehaviorSubject<object>({});
+  restaurants$ = this.restaurantsSubject$.asObservable();
   private searchTerms = new Subject<string>();
   private restaurantName = new BehaviorSubject<string>("");
 
@@ -77,7 +78,7 @@ export class AddPostComponent implements OnInit {
       this.searchTerms.next(term);
       console.log(this.restaurants$);
     }
-  }
+  };
 
   ngOnInit(): void {
 
@@ -95,7 +96,7 @@ export class AddPostComponent implements OnInit {
 
     this.isDarkTheme = this.themeService.isDarkTheme;
 
-  }
+  };
 
   getInfo(optionInfo) {
     this.post.restaurantId = optionInfo.place_id;
@@ -109,21 +110,21 @@ export class AddPostComponent implements OnInit {
     // this.http.get(`${url}`).subscribe(posts => {
     //     this.posts = [...posts];
     // });
-  }
+  };
 
   getRestaurantName(option) {
     return option.description
-  }
+  };
 
   getPosts() {
     this.postService.getPosts(this.post);
-  }
+  };
 
   savePhoto() {
     console.log(this.post);
     this.postService.savePost(this.post);
     this.router.navigate(['home']);
-  }
+  };
 
   onImagePicked(event: Event): void {
     const FILE = (event.target as HTMLInputElement).files[0];
@@ -133,8 +134,8 @@ export class AddPostComponent implements OnInit {
     reader.readAsDataURL(this.imageObj);
     reader.onload = (_event) => {
       this.imgURL = reader.result;
-    }
-  }
+    };
+  };
 
   onImageUpload() {
     const imageForm = new FormData();
