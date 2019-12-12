@@ -26,6 +26,7 @@ import { ListComponent } from './components/list/list.component';
 import { RestaurantComponent } from './components/restaurant/restaurant.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { ProfileResolver } from './services/profile-resolver/profile-resolver.service';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
   providers: [
     PostService,
     SearchService,
+    ProfileResolver,
     { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: MatDialogRef, useValue: {} }
   ],

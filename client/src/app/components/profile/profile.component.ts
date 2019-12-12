@@ -8,6 +8,8 @@ import { PostService } from 'src/app/services/posts/post.service';
 import { ProfileService } from '../../services/profile/profile.service';
 import { Post } from 'src/app/models/Post';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-profile',
@@ -18,7 +20,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 export class ProfileComponent implements OnInit {
 
   posts: any[] = [];
-  currentUserId = this.auth.userProfileSubject$.value.sub;
+  currentUserId = "";
 
   // sets 'post' to the Post model to access/set it's properties
   post: Post = {
@@ -33,8 +35,8 @@ export class ProfileComponent implements OnInit {
     rating: 0,
     restaurantName: "",
     restaurantId: "",
-    userId: this.currentUserId,
-    userName: this.auth.userProfileSubject$.value.nickname
+    userId: "",
+    userName: ""
   };
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -48,8 +50,13 @@ export class ProfileComponent implements OnInit {
     public auth: AuthService,
     public dialog: MatDialog,
     private postService: PostService,
-    private profileService: ProfileService
-  ) { }
+    private profileService: ProfileService,
+    private actr: ActivatedRoute
+  ) {
+    this.actr.data.map(data => data.token).subscribe((res) => {
+      console.log(res);
+    })
+  }
 
   getUserPosts() {
     this.profileService.getUsersPosts(this.currentUserId).subscribe((posts: any[]) => {
@@ -61,8 +68,15 @@ export class ProfileComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getUserPosts();
+    console.log("component initiated")
 
+    this.auth.getUser$();
+
+    this.currentUserId = this.auth.userProfileSubject$.value.sub;
+    this.post.userId = this.auth.userProfileSubject$.value.sub;
+    this.post.userName = this.auth.userProfileSubject$.value.nickname;
+
+    this.getUserPosts();
     this.profileService.getUserData(this.currentUserId).subscribe(res => {
       console.log(`data from auth0 : ${res}`);
     });
