@@ -311,12 +311,37 @@ routes.get("/google/place/autocomplete/:searchInput/:radius?", (req, res) => {
 
     placesController
         .autoComplete(searchInput, radius, googleApiKey, sessionToken)
-        .then((results) => {
-            console.log("*********************************************");
-            console.log(`restaurant autocomplete: ${JSON.stringify(results)}`);
-            res.status(200).json(results)
-        })
+        .then((results) => res.status(200).json(results))
         .catch((error) => res.status(error.statusCode).json(error))
+});
+
+
+routes.post("/google/user/geolocation", (req, res) => {
+
+    const
+        googleApiKey = process.env.GOOGLE_API_KEY,
+        options = {
+            method: 'POST',
+            url: `https://www.googleapis.com/geolocation/v1/geolocate?key=${googleApiKey}`
+        };
+
+    console.log(options.url);
+
+    axios(options)
+        .then((response) => {
+            console.log("Reponse!!!", response);
+            res.send(response.data)
+        })
+        .catch((err) => console.log(err));
+
+    // placesController
+    //     .geolocation(googleApiKey)
+    //     .then((results) => {
+    //         console.log(`Location: ${JSON.stringify(results)}`);
+    //         res.status(200).json(results);
+    //     })
+    //     .catch((error) => res.status(error.statusCode).json(error))
+
 });
 
 
@@ -337,15 +362,9 @@ routes.get("/auth0/user/:userId", (req, res) => {
                     authorization: `${token_type} ${access_token}`
                 }
             };
-        console.log(`Auth Data : ${options.url}`);
 
         axios(options)
-            .then((response) => {
-                console.log(`Auth User Data : ${JSON.stringify(response.data)}`);
-                console.log("********************" + JSON.stringify(response.data.user_metadata.age));
-                res.send(response.data);
-            })
-
+            .then((response) => res.send(response.data))
             .catch((err) => console.log(err));
     });
 });

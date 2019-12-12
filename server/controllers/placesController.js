@@ -36,6 +36,16 @@ const placesController = {
                 return Promise.resolve(filteredRestaurants)
             })
             .catch((error) => Promise.reject(error));
+    },
+    geolocation: function (googleApiKey) {
+        console.log(googleApiKey);
+        return axios.post(`https://www.googleapis.com/geolocation/v1/geolocate?key=${googleApiKey}`)
+            .then((response) => {
+
+                console.log(response);
+                return Promise.resolve(response)
+            })
+            .catch((error) => Promise.reject(error));
     }
 }
 
