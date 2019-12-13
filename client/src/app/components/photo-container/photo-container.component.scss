@@ -3,48 +3,40 @@
 .grid-container {
   margin: 20px;
   height: 100vh;
-}
 
-.dashboard-card {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  right: 15px;
-  bottom: 15px;
-}
-
-.more-button {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-}
-
-.dashboard-card-content {
-  text-align: center;
-}
-
-#popTitle {
-  color: #000000;
-}
-
-img.popoverImg {
-  width: 1.5rem;
-}
-
-.light {
-  border: 1px solid #000000;
-}
-
-.dark {
-  border: 1px solid #ffffff;
-}
-
-.my-masonry-image-list {
-  @include mdc-image-list-masonry-columns(5);
-}
-
-@media (max-width: 650px) {
-  .my-masonry-image-list {
-    @include mdc-image-list-masonry-columns(3);
+  img.postImage {
+    cursor: pointer;
   }
+
+  a.restaurantLink {
+    color:#414141;
+  }
+
+  #popTitle {
+    color: #000000;
+  }
+
+  img.popoverImg {
+    margin-top: 1.25rem;
+    width: 1.75rem;
+  }
+
+  .light {
+    border: 1px solid #000000;
+  }
+
+  .dark {
+    border: 1px solid #ffffff;
+  }
+
+  .my-masonry-image-list {
+    @include mdc-image-list-masonry-columns(5);
+  }
+
+  @media (max-width: 650px) {
+    .my-masonry-image-list {
+      @include mdc-image-list-masonry-columns(3);
+    }
+  }
+
 }

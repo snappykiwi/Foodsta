@@ -1,53 +1,98 @@
-<h1 mat-dialog-title class="text-center">Update Your Post</h1>
+<div *ngIf="isProfilePage; else viewPost">
 
-<div mat-dialog-content class="text-center">
+  <h1 mat-dialog-title class="text-center">Update Your Post</h1>
 
-  <img src="{{ post.image }}" style="width:250px;" class="mb-4" />
+  <div mat-dialog-content class="text-center">
 
-  <br />
+    <img src="{{ post.image }}" class="mb-4 postImage" />
 
-  <ngb-rating class="mb-5" [(ngModel)]="post.rating" (hover)="hovered=$event" (leave)="hovered=0" [readonly]="readonly">
-  </ngb-rating>
+    <br />
 
-  <br />
+    <ngb-rating class="mb-5" [(ngModel)]="post.rating" (hover)="hovered=$event" (leave)="hovered=0"
+      [readonly]="readonly">
+    </ngb-rating>
 
-  <mat-form-field class="mb-3">
-    <input class="disabledInput" matInput [(ngModel)]="post.restaurantName" placeholder="Restaurant" disabled>
-  </mat-form-field>
+    <br />
 
-  <br />
+    <mat-form-field class="mb-3">
+      <input class="disabledInput" matInput [(ngModel)]="post.restaurantName" placeholder="Restaurant" disabled>
+    </mat-form-field>
 
-  <mat-form-field class="mb-3">
-    <input class="disabledInput" matInput [(ngModel)]="post.cuisine" placeholder="Cuisine" disabled>
-  </mat-form-field>
+    <br />
 
-  <br />
+    <mat-form-field class="mb-3">
+      <input matInput [(ngModel)]="post.cuisine" placeholder="Cuisine">
+    </mat-form-field>
 
-  <mat-form-field class="mb-3">
-    <input matInput [(ngModel)]="post.title" placeholder="Edit meal title">
-  </mat-form-field>
+    <br />
 
-  <br />
+    <mat-form-field class="mb-3">
+      <input matInput [(ngModel)]="post.title" placeholder="Edit meal title">
+    </mat-form-field>
 
-  <mat-form-field class="mb-4">
-    <input matInput [(ngModel)]="post.caption" placeholder="Edit comment">
-  </mat-form-field>
+    <br />
 
-  <h4>Dietary Info</h4>
-  <div class="mt-4 mb-3">
-    <mat-checkbox class="mr-3" matInput [(ngModel)]="post.gf">GF</mat-checkbox>
-    <mat-checkbox class="mr-3" matInput [(ngModel)]="post.vegan">Vegan</mat-checkbox>
-    <mat-checkbox matInput [(ngModel)]="post.vegetarian">Vegetarian</mat-checkbox>
+    <mat-form-field class="mb-4">
+      <input matInput [(ngModel)]="post.caption" placeholder="Edit comment">
+    </mat-form-field>
+
+    <h4>Dietary Info</h4>
+    <div class="mt-4 mb-3">
+      <mat-checkbox class="mr-3" matInput [(ngModel)]="post.gf">GF</mat-checkbox>
+      <mat-checkbox class="mr-3" matInput [(ngModel)]="post.vegan">Vegan</mat-checkbox>
+      <mat-checkbox matInput [(ngModel)]="post.vegetarian">Vegetarian</mat-checkbox>
+    </div>
+
+    <div class="modalAction mt-5">
+      <button class="deleteBtn" mat-button [mat-dialog-close]="" (click)="deletePost(post.id)">Delete Post</button>
+    </div>
+
   </div>
 
-  <div class="modalAction mt-5">
-    <button class="deleteBtn" mat-button [mat-dialog-close]="" (click)="deletePost(post.id)">Delete Post</button>
+  <div class="modalAction" mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button [mat-dialog-close]="" cdkFocusInitial (click)="editPost(post)">Update</button>
+    <!-- <button class="deleteBtn" mat-button>Delete</button> -->
   </div>
 
 </div>
 
-<div class="modalAction" mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [mat-dialog-close]="" cdkFocusInitial (click)="editPost(post)">Update</button>
-  <!-- <button class="deleteBtn" mat-button>Delete</button> -->
-</div>
+<ng-template #viewPost>
+
+  <div mat-dialog-content class="text-center viewPostContent">
+
+    <img src="{{ post.image }}" class="postImage mb-4" />
+
+    <br />
+
+    <h4 class="viewTitle"> {{ post.title }} </h4>
+
+    <ngb-rating class="viewPostItem" [(rate)]="post.rating" [readonly]="view"> </ngb-rating> <br />
+
+
+    <p *ngIf="post.caption" class="viewPostItem"> <span *ngIf="post.userName" class="viewPostTitle">{{post.userName}} -
+      </span> {{ post.caption }} </p>
+
+    <a *ngIf="post.restaurantName" class="restaurantLink" [routerLink]="['/restaurant', post.restaurantId]"
+      (click)="onNoClick()"><b>{{post.restaurantName}}</b></a>
+
+
+    <p *ngIf="post.cuisine" class="viewPostItem">
+      {{ post.cuisine }} Cuisine </p>
+
+
+    <!-- <h4 *ngIf="post.gf || post.vegan || post.vegetarian">Dietary Info</h4> -->
+    <div class="mt-4 mb-3">
+      <img class="dietImg" *ngIf="post.gf" src="../../../assets/images/gluten-free.png">
+      <img class="dietImg" *ngIf="post.vegan" src="../../../assets/images/vegan.png">
+      <img class="dietImg" *ngIf="post.vegetarian" src="../../../assets/images/vegetarian.png">
+    </div>
+
+    <!-- <p>{{post.createdAt}}</p> -->
+
+  </div>
+
+  <div class="modalAction" mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Done</button>
+  </div>
+</ng-template>

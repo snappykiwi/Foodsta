@@ -12,3 +12,31 @@ div.modalAction {
   justify-content: center;
   align-items: center;
 }
+
+img.postImage {
+  width: 250px;
+  border: 2px solid #000000;
+}
+
+
+div.viewPostContent {
+
+  a.restaurantLink {
+    color: #414141
+  }
+
+
+  img.dietImg {
+    width: 4rem;
+    margin: 1rem;
+  }
+
+  .viewPostTitle, span.viewPostTitle {
+    font-weight: 800;
+  }
+
+  .viewPostItem {
+    margin: 1.25rem auto;
+  }
+
+}
