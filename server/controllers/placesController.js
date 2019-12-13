@@ -1,10 +1,12 @@
-const axios = require('axios');
+const
+    axios = require('axios'),
+    rp = require('request-promise');
 
 const placesController = {
 
-    getNearByRestaurants: function (searchInput, radius, googleApiKey) {
+    getNearByRestaurants: function (searchInput, lat, lng, radius, googleApiKey) {
 
-        return axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchInput}&radius=${radius}&types=restaurant&key=${googleApiKey}`)
+        return axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?keyword=${searchInput}&location=${lat},${lng}&radius=${radius}&types=restaurant&key=${googleApiKey}`)
             .then((response) => Promise.resolve(response.data.results))
             .catch((error) => Promise.reject(error))
     },
@@ -36,8 +38,26 @@ const placesController = {
                 return Promise.resolve(filteredRestaurants)
             })
             .catch((error) => Promise.reject(error));
+    },
+    geolocation: async function (googleApiKey) {
+
+        const options = {
+            method: 'POST',
+            url: `https://www.googleapis.com/geolocation/v1/geolocate?key=${googleApiKey}`,
+            json: true
+        };
+
+        let userGeolocation = "";
+
+        try {
+            userGeolocation = await rp(options)
+        }
+        catch (error) {
+            console.log(error);
+        }
+        return userGeolocation;
+
     }
 }
-
 
 module.exports = placesController;
