@@ -49,7 +49,7 @@ export class ListComponent implements OnInit {
   restaurants: any;
 
   constructor(private router: Router,
-    private searchService: SearchService) { }
+    public searchService: SearchService) { }
 
   ngOnInit() {
     this.restaurants = this.searchService.restaurantSource

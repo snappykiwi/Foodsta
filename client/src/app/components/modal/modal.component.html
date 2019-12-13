@@ -8,9 +8,7 @@
 
     <br />
 
-    <ngb-rating class="mb-5" [(ngModel)]="post.rating" (hover)="hovered=$event" (leave)="hovered=0"
-      [readonly]="readonly">
-    </ngb-rating>
+    <ngb-rating class="mb-5" [(ngModel)]="post.rating" [readonly]="edit"></ngb-rating>
 
     <br />
 
@@ -51,7 +49,7 @@
 
   <div class="modalAction" mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Cancel</button>
-    <button mat-button [mat-dialog-close]="" cdkFocusInitial (click)="editPost(post)">Update</button>
+    <button mat-button [mat-dialog-close]="" cdkFocusInitial (click)="editPost()">Update</button>
     <!-- <button class="deleteBtn" mat-button>Delete</button> -->
   </div>
 
@@ -93,6 +91,6 @@
   </div>
 
   <div class="modalAction" mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Done</button>
+    <button type="button" autofocus mat-button (click)="onNoClick()">Done</button>
   </div>
 </ng-template>
