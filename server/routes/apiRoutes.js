@@ -259,6 +259,19 @@ routes.get('/posts/searchby/v2/', (req, res) => {
         });
 });
 
+/* AWS */
+
+routes.post("/picUpload", upload.single('picture'), (req, res) => {
+
+    console.log(req.file);
+
+    if (!req.file || Object.keys(req.file).length === 0) {
+        return res.status(400).send("No files were uploaded.");
+    }
+
+    awsPhotoUpload(req, res);
+});
+
 
 /* GOOGLE SEARCH */
 
@@ -290,16 +303,6 @@ routes.get("/google/place/restaurantdetails/:id", (req, res) => {
 
 });
 
-routes.post("/picUpload", upload.single('picture'), (req, res) => {
-
-    console.log(req.file);
-
-    if (!req.file || Object.keys(req.file).length === 0) {
-        return res.status(400).send("No files were uploaded.");
-    }
-
-    awsPhotoUpload(req, res);
-});
 
 routes.get("/google/place/autocomplete/:searchInput/:radius?", (req, res) => {
 

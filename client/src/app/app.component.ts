@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
 
 
   constructor(
-    private auth: AuthService,
+    public auth: AuthService,
     private breakpointObserver: BreakpointObserver,
     private loadingBar: SlimLoadingBarService,
     private themeService: ThemeService,
