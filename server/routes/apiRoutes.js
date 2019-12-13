@@ -262,15 +262,17 @@ routes.get('/posts/searchby/v2/', (req, res) => {
 
 /* GOOGLE SEARCH */
 
-routes.get("/google/place/v2/:searchInput?/:radius?", (req, res) => {
+routes.get("/google/place/v2/", (req, res) => {
 
     const
         googleApiKey = process.env.GOOGLE_API_KEY,
         searchInput = req.query.searchInput || "restaurant",
-        radius = req.query.radius || 20;
-    console.log("called restaurant api call");
+        lat = req.query.lat,
+        lng = req.query.lng,
+        radius = req.query.radius || 1500;
+
     placesController
-        .getNearByRestaurants(searchInput, radius, googleApiKey)
+        .getNearByRestaurants(searchInput, lat, lng, radius, googleApiKey)
         .then((restaurantsNearby) => res.status(200).json(restaurantsNearby))
         .catch((error) => res.sendStatus(500))
 });
@@ -311,12 +313,20 @@ routes.get("/google/place/autocomplete/:searchInput/:radius?", (req, res) => {
 
     placesController
         .autoComplete(searchInput, radius, googleApiKey, sessionToken)
-        .then((results) => {
-            console.log("*********************************************");
-            console.log(`restaurant autocomplete: ${JSON.stringify(results)}`);
-            res.status(200).send(results);
-        })
+        .then((results) => res.status(200).json(results))
         .catch((error) => res.status(error.statusCode).json(error))
+});
+
+
+routes.post("/google/place/user/geolocation", (req, res) => {
+
+    const googleApiKey = process.env.GOOGLE_API_KEY;
+
+    placesController
+        .geolocation(googleApiKey)
+        .then((results) => res.status(200).json(results))
+        .catch((error) => res.status(error.statusCode).json(error))
+
 });
 
 
@@ -337,15 +347,9 @@ routes.get("/auth0/user/:userId", (req, res) => {
                     authorization: `${token_type} ${access_token}`
                 }
             };
-        console.log(`Auth Data : ${options.url}`);
 
         axios(options)
-            .then((response) => {
-                console.log(`Auth User Data : ${JSON.stringify(response.data)}`);
-                console.log("********************" + JSON.stringify(response.data.user_metadata.age));
-                res.send(response.data);
-            })
-
+            .then((response) => res.send(response.data))
             .catch((err) => console.log(err));
     });
 });
