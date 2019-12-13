@@ -262,15 +262,17 @@ routes.get('/posts/searchby/v2/', (req, res) => {
 
 /* GOOGLE SEARCH */
 
-routes.get("/google/place/v2/:searchInput?/:radius?", (req, res) => {
+routes.get("/google/place/v2/", (req, res) => {
 
     const
         googleApiKey = process.env.GOOGLE_API_KEY,
         searchInput = req.query.searchInput || "restaurant",
-        radius = req.query.radius || 20;
-    console.log("called restaurant api call");
+        lat = req.query.lat,
+        lng = req.query.lng,
+        radius = req.query.radius || 1500;
+
     placesController
-        .getNearByRestaurants(searchInput, radius, googleApiKey)
+        .getNearByRestaurants(searchInput, lat, lng, radius, googleApiKey)
         .then((restaurantsNearby) => res.status(200).json(restaurantsNearby))
         .catch((error) => res.sendStatus(500))
 });
@@ -318,29 +320,12 @@ routes.get("/google/place/autocomplete/:searchInput/:radius?", (req, res) => {
 
 routes.post("/google/user/geolocation", (req, res) => {
 
-    const
-        googleApiKey = process.env.GOOGLE_API_KEY,
-        options = {
-            method: 'POST',
-            url: `https://www.googleapis.com/geolocation/v1/geolocate?key=${googleApiKey}`
-        };
+    const googleApiKey = process.env.GOOGLE_API_KEY;
 
-    console.log(options.url);
-
-    axios(options)
-        .then((response) => {
-            console.log("Reponse!!!", response);
-            res.send(response.data)
-        })
-        .catch((err) => console.log(err));
-
-    // placesController
-    //     .geolocation(googleApiKey)
-    //     .then((results) => {
-    //         console.log(`Location: ${JSON.stringify(results)}`);
-    //         res.status(200).json(results);
-    //     })
-    //     .catch((error) => res.status(error.statusCode).json(error))
+    placesController
+        .geolocation(googleApiKey)
+        .then((results) => res.status(200).json(results))
+        .catch((error) => res.status(error.statusCode).json(error))
 
 });
 
