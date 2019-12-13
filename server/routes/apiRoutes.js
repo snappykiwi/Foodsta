@@ -318,7 +318,7 @@ routes.get("/google/place/autocomplete/:searchInput/:radius?", (req, res) => {
 });
 
 
-routes.post("/google/user/geolocation", (req, res) => {
+routes.post("/google/place/user/geolocation", (req, res) => {
 
     const googleApiKey = process.env.GOOGLE_API_KEY;
 
