@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { trigger, state, style, animate, transition, query, stagger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
@@ -12,6 +12,7 @@ import { ModalComponent } from '../modal/modal.component';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Post } from '../../models/Post';
 import { ThemeService } from 'src/app/services/themes/theme.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-photo-container',
@@ -52,19 +53,34 @@ export class PhotoContainerComponent {
   readonly = true;
 
   isDarkTheme: Observable<boolean>
+  isProfilePage: boolean;
+
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+    .pipe(
+      map(result => result.matches),
+      shareReplay()
+    );
 
   constructor(
     public auth: AuthService,
+    private postService: PostService,
+    private themeService: ThemeService,
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
     private http: HttpClient,
-    private postService: PostService,
-    private themeService: ThemeService,
+    private route: ActivatedRoute,
+    private router: Router,
     private config: NgbRatingConfig) { config.max = 5; }
 
 
   ngOnInit() {
+
     this.isDarkTheme = this.themeService.isDarkTheme;
+
+    console.log(this.router.url);
+    this.isProfilePage = (this.router.url === "/profile")
+    console.log(this.isProfilePage);
+
   }
 
   openDialog(post: Post): void {
@@ -77,27 +93,6 @@ export class PhotoContainerComponent {
       this.post = result;
     });
   }
-
-  /** Based on the screen size, switch from standard to one column per row */
-  cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-    map(({ matches }) => {
-      if (matches) {
-        return [
-          { title: 'Card 1', cols: 1, rows: 1 },
-          { title: 'Card 2', cols: 1, rows: 1 },
-          { title: 'Card 3', cols: 1, rows: 1 },
-          { title: 'Card 4', cols: 1, rows: 1 }
-        ];
-      }
-
-      return [
-        { title: 'Card 1', cols: 2, rows: 1 },
-        { title: 'Card 2', cols: 1, rows: 1 },
-        { title: 'Card 3', cols: 1, rows: 2 },
-        { title: 'Card 4', cols: 1, rows: 1 }
-      ];
-    })
-  );
 
 
 }
