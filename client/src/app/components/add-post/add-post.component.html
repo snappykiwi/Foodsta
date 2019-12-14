@@ -97,8 +97,7 @@
         <h3>How Was It?</h3>
 
         <div class="mt-4">
-          <ngb-rating required [(ngModel)]="post.rating" (hover)="hovered=$event" (leave)="hovered=0"
-            [readonly]="readonly">
+          <ngb-rating required [(ngModel)]="post.rating" [readonly]="readonly">
           </ngb-rating>
         </div>
 

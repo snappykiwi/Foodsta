@@ -4,291 +4,80 @@ const
     multer = require('multer'),
     upload = multer(),
     routes = require('express').Router(),
-    Sequelize = require('sequelize'),
-    db = require('../models'),
-    axios = require('axios').default,
-    Op = Sequelize.Op,
     awsPhotoUpload = require("../awsPhotoUpload"),
-    getTokenAuth0 = require('../controllers/getTokenAuth0'),
-    placesController = require('../controllers/placesController'),
-    apiHelpers = require('../controllers/apiHelpers'),
-    uuid = require('uuid/v4');
+    dbController = require("../controllers/dbController"),
+    googleApiController = require("../controllers/googleApiController"),
+    // awsController = require("../controllers/awsController"),
+    auth0Controller = require("../controllers/auth0Controller");
 
+/* Database - Sequelize 
+--------------------------- */
 
+// Get All post or One by Id
+routes
+    .route('/posts/:id?')
+    .get(dbController.findOnePostByIdOrAll);
 
-routes.get('/posts/:id?', (req, res) => {
-    if (req.params.id) {
+// Create Posts
+routes
+    .route('/posts')
+    .post(dbController.createPost);
 
-        db.Post
-            .findOne({
-                where: {
-                    id: req.params.id
-                }
-            })
-            .then(data => {
-                res.json(data);
-            })
-            .catch(err => {
-                console.log(err);
-                throw err;
-            });
-    } else {
-        db.Post
-            .findAll({
-                order: [['createdAt', 'DESC']]
-            })
-            .then(data => {
-                res.json(data);
-            })
-            .catch(err => {
-                console.log(err);
-                throw err;
-            });
-    };
-});
+// Delete Posts
+routes
+    .route('/posts/:id')
+    .delete(dbController.deletePost);
 
+// Find a User Posts
+routes
+    .route('/posts/user/:id')
+    .get(dbController.findUserPost);
 
-routes.post('/posts', (req, res) => {
-    const post = req.body;
-    console.log(post);
-    db.Post.create({
-        "userId": post.userId,
-        "userName": post.userName,
-        "title": post.title,
-        "caption": post.caption,
-        "cuisine": post.cuisine,
-        "image": post.image,
-        "rating": post.rating,
-        "gf": post.gf,
-        "vegan": post.vegan,
-        "vegetarian": post.vegetarian,
-        "restaurantId": post.restaurantId,
-        "restaurantName": post.restaurantName
-    }).then((response) => {
+// Find a Restaurant Posts
+routes
+    .route('/posts/restaurant/:restaurantId')
+    .get(dbController.findRestaurantPost);
 
-        res.json(response);
-    }).catch(err => {
-        GET
-        console.log(err);
-        throw err;
-    });
-});
-
-routes.put('/posts/:id', (req, res) => {
-    const post = req.body;
-    db.Post.update({
-        "title": post.title,
-        "caption": post.caption,
-        "cuisine": post.cuisine,
-        "image": post.image,
-        "rating": post.rating,
-        "gf": post.gf,
-        "vegan": post.vegan,
-        "vegetarian": post.vegetarian,
-        "RestaurantId": post.RestaurantId
-    }, {
-        where: {
-            id: req.params.id
-        }
-        // }).then(db.Post.findByPk(req.params.id))
-        //     .then((updatedPost) => {
-        //         res.json(updatedPost);
-        //     })
-    }).then((response) => res.json(response))
-        .catch(err => {
-            console.log(err);
-            throw err;
-        });
-});
-
-
-routes.delete('/posts/:id', (req, res) => {
-    db.Post
-        .findOne({
-            where: {
-                id: req.params.id
-            }
-        })
-        .then((foundPost) => {
-            if (!foundPost) {
-                res.status(500).send("Could not find the requested post");
-                return
-            } else foundPost.destroy()
-        })
-        .then((response) => {
-            res.status(200).send("post deleted");
-        })
-        .catch(err => {
-            console.log(err);
-            throw err;
-        });
-});
-
-
-routes.get('/posts/user/:id', (req, res) => {
-    db.Post
-        .findAll({
-            where: {
-                userId: req.params.id
-            },
-            order: [['createdAt', 'DESC']]
-        })
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((err) => {
-            console.log(err);
-            throw err;
-        });
-});
-
-
-routes.get('/posts/restaurant/:restaurantId', (req, res) => {
-
-    const
-        { restaurantId } = req.params,
-        queryParameters = Object.keys(req.query),
-        queryParam = queryParameters[0],
-        queryValue = req.query[queryParameters],
-        orderBy = apiHelpers.sequelizeOrderBy(queryParam, queryValue);
-
-    let sortParametersArray = [];
-
-    (orderBy) && sortParametersArray.push(orderBy)
-
-    db.Post
-        .findAll({
-            where: {
-                restaurantId: restaurantId
-            },
-            order: sortParametersArray.length ? sortParametersArray : [['createdAt', 'DESC']]
-        })
-        .then(data => {
-            res.json(data);
-        })
-        .catch(err => {
-            console.log(err);
-            throw err;
-        });
-});
-
-routes.get('/posts/partial/:searchString', (req, res) => {
-
-    let sortParametersArray = [];
-    const
-        searchString = req.params.searchString.toLowerCase().trim(),
-        queryParameters = Object.keys(req.query);
-
-    queryParameters.forEach((param) => {
-
-        const orderBy = apiHelpers.sequelizeOrderBy(param, req.query[param]);
-
-        (orderBy) && sortParametersArray.push(orderBy)
-    })
-
-    db.Post
-        .findAll({
-            where: {
-
-                [Op.or]: [
-                    {
-                        title: {
-                            [Op.like]: `%${searchString}%`
-                        }
-                    }, {
-                        cuisine: {
-                            [Op.like]: `%${searchString}%`
-                        }
-                    }, {
-                        restaurantName: {
-                            [Op.like]: `%${searchString}%`
-                        }
-                    }
-                ]
-            },
-            order: sortParametersArray.length ? sortParametersArray : [['createdAt', 'DESC']]
-        })
-        .then(data => {
-            res.json(data);
-        })
-        .catch(err => {
-            console.log(err);
-            throw err;
-        });
-});
-
+// Partial Post search 
+routes
+    .route('/posts/partial/:searchString')
+    .get(dbController.partialSearchPost);
 
 //Getting all the post by restaurantId, gluttenFree, vegan, vegetarian
-routes.get('/posts/searchby/v2/', (req, res) => {
+routes
+    .route('/posts/searchby/v2/')
+    .get(dbController.getPostBy);
 
-    const queryParameters = Object.keys(req.query);
-    let paramatersArray = [];
-    let sortParametersArray = [];
+/* GOOGLE PLACE API SEARCH 
+--------------------------- */
 
-    queryParameters.forEach((param) => {
+// Get Nearby Restaurant based on your current location
+routes
+    .route("/google/place/v2/")
+    .get(googleApiController.getNearByRestaurant);
 
-        switch (param) {
-            case 'restaurantId':
-            case 'gf':
-            case 'vegan':
-            case 'vegetarian':
-                if (req.query[param] !== undefined) paramatersArray.push(
-                    {
-                        [param]: req.query[param]
-                    }
-                )
-                return
-        }
+// Get more details on a specific restaurant
+routes
+    .route("/google/place/restaurantdetails/:id")
+    .get(googleApiController.getRestaurantDetails);
 
-        const orderBy = apiHelpers.sequelizeOrderBy(param, req.query[param]);
+// AutoComplete result from what the user is typing
+routes
+    .route("/google/place/autocomplete/:searchInput/:radius?")
+    .get(googleApiController.autoComplete);
 
-        (orderBy) && sortParametersArray.push(orderBy)
-    })
+// Get User location by using Geolocation API
+routes
+    .route("/google/place/user/geolocation")
+    .post(googleApiController.geolocation);
 
-    db.Post
-        .findAll({
-            where: {
-                [Op.or]: paramatersArray
-            },
-            order: sortParametersArray.length ? sortParametersArray : [['createdAt', 'DESC']]
-        })
-        .then(data => res.json(data))
-        .catch(err => {
-            console.log(err);
-            throw err;
-        });
-});
+/* AWS 
+--------------------------- */
 
-
-/* GOOGLE SEARCH */
-
-routes.get("/google/place/v2/", (req, res) => {
-
-    const
-        googleApiKey = process.env.GOOGLE_API_KEY,
-        searchInput = req.query.searchInput || "restaurant",
-        lat = req.query.lat,
-        lng = req.query.lng,
-        radius = req.query.radius || 1500;
-
-    placesController
-        .getNearByRestaurants(searchInput, lat, lng, radius, googleApiKey)
-        .then((restaurantsNearby) => res.status(200).json(restaurantsNearby))
-        .catch((error) => res.sendStatus(500))
-});
-
-routes.get("/google/place/restaurantdetails/:id", (req, res) => {
-
-    const
-        { id } = req.params,
-        googleApiKey = process.env.GOOGLE_API_KEY;
-
-    placesController
-        .getDetailsRestaurant(id, googleApiKey)
-        .then((restaurantDetails) => res.status(200).json(restaurantDetails))
-        .catch((error) => res.sendStatus(404))
-
-});
+//Upload picture to AWS Bucket == ask Elias about this routes
+// routes
+//     .route("/picUpload", upload.single('picture'))
+//     .post(awsController.picUpload);
 
 routes.post("/picUpload", upload.single('picture'), (req, res) => {
 
@@ -301,91 +90,17 @@ routes.post("/picUpload", upload.single('picture'), (req, res) => {
     awsPhotoUpload(req, res);
 });
 
-routes.get("/google/place/autocomplete/:searchInput/:radius?", (req, res) => {
-
-    const
-        { searchInput } = req.params,
-        googleApiKey = process.env.GOOGLE_API_KEY,
-        radius = req.params.radius || 100,
-        sessionToken = uuid();
-
-    console.log(searchInput)
-
-    placesController
-        .autoComplete(searchInput, radius, googleApiKey, sessionToken)
-        .then((results) => res.status(200).json(results))
-        .catch((error) => res.status(error.statusCode).json(error))
-});
-
-
-routes.post("/google/place/user/geolocation", (req, res) => {
-
-    const googleApiKey = process.env.GOOGLE_API_KEY;
-
-    placesController
-        .geolocation(googleApiKey)
-        .then((results) => res.status(200).json(results))
-        .catch((error) => res.status(error.statusCode).json(error))
-
-});
-
-
 /* Auth0 API 
----------------- */
+--------------------------- */
 
 //get Auth0 User information
-routes.get("/auth0/user/:userId", (req, res) => {
-
-    getTokenAuth0().then((tokenDataResponse) => {
-
-        const
-            { access_token, token_type } = tokenDataResponse,
-            { userId } = req.params,
-            options = {
-                url: `${process.env.AUDIENCE_USERS_AUTH0}${userId}`,
-                headers: {
-                    authorization: `${token_type} ${access_token}`
-                }
-            };
-
-        axios(options)
-            .then((response) => res.send(response.data))
-            .catch((err) => console.log(err));
-    });
-});
+routes
+    .route("/auth0/user/:userId")
+    .get(auth0Controller.getUserInfo);
 
 // Update Auth0 User information
-routes.patch("/auth0/update/:userId", (req, res) => {
-
-    console.log("******************************************")
-
-    console.log(`REQ : ${JSON.stringify(req.body)}`);
-
-    res.json(req.body);
-
-    getTokenAuth0().then((tokenDataResponse) => {
-
-        const
-            { access_token, token_type } = tokenDataResponse,
-            { userId } = req.params,
-            user_data = req.body,
-            options = {
-                method: 'PATCH',
-                url: `${process.env.AUDIENCE_USERS_AUTH0}${userId}`,
-                headers: {
-                    'Content-Type': 'application/json',
-                    authorization: `${token_type} ${access_token}`
-                },
-
-                data: datas = user_data
-            };
-
-        console.log(`************************************** ${options.url}`);
-
-        axios(options)
-            .catch((err) => console.log(err));
-    });
-
-});
+routes
+    .route("/auth0/update/:userId")
+    .patch(auth0Controller.updateUserInfo);
 
 module.exports = routes

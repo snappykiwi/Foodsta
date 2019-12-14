@@ -30,6 +30,7 @@ export class ModalComponent implements OnInit {
 
   isProfilePage: boolean;
   view = true;
+  edit = false;
 
 
   onNoClick(): void {

@@ -55,9 +55,10 @@ export class AddPostComponent implements OnInit {
   restaurantsSubject$ = new BehaviorSubject<object>({});
   restaurants$ = this.restaurantsSubject$.asObservable();
   private searchTerms = new Subject<string>();
-  private restaurantName = new BehaviorSubject<string>("");
+  public restaurantName$ = new BehaviorSubject<string>("");
 
   readonlyReview = true;
+  readonly = false;
   isDarkTheme: Observable<boolean>
 
   constructor(
@@ -101,7 +102,7 @@ export class AddPostComponent implements OnInit {
   getInfo(optionInfo) {
     this.post.restaurantId = optionInfo.place_id;
     this.post.restaurantName = optionInfo.description;
-    this.restaurantName.next(optionInfo.description);
+    this.restaurantName$.next(optionInfo.description);
     console.log(optionInfo);
     console.log(this.post.restaurantName);
     console.log(this.post.restaurantId);
