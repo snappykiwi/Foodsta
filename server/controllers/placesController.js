@@ -25,7 +25,7 @@ const placesController = {
                     priceLevel: restData.price_level !== undefined ? restData.price_level : 0,
                     websiteUrl: restData.website !== undefined ? restData.website : "N/A",
                     openNow: restData.opening_hours.open_now !== undefined ? restData.opening_hours.open_now : null,
-                    mapUrl: restData.url !== undefined ? restData.url : "",
+                    mapUrl: restData.url !== undefined ? restData.url : ""
                 });
             });
     },
@@ -56,7 +56,6 @@ const placesController = {
             console.log(error);
         }
         return userGeolocation;
-
     }
 }
 

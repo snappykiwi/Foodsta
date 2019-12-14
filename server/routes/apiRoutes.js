@@ -286,7 +286,10 @@ routes.get("/google/place/v2/", (req, res) => {
 
     placesController
         .getNearByRestaurants(searchInput, lat, lng, radius, googleApiKey)
-        .then((restaurantsNearby) => res.status(200).json(restaurantsNearby))
+        .then((restaurantsNearby) => {
+            console.log(restaurantsNearby);
+            return res.status(200).json(restaurantsNearby)
+        })
         .catch((error) => res.sendStatus(500))
 });
 

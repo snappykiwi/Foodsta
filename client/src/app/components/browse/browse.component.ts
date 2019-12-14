@@ -4,8 +4,10 @@ import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { PhotoContainerComponent } from '../photo-container/photo-container.component';
 import { SearchService } from '../../services/searches/search.service';
 import { Search } from '../../models/Search';
+import { Location } from '../../models/Location';
 import { Observable } from 'rxjs';
 import { PostService } from 'src/app/services/posts/post.service';
+import { GeolocationService } from 'src/app/services/geolocation/geolocation.service';
 
 @Component({
   selector: 'app-browse',
@@ -19,14 +21,18 @@ export class BrowseComponent implements OnInit {
   restaurants: Search[] = [];
   posts: any[] = [];
 
+  public latitude;
+  public longitude;
+
   constructor(
     private breakpointObserver: BreakpointObserver,
     private searchService: SearchService,
-    private postService: PostService
+    private postService: PostService,
+    private geolocationService: GeolocationService
   ) { }
 
-  getRestaurants(search = "restaurants") {
-    this.searchService.restaurantApiInfo(search).subscribe(restaurants => {
+  getRestaurants(search = "restaurants", latitude = this.latitude, longitude = this.longitude) {
+    this.searchService.restaurantApiInfo(search, latitude, longitude).subscribe(restaurants => {
       console.log("restaurants : ", restaurants);
       console.log("input : ", search);
 
@@ -51,7 +57,7 @@ export class BrowseComponent implements OnInit {
 
   }
 
-  onSearch(search: string) {
+  onSearch(search?: string) {
 
     if (search) {
       this.posts = [];
@@ -67,12 +73,25 @@ export class BrowseComponent implements OnInit {
       this.getPosts();
       this.getRestaurants();
     }
-  }
+  };
+
+
 
 
   ngOnInit() {
-    this.onSearch("restaurants");
     this.getPosts();
+    this.geolocationService.getGeolocation().subscribe((location: Location) => {
+      console.log(location);
+      this.geolocationService.longitudeSource.next(location.location.lng);
+      this.geolocationService.latitudeSource.next(location.location.lat);
+      this.latitude = this.geolocationService.latitudeSource.value;
+      this.longitude = this.geolocationService.longitudeSource.value;
+
+      console.log(this.longitude);
+      console.log(this.latitude);
+
+      this.onSearch();
+    });
   }
 
 }

@@ -45,11 +45,16 @@ export class SearchService {
   constructor(private http: HttpClient) { }
 
   // gets user input from search bar and uses the google api to search for restaurants
-  getRestaurants(input: string): Observable<Search[]> {
+  getRestaurants(input: string, latitude: string, longitude: string): Observable<Search[]> {
 
-    let searchInput = new HttpParams().set('searchInput', input);
+    let params = new HttpParams()
+      .set('searchInput', input)
+      .set('lat', latitude)
+      .set('lng', longitude)
+      .set('radius', "5000");
+
     console.log(this.url + input);
-    return this.http.get<Search[]>(`${this.url}`, { params: searchInput });
+    return this.http.get<Search[]>(`${this.url}`, { params: params });
 
   }
 
@@ -66,10 +71,10 @@ export class SearchService {
   }
 
 
-  restaurantApiInfo(searchInput: string) {
+  restaurantApiInfo(searchInput: string, latitude: string, longitude: string) {
 
     if (!this.restaurantCalls[searchInput]) {
-      this.restaurantCalls[searchInput] = this.getRestaurants(searchInput).pipe(
+      this.restaurantCalls[searchInput] = this.getRestaurants(searchInput, latitude, longitude).pipe(
 
         shareReplay(1)
       );

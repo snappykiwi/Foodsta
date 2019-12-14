@@ -55,7 +55,7 @@ export class AddPostComponent implements OnInit {
   restaurantsSubject$ = new BehaviorSubject<object>({});
   restaurants$ = this.restaurantsSubject$.asObservable();
   private searchTerms = new Subject<string>();
-  private restaurantName$ = new BehaviorSubject<string>("");
+  public restaurantName$ = new BehaviorSubject<string>("");
 
   readonlyReview = true;
   readonly = false;
