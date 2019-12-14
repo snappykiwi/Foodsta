@@ -69,7 +69,7 @@ routes
 // Get User location by using Geolocation API
 routes
     .route("/google/place/user/geolocation")
-    .get(googleApiController.geolocation);
+    .post(googleApiController.geolocation);
 
 /* AWS 
 --------------------------- */
