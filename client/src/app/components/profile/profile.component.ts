@@ -111,9 +111,11 @@ export class ProfileComponent implements OnInit {
         this.user_data.picture = res['Location'];
         console.log(this.user_data.picture);
 
+        this.updateAuthData();
       });
+    } else {
+      this.updateAuthData();
     }
-    this.updateAuthData()
 
   };
 
