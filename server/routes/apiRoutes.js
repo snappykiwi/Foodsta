@@ -4,274 +4,48 @@ const
     multer = require('multer'),
     upload = multer(),
     routes = require('express').Router(),
-    Sequelize = require('sequelize'),
-    db = require('../models'),
     axios = require('axios').default,
-    Op = Sequelize.Op,
     awsPhotoUpload = require("../awsPhotoUpload"),
     getTokenAuth0 = require('../controllers/getTokenAuth0'),
     placesController = require('../controllers/placesController'),
-    apiHelpers = require('../controllers/apiHelpers'),
+    dbController = require("../controllers/dbController"),
     uuid = require('uuid/v4');
 
 
+// Get All post or One by Id
+routes
+    .route('/posts/:id?')
+    .get(dbController.findOnePostByIdOrAll);
 
-routes.get('/posts/:id?', (req, res) => {
-    if (req.params.id) {
+// Create Posts
+routes
+    .route('/posts')
+    .post(dbController.createPost);
 
-        db.Post
-            .findOne({
-                where: {
-                    id: req.params.id
-                }
-            })
-            .then(data => {
-                res.json(data);
-            })
-            .catch(err => {
-                console.log(err);
-                throw err;
-            });
-    } else {
-        db.Post
-            .findAll({
-                order: [['createdAt', 'DESC']]
-            })
-            .then(data => {
-                res.json(data);
-            })
-            .catch(err => {
-                console.log(err);
-                throw err;
-            });
-    };
-});
+// Delete Posts
+routes
+    .route('/posts/:id')
+    .delete(dbController.deletePost);
 
+// Find a User Posts
+routes
+    .route('/posts/user/:id')
+    .get(dbController.findUserPost);
 
-routes.post('/posts', (req, res) => {
-    const post = req.body;
-    console.log(post);
-    db.Post.create({
-        "userId": post.userId,
-        "userName": post.userName,
-        "title": post.title,
-        "caption": post.caption,
-        "cuisine": post.cuisine,
-        "image": post.image,
-        "rating": post.rating,
-        "gf": post.gf,
-        "vegan": post.vegan,
-        "vegetarian": post.vegetarian,
-        "restaurantId": post.restaurantId,
-        "restaurantName": post.restaurantName
-    }).then((response) => {
+// Find a Restaurant Posts
+routes
+    .route('/posts/restaurant/:restaurantId')
+    .get(dbController.findRestaurantPost);
 
-        res.json(response);
-    }).catch(err => {
-        GET
-        console.log(err);
-        throw err;
-    });
-});
-
-routes.put('/posts/:id', (req, res) => {
-    const post = req.body;
-    db.Post.update({
-        "title": post.title,
-        "caption": post.caption,
-        "cuisine": post.cuisine,
-        "image": post.image,
-        "rating": post.rating,
-        "gf": post.gf,
-        "vegan": post.vegan,
-        "vegetarian": post.vegetarian,
-        "RestaurantId": post.RestaurantId
-    }, {
-        where: {
-            id: req.params.id
-        }
-        // }).then(db.Post.findByPk(req.params.id))
-        //     .then((updatedPost) => {
-        //         res.json(updatedPost);
-        //     })
-    }).then((response) => res.json(response))
-        .catch(err => {
-            console.log(err);
-            throw err;
-        });
-});
-
-
-routes.delete('/posts/:id', (req, res) => {
-    db.Post
-        .findOne({
-            where: {
-                id: req.params.id
-            }
-        })
-        .then((foundPost) => {
-            if (!foundPost) {
-                res.status(500).send("Could not find the requested post");
-                return
-            } else foundPost.destroy()
-        })
-        .then((response) => {
-            res.status(200).send("post deleted");
-        })
-        .catch(err => {
-            console.log(err);
-            throw err;
-        });
-});
-
-
-routes.get('/posts/user/:id', (req, res) => {
-    db.Post
-        .findAll({
-            where: {
-                userId: req.params.id
-            },
-            order: [['createdAt', 'DESC']]
-        })
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((err) => {
-            console.log(err);
-            throw err;
-        });
-});
-
-
-routes.get('/posts/restaurant/:restaurantId', (req, res) => {
-
-    const
-        { restaurantId } = req.params,
-        queryParameters = Object.keys(req.query),
-        queryParam = queryParameters[0],
-        queryValue = req.query[queryParameters],
-        orderBy = apiHelpers.sequelizeOrderBy(queryParam, queryValue);
-
-    let sortParametersArray = [];
-
-    (orderBy) && sortParametersArray.push(orderBy)
-
-    db.Post
-        .findAll({
-            where: {
-                restaurantId: restaurantId
-            },
-            order: sortParametersArray.length ? sortParametersArray : [['createdAt', 'DESC']]
-        })
-        .then(data => {
-            res.json(data);
-        })
-        .catch(err => {
-            console.log(err);
-            throw err;
-        });
-});
-
-routes.get('/posts/partial/:searchString', (req, res) => {
-
-    let sortParametersArray = [];
-    const
-        searchString = req.params.searchString.toLowerCase().trim(),
-        queryParameters = Object.keys(req.query);
-
-    queryParameters.forEach((param) => {
-
-        const orderBy = apiHelpers.sequelizeOrderBy(param, req.query[param]);
-
-        (orderBy) && sortParametersArray.push(orderBy)
-    })
-
-    db.Post
-        .findAll({
-            where: {
-
-                [Op.or]: [
-                    {
-                        title: {
-                            [Op.like]: `%${searchString}%`
-                        }
-                    }, {
-                        cuisine: {
-                            [Op.like]: `%${searchString}%`
-                        }
-                    }, {
-                        restaurantName: {
-                            [Op.like]: `%${searchString}%`
-                        }
-                    }
-                ]
-            },
-            order: sortParametersArray.length ? sortParametersArray : [['createdAt', 'DESC']]
-        })
-        .then(data => {
-            res.json(data);
-        })
-        .catch(err => {
-            console.log(err);
-            throw err;
-        });
-});
-
+// Partial Post search 
+routes
+    .route('/posts/partial/:searchString')
+    .get(dbController.partialSearchPost);
 
 //Getting all the post by restaurantId, gluttenFree, vegan, vegetarian
-routes.get('/posts/searchby/v2/', (req, res) => {
-
-    const queryParameters = Object.keys(req.query);
-    let paramatersArray = [];
-    let sortParametersArray = [];
-
-    queryParameters.forEach((param) => {
-
-        switch (param) {
-            case 'restaurantId':
-            case 'gf':
-            case 'vegan':
-            case 'vegetarian':
-                if (req.query[param] !== undefined) paramatersArray.push(
-                    {
-                        [param]: req.query[param]
-                    }
-                )
-                return
-        }
-
-        const orderBy = apiHelpers.sequelizeOrderBy(param, req.query[param]);
-
-        (orderBy) && sortParametersArray.push(orderBy)
-    })
-
-    db.Post
-        .findAll({
-            where: {
-                [Op.or]: paramatersArray
-            },
-            order: sortParametersArray.length ? sortParametersArray : [['createdAt', 'DESC']]
-        })
-        .then(data => res.json(data))
-        .catch(err => {
-            console.log(err);
-            throw err;
-        });
-});
-
-/* AWS */
-
-routes.post("/picUpload", upload.single('picture'), (req, res) => {
-
-    console.log(req.file);
-
-    if (!req.file || Object.keys(req.file).length === 0) {
-        return res.status(400).send("No files were uploaded.");
-    }
-
-    awsPhotoUpload(req, res);
-});
-
+routes
+    .route('/posts/searchby/v2/')
+    .get(dbController.getPostBy);
 
 /* GOOGLE SEARCH */
 
@@ -303,6 +77,16 @@ routes.get("/google/place/restaurantdetails/:id", (req, res) => {
 
 });
 
+routes.post("/picUpload", upload.single('picture'), (req, res) => {
+
+    console.log(req.file);
+
+    if (!req.file || Object.keys(req.file).length === 0) {
+        return res.status(400).send("No files were uploaded.");
+    }
+
+    awsPhotoUpload(req, res);
+});
 
 routes.get("/google/place/autocomplete/:searchInput/:radius?", (req, res) => {
 
