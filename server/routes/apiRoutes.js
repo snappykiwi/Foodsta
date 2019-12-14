@@ -90,7 +90,6 @@ routes.post("/picUpload", upload.single('picture'), (req, res) => {
     awsPhotoUpload(req, res);
 });
 
-
 /* Auth0 API 
 --------------------------- */
 

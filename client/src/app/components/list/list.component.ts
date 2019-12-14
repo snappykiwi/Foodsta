@@ -12,6 +12,7 @@ import {
   query,
   stagger
 } from '@angular/animations';
+import { GeolocationService } from 'src/app/services/geolocation/geolocation.service';
 
 @Component({
   selector: 'app-list',
@@ -49,7 +50,8 @@ export class ListComponent implements OnInit {
   restaurants: any;
 
   constructor(private router: Router,
-    public searchService: SearchService) { }
+    public searchService: SearchService,
+    public geolocationService: GeolocationService) { }
 
   ngOnInit() {
     this.restaurants = this.searchService.restaurantSource
@@ -68,6 +70,14 @@ export class ListComponent implements OnInit {
 
     this.router.navigate(['restaurant', clickedRestaurant.place_id]);
   };
+
+  getLocation() {
+
+    this.geolocationService.getPosition().then(pos => {
+      console.log(`Positon: ${pos.lng} ${pos.lat}`);
+    });
+
+  }
 
 
 }
