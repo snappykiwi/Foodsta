@@ -4,11 +4,11 @@ const
     multer = require('multer'),
     upload = multer(),
     routes = require('express').Router(),
-    axios = require('axios').default,
     awsPhotoUpload = require("../awsPhotoUpload"),
-    getTokenAuth0 = require('../controllers/getTokenAuth0'),
     dbController = require("../controllers/dbController"),
-    googleApiController = require("../controllers/googleApiController");
+    googleApiController = require("../controllers/googleApiController"),
+    // awsController = require("../controllers/awsController"),
+    auth0Controller = require("../controllers/auth0Controller");
 
 /* Database - Sequelize 
 --------------------------- */
@@ -74,6 +74,11 @@ routes
 /* AWS 
 --------------------------- */
 
+//Upload picture to AWS Bucket == ask Elias about this routes
+// routes
+//     .route("/picUpload", upload.single('picture'))
+//     .post(awsController.picUpload);
+
 routes.post("/picUpload", upload.single('picture'), (req, res) => {
 
     console.log(req.file);
@@ -90,58 +95,13 @@ routes.post("/picUpload", upload.single('picture'), (req, res) => {
 --------------------------- */
 
 //get Auth0 User information
-routes.get("/auth0/user/:userId", (req, res) => {
-
-    getTokenAuth0().then((tokenDataResponse) => {
-
-        const
-            { access_token, token_type } = tokenDataResponse,
-            { userId } = req.params,
-            options = {
-                url: `${process.env.AUDIENCE_USERS_AUTH0}${userId}`,
-                headers: {
-                    authorization: `${token_type} ${access_token}`
-                }
-            };
-
-        axios(options)
-            .then((response) => res.send(response.data))
-            .catch((err) => console.log(err));
-    });
-});
+routes
+    .route("/auth0/user/:userId")
+    .get(auth0Controller.getUserInfo);
 
 // Update Auth0 User information
-routes.patch("/auth0/update/:userId", (req, res) => {
-
-    console.log("******************************************")
-
-    console.log(`REQ : ${JSON.stringify(req.body)}`);
-
-    res.json(req.body);
-
-    getTokenAuth0().then((tokenDataResponse) => {
-
-        const
-            { access_token, token_type } = tokenDataResponse,
-            { userId } = req.params,
-            user_data = req.body,
-            options = {
-                method: 'PATCH',
-                url: `${process.env.AUDIENCE_USERS_AUTH0}${userId}`,
-                headers: {
-                    'Content-Type': 'application/json',
-                    authorization: `${token_type} ${access_token}`
-                },
-
-                data: datas = user_data
-            };
-
-        console.log(`************************************** ${options.url}`);
-
-        axios(options)
-            .catch((err) => console.log(err));
-    });
-
-});
+routes
+    .route("/auth0/update/:userId")
+    .patch(auth0Controller.updateUserInfo);
 
 module.exports = routes
