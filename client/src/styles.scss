@@ -3,18 +3,20 @@
 @import './material-theme.scss';
 @import "../node_modules/ng2-slim-loading-bar/style.css";
 @import url('https://fonts.googleapis.com/css?family=Muli|Shadows+Into+Light&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Caveat&display=swap');
 
 
 html, body { height: 100%; }
 body { 
   margin: 0; 
-  // font-family: Roboto, "Helvetica Neue", sans-serif; 
   font-family: 'Muli', sans-serif;
 
 }
 
 h1 {
-  font-family: 'Shadows Into Light', cursive;
+  font-family: 'Caveat', cursive;
+  // font-family: Roboto, "Helvetica Neue", sans-serif; 
+
 }
 
 mat-toolbar.mat-toolbar.mat-primary.mat-toolbar-single-row {
