@@ -38,7 +38,7 @@ export class ProfileService {
       .patch(`${this.updateUserData}${userId}`, metadata, httpOptions)
       .pipe(
         tap(updatedUser =>
-          console.log(`updated post = ${JSON.stringify(updatedUser)}`)
+          console.log('updated post =', updatedUser)
         )
       );
   }

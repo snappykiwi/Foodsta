@@ -21,9 +21,9 @@ import 'rxjs/add/operator/map';
 export class ProfileComponent implements OnInit {
 
   posts: any[] = [];
-  currentUserId = "";
-  currentUserName = "";
-  currentUserPic = "";
+  currentUserId: string;
+  currentUserName: string;
+  currentUserPic: string;
 
   // sets 'post' to the Post model to access/set it's properties
   post: Post = {
@@ -43,13 +43,13 @@ export class ProfileComponent implements OnInit {
   };
 
   user_data: any = {
-    nickname: this.currentUserName,
-    picture: this.currentUserPic,
+    // nickname: this.currentUserName,
+    // picture: this.currentUserPic,
     user_metadata: {
-      firstName: "",
-      lastName: "",
-      age: "",
-      phone: ""
+      // nickname: (this.currentUserName !== "") ? this.currentUserName : this.auth.userProfileSubject$.value.nickname,
+      // picture: (this.currentUserPic !== "") ? this.currentUserPic : this.auth.userProfileSubject$.value.picture
+      username: this.currentUserName,
+      picture: this.currentUserPic
     }
   }
 
@@ -85,8 +85,12 @@ export class ProfileComponent implements OnInit {
   };
 
   updateAuthData() {
+    console.log('UPDATE AUTH DATA :');
+    console.log('current user ID : ', this.currentUserId);
+    console.log('current user data : ', this.user_data)
     this.profileService.updateUserInfo(this.currentUserId, this.user_data).subscribe(res => {
       console.log(res);
+
     })
   };
 
@@ -108,12 +112,18 @@ export class ProfileComponent implements OnInit {
 
       this.uploadService.imageUpload(imageForm).subscribe(res => {
 
-        this.user_data.picture = res['Location'];
-        console.log(this.user_data.picture);
+        this.user_data.user_metadata.picture = res['Location'];
+        console.log(this.user_data.user_metadata.picture);
+
+        this.user_data.user_metadata.username = this.currentUserName;
 
         this.updateAuthData();
       });
     } else {
+      console.log("currentUserPic on upload ", this.currentUserPic);
+      this.currentUserPic ? this.currentUserPic : this.user_data.user_metadata.picture;
+      console.log("current user pic after ternary", this.currentUserPic);
+      this.user_data.user_metadata.username = this.currentUserName;
       this.updateAuthData();
     }
 
@@ -122,10 +132,10 @@ export class ProfileComponent implements OnInit {
   setUserData() {
 
     this.currentUserId = this.auth.userProfileSubject$.value.sub;
-    this.currentUserName = this.auth.userProfileSubject$.value.nickname;
-    this.currentUserPic = this.auth.userProfileSubject$.value.picture;
+    this.currentUserName = this.user_data.user_metadata.username;
+    this.currentUserPic = this.user_data.user_metadata.picture;
     this.post.userId = this.auth.userProfileSubject$.value.sub;
-    this.post.userName = this.auth.userProfileSubject$.value.nickname;
+    this.post.userName = this.user_data.user_metadata.username ? this.user_data.user_metadata.username : this.auth.userProfileSubject$.value.username;
 
   }
 
@@ -134,10 +144,16 @@ export class ProfileComponent implements OnInit {
 
     this.auth.getUser$();
 
+    console.log(this.auth.userProfileSubject$);
+
     this.setUserData();
 
-    this.profileService.getUserData(this.currentUserId).subscribe(res => {
-      console.log(`data from auth0 : ${res}`);
+    this.profileService.getUserData(this.currentUserId).subscribe((res : any) => {
+      console.log('data from auth0 :', res);
+      this.currentUserName = res.user_metadata.username ? res.user_metadata.username : res.nickname;
+      console.log(this.currentUserName);
+      this.currentUserPic = res.user_metadata.picture ? res.user_metadata.picture : res.picture;
+      console.log(this.currentUserPic);
     });
     this.getUserPosts();
   };
