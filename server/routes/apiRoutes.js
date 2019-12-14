@@ -7,10 +7,11 @@ const
     axios = require('axios').default,
     awsPhotoUpload = require("../awsPhotoUpload"),
     getTokenAuth0 = require('../controllers/getTokenAuth0'),
-    placesController = require('../controllers/placesController'),
     dbController = require("../controllers/dbController"),
-    uuid = require('uuid/v4');
+    googleApiController = require("../controllers/googleApiController");
 
+/* Database - Sequelize 
+--------------------------- */
 
 // Get All post or One by Id
 routes
@@ -47,35 +48,31 @@ routes
     .route('/posts/searchby/v2/')
     .get(dbController.getPostBy);
 
-/* GOOGLE SEARCH */
+/* GOOGLE PLACE API SEARCH 
+--------------------------- */
 
-routes.get("/google/place/v2/", (req, res) => {
+// Get Nearby Restaurant based on your current location
+routes
+    .route("/google/place/v2/")
+    .get(googleApiController.getNearByRestaurant);
 
-    const
-        googleApiKey = process.env.GOOGLE_API_KEY,
-        searchInput = req.query.searchInput || "restaurant",
-        lat = req.query.lat,
-        lng = req.query.lng,
-        radius = req.query.radius || 1500;
+// Get more details on a specific restaurant
+routes
+    .route("/google/place/restaurantdetails/:id")
+    .get(googleApiController.getRestaurantDetails);
 
-    placesController
-        .getNearByRestaurants(searchInput, lat, lng, radius, googleApiKey)
-        .then((restaurantsNearby) => res.status(200).json(restaurantsNearby))
-        .catch((error) => res.sendStatus(500))
-});
+// AutoComplete result from what the user is typing
+routes
+    .route("/google/place/autocomplete/:searchInput/:radius?")
+    .get(googleApiController.autoComplete);
 
-routes.get("/google/place/restaurantdetails/:id", (req, res) => {
+// Get User location by using Geolocation API
+routes
+    .route("/google/place/user/geolocation")
+    .get(googleApiController.geolocation);
 
-    const
-        { id } = req.params,
-        googleApiKey = process.env.GOOGLE_API_KEY;
-
-    placesController
-        .getDetailsRestaurant(id, googleApiKey)
-        .then((restaurantDetails) => res.status(200).json(restaurantDetails))
-        .catch((error) => res.sendStatus(404))
-
-});
+/* AWS 
+--------------------------- */
 
 routes.post("/picUpload", upload.single('picture'), (req, res) => {
 
@@ -88,37 +85,9 @@ routes.post("/picUpload", upload.single('picture'), (req, res) => {
     awsPhotoUpload(req, res);
 });
 
-routes.get("/google/place/autocomplete/:searchInput/:radius?", (req, res) => {
-
-    const
-        { searchInput } = req.params,
-        googleApiKey = process.env.GOOGLE_API_KEY,
-        radius = req.params.radius || 100,
-        sessionToken = uuid();
-
-    console.log(searchInput)
-
-    placesController
-        .autoComplete(searchInput, radius, googleApiKey, sessionToken)
-        .then((results) => res.status(200).json(results))
-        .catch((error) => res.status(error.statusCode).json(error))
-});
-
-
-routes.post("/google/place/user/geolocation", (req, res) => {
-
-    const googleApiKey = process.env.GOOGLE_API_KEY;
-
-    placesController
-        .geolocation(googleApiKey)
-        .then((results) => res.status(200).json(results))
-        .catch((error) => res.status(error.statusCode).json(error))
-
-});
-
 
 /* Auth0 API 
----------------- */
+--------------------------- */
 
 //get Auth0 User information
 routes.get("/auth0/user/:userId", (req, res) => {
