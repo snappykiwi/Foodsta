@@ -14,17 +14,19 @@
 
     </mat-expansion-panel-header>
 
+    
+
     <a class="mat-stroked-button" routerLink="/login" (click)="auth.logout()">Logout</a>
   </mat-expansion-panel>
 
 </mat-accordion>
 <div class="grid-container">
 
-  <p> {{ user_data.nickname }} </p>
-
   <div class="row" *ngIf="auth.userProfile$ | async as profile">
     <div class="col-sm-s12">
-      <img src="{{ this.currentUserPic }}" class="rounded float-left ml-3 mr-3 mb-3" style="height: 200px; width: 200px;">
+      <div *ngIf="this.profileService.profilePicSource | async">
+        <img src="{{this.profileService.profilePicSource.value}}" class="rounded float-left ml-3 mr-3 mb-3" style="height: 200px; width: 200px;">
+      </div>
       <h1 class="float-left mt-4"> Hey, {{ this.currentUserName }}! </h1>
       <br>
       <button mat-stroked-button class="float-left mt-5">Edit Profile</button>

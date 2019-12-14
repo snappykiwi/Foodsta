@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AuthService } from '../../auth.service';
 import { UploadService } from '../../services/uploads/upload.service';
@@ -24,6 +24,7 @@ export class ProfileComponent implements OnInit {
   currentUserId: string;
   currentUserName: string;
   currentUserPic: string;
+  profilePic: string;
 
   // sets 'post' to the Post model to access/set it's properties
   post: Post = {
@@ -88,8 +89,9 @@ export class ProfileComponent implements OnInit {
     console.log('UPDATE AUTH DATA :');
     console.log('current user ID : ', this.currentUserId);
     console.log('current user data : ', this.user_data)
-    this.profileService.updateUserInfo(this.currentUserId, this.user_data).subscribe(res => {
+    this.profileService.updateUserInfo(this.currentUserId, this.user_data).subscribe((res: any) => {
       console.log(res);
+      this.profileService.profilePicSource.next(res.user_metadata.picture);
 
     })
   };
@@ -154,6 +156,11 @@ export class ProfileComponent implements OnInit {
       console.log(this.currentUserName);
       this.currentUserPic = res.user_metadata.picture ? res.user_metadata.picture : res.picture;
       console.log(this.currentUserPic);
+      console.log(this.profileService.profilePicSource);
+      this.profileService.profilePicSource.next(this.currentUserPic);
+      console.log(this.profileService.profilePicSource.value);
+      this.profilePic = this.profileService.profilePicSource.value;
+
     });
     this.getUserPosts();
   };
