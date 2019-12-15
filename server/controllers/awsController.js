@@ -1,6 +1,5 @@
 const
     multer = require('multer'),
-    upload = multer(),
     awsPhotoUpload = require("../awsPhotoUpload");
 
 const awsController = {

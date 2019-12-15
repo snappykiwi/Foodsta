@@ -73,7 +73,7 @@ routes
 /* AWS 
 --------------------------- */
 
-// Upload picture to AWS Bucket == ask Elias about this routes
+// Upload picture to AWS Bucket
 routes
     .route("/picUpload")
     .post(upload.single('picture'), awsController.picUpload);
