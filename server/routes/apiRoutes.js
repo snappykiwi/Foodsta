@@ -42,7 +42,7 @@ routes
     .route('/posts/partial/:searchString')
     .get(dbController.partialSearchPost);
 
-//Getting all the post by restaurantId, gluttenFree, vegan, vegetarian
+//Getting all the post by restaurantId, gluttenFree, vegan, vegetarian, title, cuisine, restaurantName
 routes
     .route('/posts/searchby/v2/')
     .get(dbController.getPostBy);

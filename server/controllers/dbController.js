@@ -175,8 +175,6 @@ const dbController = {
     },
     getPostBy: function (req, res) {
 
-        console.log("req.query", req.query);
-
         const queryParameters = Object.keys(req.query);
         let dietParametersArray = [];
         let postNamesArray = [];
@@ -194,7 +192,7 @@ const dbController = {
                             [param]: req.query[param]
                         }
                     )
-                    break
+                    break;
                 case 'title':
                 case 'cuisine':
                 case 'restaurantName':
@@ -215,7 +213,7 @@ const dbController = {
         db.Post
             .findAll({
                 where: apiHelpers.sortbyParameters(Op, dietParametersArray, postNamesArray),
-                                
+
                 order: sortParametersArray.length ? sortParametersArray : [['createdAt', 'DESC']]
             })
             .then(data => res.json(data))
