@@ -16,7 +16,22 @@ function ApiHelpers() {
         } else {
             return undefined;
         }
-    }
+    },
+
+        this.sortbyParameters = function (Op, dietParametersArray, postNamesArray) {
+            if (!postNamesArray.length) {
+                return { [Op.or]: dietParametersArray }
+            }
+            else {
+                return {
+                    [Op.or]: dietParametersArray,
+
+                    [Op.and]: {
+                        [Op.or]: postNamesArray
+                    }
+                }
+            }
+        }
 }
 
 module.exports = new ApiHelpers();
