@@ -32,6 +32,7 @@ export class BrowseComponent implements OnInit {
   ) { }
 
   getRestaurants(search = "restaurants", latitude = this.latitude, longitude = this.longitude) {
+    console.log(search, latitude, longitude);
     this.searchService.restaurantApiInfo(search, latitude, longitude).subscribe(restaurants => {
       console.log("restaurants : ", restaurants);
       console.log("input : ", search);
@@ -60,7 +61,11 @@ export class BrowseComponent implements OnInit {
   onSearch(search?: string) {
 
     if (search) {
+      console.log("searching........");
       this.posts = [];
+
+      this.latitude = this.geolocationService.latitudeSource.value;
+      this.longitude = this.geolocationService.longitudeSource.value;
 
       this.getRestaurants(search);
 
@@ -70,28 +75,48 @@ export class BrowseComponent implements OnInit {
 
     }
     else {
+      console.log("getting posts and restaurants......");
       this.getPosts();
       this.getRestaurants();
     }
   };
 
+  setLocationValues(location) {
+    this.geolocationService.longitudeSource.next(location.lng);
+    this.geolocationService.latitudeSource.next(location.lat);
+    this.latitude = this.geolocationService.latitudeSource.value;
+    this.longitude = this.geolocationService.longitudeSource.value;
+  }
 
+  getLocationResults() {
+    console.log(this.geolocationService.gotLocation);
+    console.log(this.geolocationService.gotLocation.value);
+
+    if (!this.geolocationService.gotLocation.value) {
+
+      this.geolocationService.getGeolocation().subscribe((location: Location) => {
+        console.log(location);
+        this.setLocationValues(location.location);
+
+        this.onSearch();
+      });
+    }
+    else {
+      this.geolocationService.getPosition().then(pos => {
+        console.log(`Positon: ${pos.lng} ${pos.lat}`);
+        this.setLocationValues(pos);
+
+        this.onSearch();
+      });
+    };
+
+  };
 
 
   ngOnInit() {
     this.getPosts();
-    this.geolocationService.getGeolocation().subscribe((location: Location) => {
-      console.log(location);
-      this.geolocationService.longitudeSource.next(location.location.lng);
-      this.geolocationService.latitudeSource.next(location.location.lat);
-      this.latitude = this.geolocationService.latitudeSource.value;
-      this.longitude = this.geolocationService.longitudeSource.value;
 
-      console.log(this.longitude);
-      console.log(this.latitude);
-
-      this.onSearch();
-    });
+    this.getLocationResults();
   }
 
 }

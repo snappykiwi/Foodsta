@@ -1,5 +1,5 @@
 <ng-container *ngIf='searchService.restaurantSource | async as restaurantList'>
-  <button mat-button (click)="getLocation()">Get Nearby Restaurants</button>
+  <button mat-stroked-button (click)="getLocation()">Get Nearby Restaurants</button>
 
   <mat-nav-list [@listStagger]='restaurantList.length'>
     <mat-list-item *ngFor="let restaurant of restaurantList" (click)="goToRestaurantPg(restaurant)"
