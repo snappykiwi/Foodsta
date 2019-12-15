@@ -89,7 +89,10 @@ export class BrowseComponent implements OnInit {
   }
 
   getLocationResults() {
-    if (!this.geolocationService.gotLocation) {
+    console.log(this.geolocationService.gotLocation);
+    console.log(this.geolocationService.gotLocation.value);
+
+    if (!this.geolocationService.gotLocation.value) {
 
       this.geolocationService.getGeolocation().subscribe((location: Location) => {
         console.log(location);

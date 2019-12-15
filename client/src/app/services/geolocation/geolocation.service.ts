@@ -28,12 +28,14 @@ export class GeolocationService {
 
   };
 
+
   getPosition(): Promise<any> {
     return new Promise((resolve, reject) => {
 
       navigator.geolocation.getCurrentPosition(resp => {
 
         this.gotLocation.next(true);
+        console.log(this.gotLocation.value);
 
         resolve({ lng: resp.coords.longitude, lat: resp.coords.latitude });
       },
