@@ -221,6 +221,29 @@ const dbController = {
                 console.log(err);
                 throw err;
             });
+    },
+    updatePost: function (req, res) {
+
+        const post = req.body;
+        db.Post.update({
+            "title": post.title,
+            "caption": post.caption,
+            "cuisine": post.cuisine,
+            "image": post.image,
+            "rating": post.rating,
+            "gf": post.gf,
+            "vegan": post.vegan,
+            "vegetarian": post.vegetarian,
+            "RestaurantId": post.RestaurantId
+        }, {
+            where: {
+                id: req.params.id
+            }
+        }).then((response) => res.json(response))
+            .catch(err => {
+                console.log(err);
+                throw err;
+            });
     }
 
 };
