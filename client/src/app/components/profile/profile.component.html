@@ -17,19 +17,19 @@
     <div class="row">
 
       <div class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
-  
+
         <input style="display: none" (change)="onImagePicked($event)" #fileInput type="file" accept='image/*' />
-      
+
         <button *ngIf="!imageObj; else imagePicked" mat-button (click)="fileInput.click()">Update Picture</button>
         <ng-template #imagePicked><button mat-button (click)="fileInput.click()">Change Picture</button></ng-template>
-  
+
         <div *ngIf="imageObj">
           <br />
-          <img [ngClass]="{'dark': isDarkTheme | async}" class="imagePreview" width="200px" src="{{imgURL}}" />
+          <img class="imagePreview" width="200px" src="{{imgURL}}" />
         </div>
-  
+
       </div>
-  
+
     </div>
 
     <div class="row">
@@ -52,7 +52,8 @@
   <div class="row" *ngIf="auth.userProfile$ | async as profile">
     <div class="col-sm-s12">
       <div *ngIf="this.profileService.profilePicSource | async">
-        <img src="{{this.profileService.profilePicSource.value}}" class="rounded float-left ml-3 mr-3 mb-3" style="height: 200px; width: 200px;">
+        <img src="{{this.profileService.profilePicSource.value}}" class="rounded float-left ml-3 mr-3 mb-3"
+          style="height: 200px; width: 200px;">
         <h1 class="float-left mt-4"> Hey, {{ this.currentUserName }}! </h1>
       </div>
     </div>
@@ -85,15 +86,15 @@
   </div>
 <button mat-button type="button" (click)="onImageUpload()">Update</button> -->
 
-<hr />
+  <hr />
 
-<mat-divider></mat-divider>
-<app-photo-container *ngIf="posts.length; else noPosts" [posts]="posts"></app-photo-container>
+  <mat-divider></mat-divider>
+  <app-photo-container *ngIf="posts.length; else noPosts" [posts]="posts"></app-photo-container>
 
-<ng-template #noPosts>
-  <div>
-    <h4 class="noPosts">No Posts Yet</h4>
-  </div>
-</ng-template>
+  <ng-template #noPosts>
+    <div>
+      <h4 class="noPosts">No Posts Yet</h4>
+    </div>
+  </ng-template>
 
 </div>

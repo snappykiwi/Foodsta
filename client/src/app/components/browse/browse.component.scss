@@ -1,6 +1,6 @@
 .grid-container {
   margin: 20px;
-  // height: 100vh;
+  height: 100vh;
 }
 
 .dashboard-card {
@@ -19,4 +19,19 @@
 
 .dashboard-card-content {
   text-align: center;
+}
+
+
+div.card {
+
+  .card-body {
+    background-color: #ffffff;
+    color: #303030;
+  }
+
+  .card-body.dark{
+    background-color: #303030;
+    color: #ffffff;
+  }
+
 }

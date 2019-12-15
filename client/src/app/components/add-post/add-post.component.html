@@ -64,13 +64,13 @@
           <!-- <h4>Cuisine</h4> -->
           <mat-form-field class="full-width mr-5 mb-3">
             <mat-label>Cuisine</mat-label>
-          <mat-select [(ngModel)]="post.cuisine" matInput required>
+            <!-- <mat-select [(ngModel)]="post.cuisine" matInput required>
               <mat-option>None</mat-option>
               <mat-option *ngFor="let category of categories" [value]="category.value">
                 {{category.value}}
               </mat-option>
-          </mat-select>
-            <!-- <input [(ngModel)]="post.cuisine" matInput required placeholder="Cuisine"> -->
+          </mat-select> -->
+            <input [(ngModel)]="post.cuisine" matInput required placeholder="Cuisine">
           </mat-form-field>
 
           <h4>Dietary Info</h4>

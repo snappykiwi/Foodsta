@@ -69,7 +69,7 @@ export class ProfileComponent implements OnInit {
     public auth: AuthService,
     public dialog: MatDialog,
     private postService: PostService,
-    private profileService: ProfileService,
+    public profileService: ProfileService,
     private actr: ActivatedRoute,
     private uploadService: UploadService
   ) {
@@ -155,7 +155,7 @@ export class ProfileComponent implements OnInit {
 
     this.setUserData();
 
-    this.profileService.getUserData(this.currentUserId).subscribe((res : any) => {
+    this.profileService.getUserData(this.currentUserId).subscribe((res: any) => {
       console.log('data from auth0 :', res);
       this.currentUserName = res.hasOwnProperty("given_name") ? res.given_name : res.nickname;
       this.currentUserPic = res.hasOwnProperty("user_metadata") && res.user_metadata.hasOwnProperty("picture") ? res.user_metadata.picture : res.picture;

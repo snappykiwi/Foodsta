@@ -26,15 +26,15 @@ export class ProfileService {
   public profilePicSource = new BehaviorSubject("");
   public profilePic = this.profilePicSource.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getUserData(userId: string) {
     return this.http.get(`${this.getMetaData}${userId}`);
-  }
+  };
 
   getUsersPosts(userId: string) {
     return this.http.get(`${this.getUserPosts}${userId}`);
-  }
+  };
 
   updateUserInfo(userId: string, metadata: any) {
     return this.http
@@ -44,5 +44,5 @@ export class ProfileService {
           console.log('updated post =', updatedUser)
         )
       );
-  }
+  };
 }

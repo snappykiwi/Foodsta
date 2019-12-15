@@ -25,6 +25,7 @@ export class PostService {
   postURL = '/api/posts'; // url for submitting form data
   getRestPostURL = '/api/posts/restaurant/'; // url for getting posts for specific restaurant
   getSearchPostURL = '/api/posts/partial/'; // url for getting posts based on user search
+  filteredPostsURL = '/api/posts/searchby/v2/' //url for getting posts using filters
 
   constructor(private http: HttpClient,
     private snackBar: MatSnackBar,
@@ -44,6 +45,31 @@ export class PostService {
   getSearchPosts(search: string) {
     console.log(search);
     return this.http.get(`${this.getSearchPostURL}${search}`);
+  }
+
+  getFilteredPosts(gf: boolean = false, vegan: boolean = false, vegetarian: boolean = false) {
+
+    let gfParam = gf ? '1' : '';
+    let veganParam = vegan ? '1' : '';
+    let vegParam = vegetarian ? '1' : '';
+
+    let param = { "gf": gfParam, "vegan": veganParam, "vegetarian": vegParam };
+
+    let params = new HttpParams()
+
+    Object.keys(param).forEach(function (key) {
+      if (param[key])
+        params = params.append(key, param[key]);
+    });
+
+    console.log(params);
+
+    if (gf || vegan || vegetarian) {
+      return this.http.get<Post[]>(`${this.filteredPostsURL}`, { params: params });
+    }
+    else {
+      return this.getPosts();
+    }
   }
 
   savePost(post: Post) {
