@@ -4,10 +4,9 @@ const
     multer = require('multer'),
     upload = multer(),
     routes = require('express').Router(),
-    awsPhotoUpload = require("../awsPhotoUpload"),
     dbController = require("../controllers/dbController"),
     googleApiController = require("../controllers/googleApiController"),
-    // awsController = require("../controllers/awsController"),
+    awsController = require("../controllers/awsController"),
     auth0Controller = require("../controllers/auth0Controller");
 
 /* Database - Sequelize 
@@ -43,7 +42,7 @@ routes
     .route('/posts/partial/:searchString')
     .get(dbController.partialSearchPost);
 
-//Getting all the post by restaurantId, gluttenFree, vegan, vegetarian
+//Getting all the post by restaurantId, gluttenFree, vegan, vegetarian, title, cuisine, restaurantName
 routes
     .route('/posts/searchby/v2/')
     .get(dbController.getPostBy);
@@ -74,21 +73,10 @@ routes
 /* AWS 
 --------------------------- */
 
-//Upload picture to AWS Bucket == ask Elias about this routes
-// routes
-//     .route("/picUpload", upload.single('picture'))
-//     .post(awsController.picUpload);
-
-routes.post("/picUpload", upload.single('picture'), (req, res) => {
-
-    console.log(req.file);
-
-    if (!req.file || Object.keys(req.file).length === 0) {
-        return res.status(400).send("No files were uploaded.");
-    }
-
-    awsPhotoUpload(req, res);
-});
+// Upload picture to AWS Bucket
+routes
+    .route("/picUpload")
+    .post(upload.single('picture'), awsController.picUpload);
 
 /* Auth0 API 
 --------------------------- */

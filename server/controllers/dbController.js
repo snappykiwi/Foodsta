@@ -176,7 +176,8 @@ const dbController = {
     getPostBy: function (req, res) {
 
         const queryParameters = Object.keys(req.query);
-        let paramatersArray = [];
+        let dietParametersArray = [];
+        let postNamesArray = [];
         let sortParametersArray = [];
 
         queryParameters.forEach((param) => {
@@ -186,9 +187,20 @@ const dbController = {
                 case 'gf':
                 case 'vegan':
                 case 'vegetarian':
-                    if (req.query[param] !== undefined) paramatersArray.push(
+                    if (req.query[param] !== undefined) dietParametersArray.push(
                         {
                             [param]: req.query[param]
+                        }
+                    )
+                    break;
+                case 'title':
+                case 'cuisine':
+                case 'restaurantName':
+                    if (req.query[param] !== undefined) postNamesArray.push(
+                        {
+                            [param]: {
+                                [Op.like]: `%${req.query[param]}%`
+                            }
                         }
                     )
                     return
@@ -198,12 +210,10 @@ const dbController = {
 
             (orderBy) && sortParametersArray.push(orderBy)
         })
-
         db.Post
             .findAll({
-                where: {
-                    [Op.or]: paramatersArray
-                },
+                where: apiHelpers.sortbyParameters(Op, dietParametersArray, postNamesArray),
+
                 order: sortParametersArray.length ? sortParametersArray : [['createdAt', 'DESC']]
             })
             .then(data => res.json(data))
