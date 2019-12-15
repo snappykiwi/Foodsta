@@ -81,7 +81,6 @@ export class SearchService {
 
       console.log(this.restaurantCalls);
     }
-
     console.log(this.restaurantCalls);
     return this.restaurantCalls[searchInput + latitude + longitude];
   };
