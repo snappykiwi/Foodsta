@@ -155,22 +155,22 @@ export class AddPostComponent implements OnInit {
   }
 
   categories: SelectOptions[] = [
-    { value: 'Mexican' },
-    { value: 'Thai' },
-    { value: 'Chinese' },
-    { value: 'Nepalese' },
-    { value: 'Italian' },
-    { value: 'American' },
-    { value: 'Fast Food' },
-    { value: 'Vietnamese' },
-    { value: 'Barbeque' },
-    { value: 'Seafood' },
-    { value: 'Central American' },
-    { value: 'Spanish' },
-    { value: 'Brazilian' },
-    { value: 'Caribbean' },
-    { value: 'Cajun' },
     { value: 'African' },
+    { value: 'American' },
+    { value: 'Barbeque' },
+    { value: 'Brazilian' },
+    { value: 'Cajun' },
+    { value: 'Caribbean' },
+    { value: 'Central American' },
+    { value: 'Chinese' },
+    { value: 'Fast Food' },
+    { value: 'Italian' },
+    { value: 'Mexican' },
+    { value: 'Nepalese' },
+    { value: 'Seafood' },
+    { value: 'Spanish' },
+    { value: 'Thai' },
+    { value: 'Vietnamese' },
     { value: 'Other' }
   ];
 
