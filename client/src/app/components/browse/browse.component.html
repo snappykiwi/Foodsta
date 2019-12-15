@@ -10,7 +10,7 @@
     <button mat-button (click)="filtersCollapsed = !filtersCollapsed" matTooltip="Filter" matTooltipPosition="right"
       aria-label="Filter Posts Icon" [matTooltipShowDelay]="750"><i class="material-icons mr-2">filter_list</i></button>
   </p>
-  <div [ngbCollapse]="filtersCollapsed">
+  <div @fadeInCollapse *ngIf="!filtersCollapsed">
     <div class="card">
       <div [ngClass]="{'dark': isDarkTheme | async}" class="card-body">
         <h5>Sort By</h5>

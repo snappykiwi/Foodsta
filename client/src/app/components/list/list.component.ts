@@ -28,14 +28,14 @@ import { GeolocationService } from 'src/app/services/geolocation/geolocation.ser
             stagger(
               '50ms',
               animate(
-                '550ms ease-out',
+                '1000ms ease-out',
                 style({ opacity: 1, transform: 'translateY(0px)' })
               )
             )
           ],
           { optional: true }
         ),
-        query(':leave', animate('50ms', style({ opacity: 0 })), {
+        query(':leave', animate('500ms', style({ opacity: 0 })), {
           optional: true
         })
       ])
