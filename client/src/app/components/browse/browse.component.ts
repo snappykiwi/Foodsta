@@ -29,9 +29,11 @@ export class BrowseComponent implements OnInit {
   public filtersCollapsed = true;
 
   isDarkTheme: Observable<boolean>
+  loadingPosts: boolean = true;
 
   public latitude;
   public longitude;
+
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -55,11 +57,14 @@ export class BrowseComponent implements OnInit {
   }
 
   getPosts() {
+    this.loadingPosts = true;
+
     console.log(this.posts);
     this.postService.getPosts().subscribe((posts: any[]) => {
       console.log(posts);
 
       setTimeout(() => {
+        this.loadingPosts = false;
 
         this.posts = posts;
       }, 1000);

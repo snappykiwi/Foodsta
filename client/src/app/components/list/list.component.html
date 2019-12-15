@@ -1,6 +1,8 @@
 <ng-container *ngIf='searchService.restaurantSource | async as restaurantList'>
   <button mat-stroked-button (click)="getLocation()">Get Nearby Restaurants</button>
 
+  <mat-spinner *ngIf="gettingRestaurants" diameter="40"></mat-spinner>
+
   <mat-nav-list [@listStagger]='restaurantList.length'>
     <mat-list-item *ngFor="let restaurant of restaurantList" (click)="goToRestaurantPg(restaurant)"
       class="left restaurant-list">{{restaurant.name}}</mat-list-item>

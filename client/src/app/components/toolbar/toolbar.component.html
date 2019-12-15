@@ -7,17 +7,20 @@
     </button>
     <span class="siteTitle">Foodsta</span>
 
-    <div>
-      <!-- <div id="searchBar" class="form-group">
-        <input type="text" #search matInput placeholder="Search">
-      </div>
+    <div [ngClass]="{'dark': isDarkTheme | async}">
 
-      <button type="submit" class="btn btn-default"><i class="material-icons mr-2">search</i></button> -->
-
-      <mat-slide-toggle [checked]="isDarkTheme | async" labelPosition="before"
+      <!-- <mat-slide-toggle class="mr-2" [checked]="isDarkTheme | async" labelPosition="before"
         (change)="toggleDarkTheme($event.checked)">
-        <mat-icon [ngClass]="{'dark': isDarkTheme | async}">brightness_6</mat-icon>
-      </mat-slide-toggle>
+      </mat-slide-toggle> -->
+      <mat-icon class="toolbar-icon mr-3" (click)="toggleDarkTheme()" matTooltip="Toggle Dark Mode"
+        aria-label="Toggle dark mode icon" [matTooltipShowDelay]="750">brightness_6</mat-icon>
+
+      <mat-icon (click)="auth.logout()" *ngIf="auth.loggedIn" class="toolbar-icon" matTooltip="Logout"
+        aria-label="Logout icon" [matTooltipShowDelay]="750">
+        meeting_room</mat-icon>
+      <mat-icon (click)="auth.login()" *ngIf="!auth.loggedIn" class="toolbar-icon" matTooltip="Login"
+        aria-label="Login icon" [matTooltipShowDelay]="750">
+        vpn_key</mat-icon>
 
     </div>
 
