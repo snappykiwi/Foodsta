@@ -7,7 +7,7 @@ const awsController = {
 
     picUpload: function (req, res) {
 
-        console.log("REQ", req);
+        console.log("req.file", req.file);
 
         if (!req.file || Object.keys(req.file).length === 0) {
             return res.status(400).send("No files were uploaded.");
