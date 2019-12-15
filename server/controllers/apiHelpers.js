@@ -19,8 +19,15 @@ function ApiHelpers() {
     },
 
         this.sortbyParameters = function (Op, dietParametersArray, postNamesArray) {
+            console.log(dietParametersArray, postNamesArray);
             if (!postNamesArray.length) {
-                return { [Op.or]: dietParametersArray }
+                return {
+                    [Op.or]: dietParametersArray
+                }
+            } else if (!dietParametersArray.length) {
+                return {
+                    [Op.or]: postNamesArray
+                }
             }
             else {
                 return {
