@@ -8,6 +8,7 @@ import { Location } from '../../models/Location';
 import { Observable } from 'rxjs';
 import { PostService } from 'src/app/services/posts/post.service';
 import { GeolocationService } from 'src/app/services/geolocation/geolocation.service';
+import { ThemeService } from 'src/app/services/themes/theme.service';
 
 @Component({
   selector: 'app-browse',
@@ -21,6 +22,14 @@ export class BrowseComponent implements OnInit {
   restaurants: Search[] = [];
   posts: any[] = [];
 
+  sortGF: boolean = false;
+  sortVegan: boolean = false;
+  sortVegetarian: boolean = false;
+
+  public filtersCollapsed = true;
+
+  isDarkTheme: Observable<boolean>
+
   public latitude;
   public longitude;
 
@@ -28,7 +37,8 @@ export class BrowseComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private searchService: SearchService,
     private postService: PostService,
-    private geolocationService: GeolocationService
+    private geolocationService: GeolocationService,
+    private themeService: ThemeService
   ) { }
 
   getRestaurants(search = "restaurants", latitude = this.latitude, longitude = this.longitude) {
@@ -112,8 +122,26 @@ export class BrowseComponent implements OnInit {
 
   };
 
+  filterPosts(event) {
+    console.log(event.source.value);
+    console.log(event.checked);
+    console.log("filtering posts");
+
+    console.log(this.sortGF);
+    console.log(this.sortVegan);
+    console.log(this.sortVegetarian);
+
+    this.postService.getFilteredPosts(this.sortGF, this.sortVegan, this.sortVegetarian).subscribe((posts: any[]) => {
+      console.log(posts);
+
+      this.posts = posts;
+    });
+  }
+
 
   ngOnInit() {
+    this.isDarkTheme = this.themeService.isDarkTheme;
+
     this.getPosts();
 
     this.getLocationResults();

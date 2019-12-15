@@ -7,7 +7,22 @@
         placeholder="Search meal, cuisine, or restaurant">
     </mat-form-field>
     <button mat-button (click)="onSearch(search.value)"><i class="material-icons mr-2">search</i></button>
+    <button mat-button (click)="filtersCollapsed = !filtersCollapsed"><i
+        class="material-icons mr-2">filter_list</i></button>
   </p>
+  <div [ngbCollapse]="filtersCollapsed">
+    <div class="card">
+      <div [ngClass]="{'dark': isDarkTheme | async}" class="card-body">
+        <h5>Sort By</h5>
+        <mat-checkbox class="mr-3" [(ngModel)]="sortGF" (change)="filterPosts($event)" value="gf" matInput>GF
+        </mat-checkbox>
+        <mat-checkbox class="mr-3" [(ngModel)]="sortVegan" (change)="filterPosts($event)" value="vegan" matInput>Vegan
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="sortVegetarian" (change)="filterPosts($event)" value="vegetarian" matInput>Vegetarian
+        </mat-checkbox>
+      </div>
+    </div>
+  </div>
 
   <app-photo-container *ngIf="posts.length; else noPosts" [posts]="posts"></app-photo-container>
 
