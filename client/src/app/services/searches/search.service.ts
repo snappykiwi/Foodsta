@@ -71,10 +71,10 @@ export class SearchService {
   }
 
 
-  restaurantApiInfo(searchInput: string, latitude: string, longitude: string) {
+  restaurantApiInfo(searchInput: string, latitude: string, longitude: string, ) {
 
-    if (!this.restaurantCalls[searchInput]) {
-      this.restaurantCalls[searchInput] = this.getRestaurants(searchInput, latitude, longitude).pipe(
+    if (!this.restaurantCalls[searchInput + latitude + longitude]) {
+      this.restaurantCalls[searchInput + latitude + longitude] = this.getRestaurants(searchInput, latitude, longitude).pipe(
 
         shareReplay(1)
       );
@@ -83,7 +83,7 @@ export class SearchService {
     }
 
     console.log(this.restaurantCalls);
-    return this.restaurantCalls[searchInput];
+    return this.restaurantCalls[searchInput + latitude + longitude];
   };
 
 

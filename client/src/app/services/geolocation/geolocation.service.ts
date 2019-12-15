@@ -18,6 +18,8 @@ export class GeolocationService {
   public longitudeSource = new BehaviorSubject({});
   public longitude = this.longitudeSource.asObservable();
 
+  public gotLocation = new BehaviorSubject(false)
+
   constructor(private http: HttpClient) { }
 
   getGeolocation() {
@@ -30,6 +32,8 @@ export class GeolocationService {
     return new Promise((resolve, reject) => {
 
       navigator.geolocation.getCurrentPosition(resp => {
+
+        this.gotLocation.next(true);
 
         resolve({ lng: resp.coords.longitude, lat: resp.coords.latitude });
       },
