@@ -22,7 +22,7 @@ export class ModalComponent implements OnInit {
     private config: NgbRatingConfig,
     private postService: PostService,
     private router: Router,
-
+    
     @Inject(MAT_DIALOG_DATA) public post: Post) {
     config.max = 5;
     config.readonly = true;

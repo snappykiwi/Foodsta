@@ -23,6 +23,9 @@ export class ProfileService {
   getUserPosts = "/api/posts/user/";
   updateUserData = "/api/auth0/update/";
 
+  public profilePicSource = new BehaviorSubject("");
+  public profilePic = this.profilePicSource.asObservable();
+
   constructor(private http: HttpClient) {}
 
   getUserData(userId: string) {
@@ -38,7 +41,7 @@ export class ProfileService {
       .patch(`${this.updateUserData}${userId}`, metadata, httpOptions)
       .pipe(
         tap(updatedUser =>
-          console.log(`updated post = ${JSON.stringify(updatedUser)}`)
+          console.log('updated post =', updatedUser)
         )
       );
   }
