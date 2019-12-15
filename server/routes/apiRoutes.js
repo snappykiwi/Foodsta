@@ -47,6 +47,11 @@ routes
     .route('/posts/searchby/v2/')
     .get(dbController.getPostBy);
 
+// Update a Post information
+routes
+    .route('/posts/:id')
+    .put(dbController.updatePost);
+
 /* GOOGLE PLACE API SEARCH 
 --------------------------- */
 
