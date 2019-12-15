@@ -117,7 +117,7 @@ export class ProfileComponent implements OnInit {
         this.user_data.user_metadata.picture = res['Location'];
         console.log(this.user_data.user_metadata.picture);
 
-        this.user_data.user_metadata.username = this.currentUserName;
+        // this.user_data.user_metadata.username = this.currentUserName;
 
         this.updateAuthData();
       });
@@ -125,16 +125,21 @@ export class ProfileComponent implements OnInit {
       console.log("currentUserPic on upload ", this.currentUserPic);
       this.currentUserPic ? this.currentUserPic : this.user_data.user_metadata.picture;
       console.log("current user pic after ternary", this.currentUserPic);
-      this.user_data.user_metadata.username = this.currentUserName;
+      // this.user_data.user_metadata.username = this.currentUserName;
       this.updateAuthData();
     }
 
   };
 
+  updateUsername() {
+
+    this.user_data.user_metadata.username = this.currentUserName;
+  }
+
   setUserData() {
 
     this.currentUserId = this.auth.userProfileSubject$.value.sub;
-    this.currentUserName = this.user_data.user_metadata.username;
+    this.currentUserName = this.user_data.user_metadata.username ? this.user_data.user_metadata.username : this.auth.userProfileSubject$.value.nickname;
     this.currentUserPic = this.user_data.user_metadata.picture;
     this.post.userId = this.auth.userProfileSubject$.value.sub;
     this.post.userName = this.user_data.user_metadata.username ? this.user_data.user_metadata.username : this.auth.userProfileSubject$.value.username;
@@ -152,15 +157,10 @@ export class ProfileComponent implements OnInit {
 
     this.profileService.getUserData(this.currentUserId).subscribe((res: any) => {
       console.log('data from auth0 :', res);
-      this.currentUserName = res.user_metadata.username ? res.user_metadata.username : res.nickname;
-      console.log(this.currentUserName);
-      this.currentUserPic = res.user_metadata.picture ? res.user_metadata.picture : res.picture;
-      console.log(this.currentUserPic);
-      console.log(this.profileService.profilePicSource);
+      this.currentUserName = res.hasOwnProperty("user_metadata") && res.user_metadata.hasOwnProperty("username") ? res.user_metadata.username : res.nickname 
+      this.currentUserPic = res.hasOwnProperty("user_metadata") && res.user_metadata.hasOwnProperty("picture") ? res.user_metadata.picture : res.picture;
       this.profileService.profilePicSource.next(this.currentUserPic);
-      console.log(this.profileService.profilePicSource.value);
       this.profilePic = this.profileService.profilePicSource.value;
-
     });
     this.getUserPosts();
   };
