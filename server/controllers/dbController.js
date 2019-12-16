@@ -193,16 +193,19 @@ const dbController = {
                         }
                     )
                     break;
-                case 'title':
-                case 'cuisine':
-                case 'restaurantName':
-                    if (req.query[param] !== undefined) postNamesArray.push(
+                case 'searchString':
+                    if (req.query[param] !== undefined) postNamesArray =
                         {
-                            [param]: {
+                            title: {
+                                [Op.like]: `%${req.query[param]}%`
+                            },
+                            cusine: {
+                                [Op.like]: `%${req.query[param]}%`
+                            },
+                            restaurantName: {
                                 [Op.like]: `%${req.query[param]}%`
                             }
                         }
-                    )
                     return
             }
 
