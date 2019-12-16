@@ -16,8 +16,9 @@
         <img class="popoverImg" *ngIf="post.vegetarian" src="../../../assets/images/vegetarian.png">
       </ng-template>
 
-      <img [ngClass]="{'dark': isDarkTheme | async}" class="mdc-image-list__image light postImage" src="{{post.image}}"
-        (click)="openDialog(post)" />
+      <img [@fadeIn]='post.state' [ngClass]="{'dark': isDarkTheme | async}"
+        class="mdc-image-list__image light postImage" src="{{post.image}}" (click)="openDialog(post)"
+        (load)="toggleState(post)" />
       <!--         
       <img [ngClass]="{'dark': isDarkTheme | async}" class="mdc-image-list__image light" src="{{post.image}}"
         (click)="openDialog(post)" /> -->

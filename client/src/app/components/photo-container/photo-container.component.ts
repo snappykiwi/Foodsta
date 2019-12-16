@@ -13,6 +13,7 @@ import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Post } from '../../models/Post';
 import { ThemeService } from 'src/app/services/themes/theme.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { fadeIn, fadeCollapse } from 'src/app/animations';
 
 @Component({
   selector: 'app-photo-container',
@@ -20,6 +21,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./photo-container.component.scss'],
   providers: [NgbRatingConfig],
   animations: [
+    fadeIn,
+    fadeCollapse,
     trigger('listStagger', [
       transition('* <=> *', [
         query(
@@ -52,6 +55,9 @@ export class PhotoContainerComponent {
 
   readonly = true;
 
+  isLoaded: boolean = false
+  mappedPosts: any;
+
   isDarkTheme: Observable<boolean>
   isProfilePage: boolean;
 
@@ -75,6 +81,10 @@ export class PhotoContainerComponent {
 
   ngOnInit() {
 
+    this.mappedPosts = this.posts.map((el) => ({ isLoaded: false, state: 'notLoaded', ...el }))
+    console.log(this.mappedPosts);
+
+    this.posts = this.mappedPosts;
     this.isDarkTheme = this.themeService.isDarkTheme;
 
     console.log(this.router.url);
@@ -95,6 +105,12 @@ export class PhotoContainerComponent {
         this.posts = result;
       }
     });
+  }
+
+  toggleState(post) {
+    console.log(post, "loaded")
+    post.state = 'loaded';
+    console.log(post.state);
   }
 
 

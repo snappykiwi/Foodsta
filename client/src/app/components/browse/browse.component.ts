@@ -70,7 +70,7 @@ export class BrowseComponent implements OnInit {
         this.loadingPosts = false;
 
         this.posts = posts;
-      }, 1000);
+      }, 500);
 
     });
 

@@ -6,6 +6,8 @@
 
   img.postImage {
     cursor: pointer;
+    opacity: 0;
+    transform: translateY(30px);
   }
 
   a.restaurantLink {
@@ -28,6 +30,27 @@
   .dark {
     border: 1px solid #ffffff;
   }
+
+  img.postImage.fade {
+    transition: 1s linear all;
+    -webkit-transition: 1s linear all;
+  }
+  
+  img.postImage.fade.ng-enter {
+    opacity: 1;
+  }
+  
+  img.postImage.fade.ng-enter.ng-enter-active {
+    opacity: 1;
+  }
+  
+  // .fade.ng-leave {
+  //   opacity: 1;
+  // }
+  
+  // .fade.ng-leave.ng-leave-active {
+  //   opacity: 0;
+  // }
 
   .my-masonry-image-list {
     @include mdc-image-list-masonry-columns(5);
