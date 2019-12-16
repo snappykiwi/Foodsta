@@ -5,13 +5,19 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { BottomNavItem } from 'ngx-bottom-nav';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import { NavigationCancel, Event, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
+import { NavigationCancel, Event, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { ThemeService } from './services/themes/theme.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { horizontalSlideAnimation, verticalSlideAnimation } from './animations';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [
+    horizontalSlideAnimation,
+    verticalSlideAnimation
+  ]
 })
 
 export class AppComponent implements OnInit {
@@ -24,6 +30,11 @@ export class AppComponent implements OnInit {
       map(result => result.matches),
       shareReplay()
     );
+
+  prepareRoute(outlet: RouterOutlet) {
+
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
+  }
 
   items: BottomNavItem[] = [
     { icon: 'home', label: 'Home', routerLink: '/home' },
