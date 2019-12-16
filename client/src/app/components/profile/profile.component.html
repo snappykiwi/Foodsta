@@ -14,7 +14,7 @@
 
     </mat-expansion-panel-header>
 
-    <div class="row">
+    <!-- <div class="row">
 
       <div class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
 
@@ -30,14 +30,10 @@
 
       </div>
 
-    </div>
+    </div> -->
 
     <div class="row">
-  
-      <!-- <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
-        <input matInput [(ngModel)]="this.currentUserName" required placeholder="Update your nickname">
-      </mat-form-field> -->
-    
+
     </div>
 
     <button mat-button type="button" (click)="onImageUpload()">Update</button>
@@ -51,40 +47,41 @@
 
   <div class="row" *ngIf="auth.userProfile$ | async as profile">
     <div class="col-sm-s12">
-      <div *ngIf="this.profileService.profilePicSource | async">
-        <img src="{{this.profileService.profilePicSource.value}}" class="rounded float-left ml-3 mr-3 mb-3"
+      <div id="editProfilePic" *ngIf="this.profileService.profilePicSource | async">
+
+        <div class="imgWrapper" *ngIf="imageObj; else mainImg">
+
+          <img src="{{imgURL}}" class="rounded float-left ml-3 mr-3 mb-3" style="height: 200px; width: 200px;">
+          <input style="display: none" (change)="onImagePicked($event)" #fileInput type="file" accept='image/*' />
+
+          <!-- <a class="editBtn hideIcon" *ngIf="!imageObj; else imagePicked" (click)="fileInput.click()"><i class="material-icons">edit</i></a>
+          <ng-template #imagePicked style="display: none"><i class="material-icons" (click)="fileInput.click()">edit</i></ng-template> -->
+          <h1 id="displayName" class="float-left mt-4"> Hey, {{ this.currentUserName }}! </h1>
+
+          <div class="picIcons">
+            <mat-icon class="doneBtn picIcon" (click)="onImageUpload()">done</mat-icon>
+            <mat-icon class="closeBtn picIcon" [ngSwitch]=#mainImg>close</mat-icon>
+          </div>
+
+        </div>
+        
+        <ng-template class="imgWrapper" #mainImg>
+          
+          <img src="{{this.profileService.profilePicSource.value}}" class="rounded float-left ml-3 mr-3 mb-3"
           style="height: 200px; width: 200px;">
-        <h1 class="float-left mt-4"> Hey, {{ this.currentUserName }}! </h1>
+          
+          <input style="display: none" (change)="onImagePicked($event)" #fileInput type="file" accept='image/*' />
+          
+          <mat-icon class="editBtn hideIcon" *ngIf="!imageObj; else imagePicked" (click)="fileInput.click()">edit</mat-icon>
+          <ng-template #imagePicked><mat-icon (click)="fileInput.click()">edit</mat-icon></ng-template>
+          
+          <h1 id="displayName" class="float-left mt-4"> Hey, {{ this.currentUserName }}! </h1>
+          
+        </ng-template>
+        
       </div>
     </div>
   </div>
-
-  <!-- <div class="row">
-
-    <div class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
-
-      <input style="display: none" (change)="onImagePicked($event)" #fileInput type="file" accept='image/*' />
-    
-      <button *ngIf="!imageObj; else imagePicked" mat-button (click)="fileInput.click()">Choose Picture</button>
-      <ng-template #imagePicked><button mat-button (click)="fileInput.click()">Change Picture</button></ng-template>
-
-      <div *ngIf="imageObj">
-        <br />
-        <img [ngClass]="{'dark': isDarkTheme | async}" class="imagePreview" width="200px" src="{{imgURL}}" />
-      </div>
-
-    </div>
-
-  </div> -->
-
-  <!-- <div class="row">
-    
-    <mat-form-field class="col col-sm-12 col-md-6 offset-md-3 mr-5 mb-3">
-      <input matInput [(ngModel)]="this.currentUserName" required placeholder="Enter your nickname">
-    </mat-form-field>
-  
-  </div>
-<button mat-button type="button" (click)="onImageUpload()">Update</button> -->
 
   <hr />
 
