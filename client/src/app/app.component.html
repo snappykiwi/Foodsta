@@ -48,7 +48,16 @@
 
           <app-toolbar [sideNav]="drawer"></app-toolbar>
 
-          <router-outlet></router-outlet>
+          <div *ngIf="isHandset$ | async; else desktopRouter" [@routeAnimations]="o && o.activatedRouteData 
+          && o.activatedRouteData['animation']">
+            <router-outlet #o="outlet"></router-outlet>
+          </div>
+          <ng-template #desktopRouter>
+            <div [@routeDesktopAnimations]="o && o.activatedRouteData 
+          && o.activatedRouteData['animation']">
+              <router-outlet #o="outlet"></router-outlet>
+            </div>
+          </ng-template>
 
           <ngx-bottom-nav *ngIf="isHandset$ | async" class="bottom-nav" [items]="items" color="primary">
           </ngx-bottom-nav>

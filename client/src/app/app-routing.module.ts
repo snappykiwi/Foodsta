@@ -20,11 +20,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     resolve: {
       token: ProfileResolver
-    }
+    },
+    data: { animation: 'ProfilePage' }
   },
-  { path: 'home', component: BrowseComponent },
-  { path: 'add-post', component: AddPostComponent, canActivate: [AuthGuard] },
-  { path: 'restaurant/:id', component: RestaurantComponent },
+  { path: 'home', component: BrowseComponent, data: { animation: 'HomePage' } },
+  { path: 'add-post', component: AddPostComponent, canActivate: [AuthGuard], data: { animation: 'AddPage' } },
+  { path: 'restaurant/:id', component: RestaurantComponent, data: { animation: 'RestaurantPage' } },
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '/404' }
 ];

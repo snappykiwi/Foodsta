@@ -8,24 +8,13 @@ import { PostService } from 'src/app/services/posts/post.service';
 import { PhotoContainerComponent } from '../photo-container/photo-container.component'
 import { Observable } from 'rxjs';
 import { ThemeService } from 'src/app/services/themes/theme.service';
+import { fadeCollapse } from 'src/app/animations';
 
 @Component({
   selector: 'app-restaurant',
   templateUrl: './restaurant.component.html',
   styleUrls: ['./restaurant.component.scss'],
-  animations: [
-    [
-      trigger('fadeInCollapse', [
-        transition(':enter', [
-          style({ opacity: '0', transform: 'translateY(-40px)', height: '0px', overflow: 'hidden' }),
-          animate('.4s', style({ opacity: '1', transform: 'translateY(0px)', height: '*' })),
-        ]),
-        transition(':leave', [
-          animate('.4s', style({ opacity: '0', transform: 'translateY(-40px)', height: '0px', overflow: 'hidden' }))
-        ])
-      ]),
-    ]
-  ]
+  animations: [fadeCollapse]
 })
 export class RestaurantComponent implements OnInit {
 
