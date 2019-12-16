@@ -26,6 +26,8 @@ export class ProfileService {
   public profilePicSource = new BehaviorSubject("");
   public profilePic = this.profilePicSource.asObservable();
 
+  public currentUserId = new BehaviorSubject("");
+
   constructor(private http: HttpClient) { }
 
   getUserData(userId: string) {
