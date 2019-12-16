@@ -1,6 +1,6 @@
 import {
   animation, trigger, animateChild, group,
-  transition, animate, style, query
+  transition, animate, style, query, state
 } from '@angular/animations';
 
 
@@ -14,6 +14,21 @@ export const fadeCollapse =
       animate('.4s', style({ opacity: '0', transform: 'translateY(-40px)', height: '0px', overflow: 'hidden' }))
     ])
   ])
+
+export const fadeIn =
+  trigger('fadeIn', [
+    state('notLoaded', style({
+      opacity: 0,
+      transform: 'translateY(30px)'
+    })),
+    state('loaded', style({
+      opacity: 1,
+      transform: 'translateY(0px)'
+    })),
+    transition('* => loaded', [
+      animate('.8s ease-in-out')
+    ])
+  ]);
 
 export const horizontalSlideAnimation =
   trigger('routeAnimations', [

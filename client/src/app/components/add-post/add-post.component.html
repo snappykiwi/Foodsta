@@ -6,14 +6,16 @@
 
       <div>
 
-        <h3 class="mb-4 mt-2">Add Your Pic</h3>
+        <h3 class="mb-5 mt-2">Add Your Pic</h3>
 
         <!-- <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput [(ngModel)]="post.image"> -->
 
         <input style="display: none" (change)="onImagePicked($event)" #fileInput type="file" accept='image/*' />
 
-        <button *ngIf="!imageObj; else imagePicked" mat-button (click)="fileInput.click()">Choose Picture</button>
-        <ng-template #imagePicked><button mat-button (click)="fileInput.click()">Change Picture</button></ng-template>
+        <button *ngIf="!imageObj; else imagePicked" mat-stroked-button (click)="fileInput.click()">Choose
+          Picture</button>
+        <ng-template #imagePicked><button mat-stroked-button (click)="fileInput.click()">Change Picture</button>
+        </ng-template>
 
         <div *ngIf="imageObj">
           <br />
@@ -21,7 +23,7 @@
         </div>
 
         <div *ngIf="imageObj">
-          <button mat-button matStepperNext type="button">Next</button>
+          <button mat-stroked-button matStepperNext type="button">Next</button>
         </div>
 
       </div>
@@ -82,7 +84,7 @@
         </div>
 
         <button mat-button matStepperPrevious type="button">Back</button>
-        <button *ngIf="post.title && post.restaurantName && post.cuisine" mat-button matStepperNext
+        <button *ngIf="post.title && post.restaurantName && post.cuisine" mat-stroked-button matStepperNext
           type="button">Next</button>
 
       </div>
@@ -109,7 +111,7 @@
 
         <div>
           <button mat-button matStepperPrevious type="button">Back</button>
-          <button *ngIf="post.rating" mat-button matStepperNext type="button">Next</button>
+          <button *ngIf="post.rating" mat-stroked-button matStepperNext type="button">Next</button>
         </div>
 
       </div>
@@ -150,7 +152,7 @@
 
         <button mat-button matStepperPrevious type="button">Back</button>
         <button *ngIf="imageObj && post.title && post.rating && post.restaurantName && post.cuisine; else infoMissing"
-          mat-button (click)="onImageUpload()">Looks Good!</button>
+          mat-stroked-button (click)="onImageUpload()">Looks Good!</button>
       </div>
 
     </mat-step>
