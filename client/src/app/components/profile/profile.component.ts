@@ -148,6 +148,7 @@ export class ProfileComponent implements OnInit {
     this.post.userId = this.auth.userProfileSubject$.value.sub;
     this.post.userName = this.user_data.user_metadata.username ? this.user_data.user_metadata.username : this.auth.userProfileSubject$.value.username;
 
+    this.profileService.currentUserId.next(this.auth.userProfileSubject$.value.sub);
   }
 
   ngOnInit() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Output } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from '../../auth.service';
 import { Post } from '../../models/Post';
@@ -6,6 +6,7 @@ import { PostService } from 'src/app/services/posts/post.service';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { PhotoContainerComponent } from '../photo-container/photo-container.component';
 import { Router } from '@angular/router';
+import { ProfileService } from 'src/app/services/profile/profile.service';
 
 @Component({
   selector: 'app-modal',
@@ -21,8 +22,9 @@ export class ModalComponent implements OnInit {
     public dialog: MatDialog,
     private config: NgbRatingConfig,
     private postService: PostService,
+    private profileService: ProfileService,
     private router: Router,
-    
+
     @Inject(MAT_DIALOG_DATA) public post: Post) {
     config.max = 5;
     config.readonly = true;
@@ -32,24 +34,42 @@ export class ModalComponent implements OnInit {
   view = true;
   edit = false;
 
+  posts;
+
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
+  getUserPosts() {
+    this.profileService.getUsersPosts(this.profileService.currentUserId.value).subscribe((posts) => {
+      console.log(posts);
+      this.posts = posts;
+      this.closeDialog();
+    })
+  }
+
   editPost() {
     this.postService.updatePost(this.post).subscribe(() => console.log("I just clicked update"));
+
     console.log(this.post);
-  }
+  };
 
   deletePost(postId: number) {
     console.log(this.post);
     this.postService.deletePost(postId).subscribe(_ => {
       // this.post = this.post.filter(eachPost => eachPost.id !== postId);
       console.log(`I just clicked delete`);
+      this.getUserPosts();
     });
-  }
+  };
 
+
+  closeDialog() {
+    console.log(this.posts);
+
+    this.dialogRef.close(this.posts);
+  };
 
   ngOnInit() {
     console.log(this.router.url);

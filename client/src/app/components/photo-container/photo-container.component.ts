@@ -90,7 +90,10 @@ export class PhotoContainerComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.post = result;
+      console.log(result);
+      if (result) {
+        this.posts = result;
+      }
     });
   }
 
