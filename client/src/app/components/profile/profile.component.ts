@@ -78,6 +78,10 @@ export class ProfileComponent implements OnInit {
     })
   }
 
+  emptyImage() {
+    this.imageObj = null;
+  }
+
   getUserPosts() {
     this.profileService.getUsersPosts(this.currentUserId).subscribe((posts: any[]) => {
       console.log(`posts from user : ${posts}`);
@@ -128,7 +132,7 @@ export class ProfileComponent implements OnInit {
       // this.user_data.user_metadata.username = this.currentUserName;
       this.updateAuthData();
     }
-
+    this.emptyImage();
   };
 
   // updateUsername() {
