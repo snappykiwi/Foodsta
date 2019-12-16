@@ -3,6 +3,7 @@ import { Subject, Observable } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, shareReplay } from 'rxjs/operators';
 import { ThemeService } from 'src/app/services/themes/theme.service';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -20,18 +21,22 @@ export class ToolbarComponent implements OnInit {
     );
 
   isDarkTheme: Observable<boolean>
+  darkTheme: boolean = true;
+
 
   constructor(
+    public auth: AuthService,
     private breakpointObserver: BreakpointObserver,
     private themeService: ThemeService) { }
 
-  toggleDarkTheme(checked: boolean = true) {
-    this.themeService.setDarkTheme(checked);
+  toggleDarkTheme() {
+    this.darkTheme = !this.darkTheme
+    this.themeService.setDarkTheme(!this.darkTheme);
   }
 
   ngOnInit() {
     this.isDarkTheme = this.themeService.isDarkTheme;
-    this.toggleDarkTheme(true);
+    this.toggleDarkTheme();
   }
 
 

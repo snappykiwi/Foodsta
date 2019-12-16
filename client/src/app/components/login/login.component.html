@@ -3,7 +3,7 @@
 
     <button cols="4" mat-stroked-button color="primary" id="login" type="button" (click)="auth.login()"
       *ngIf="!auth.loggedIn">Sign In</button>
-    <button cols="2" mat-stroked-button color="primary" id="login" type="button" (click)="auth.logout()"
+    <button cols="2" mat-stroked-button color="primary" id="logout" type="button" (click)="auth.logout()"
       *ngIf="auth.loggedIn">Sign Out</button>
 
   </mat-grid-list>

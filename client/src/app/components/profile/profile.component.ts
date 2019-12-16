@@ -152,10 +152,12 @@ export class ProfileComponent implements OnInit {
     this.auth.getUser$();
 
     console.log(this.auth.userProfileSubject$);
+    console.log(this.auth.userProfile$);
 
     this.setUserData();
 
     this.profileService.getUserData(this.currentUserId).subscribe((res: any) => {
+
       console.log('data from auth0 :', res);
       this.currentUserName = res.hasOwnProperty("given_name") ? res.given_name : res.nickname;
       this.currentUserPic = res.hasOwnProperty("user_metadata") && res.user_metadata.hasOwnProperty("picture") ? res.user_metadata.picture : res.picture;

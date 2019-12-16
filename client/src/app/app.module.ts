@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatStepperModule, MatFormFieldModule, MatInputModule, MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -60,7 +60,8 @@ import { NotFoundComponent } from './components/notfound/notfound.component';
     HttpClientModule,
     SlimLoadingBarModule,
     CommonModule,
-    MatDialogModule
+    MatDialogModule,
+    LazyLoadImageModule
   ],
   providers: [
     PostService,

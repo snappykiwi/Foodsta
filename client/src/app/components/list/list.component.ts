@@ -48,6 +48,7 @@ export class ListComponent implements OnInit {
 
 
   restaurants: any;
+  gettingRestaurants: boolean = false;
 
   public latitude;
   public longitude;
@@ -76,7 +77,7 @@ export class ListComponent implements OnInit {
   };
 
   getLocation() {
-
+    this.gettingRestaurants = true;
     this.geolocationService.getPosition().then(pos => {
       console.log(`Positon: ${pos.lng} ${pos.lat}`);
       this.geolocationService.longitudeSource.next(pos.lng);
@@ -93,7 +94,7 @@ export class ListComponent implements OnInit {
     this.searchService.restaurantApiInfo(search, latitude, longitude).subscribe(restaurants => {
       console.log("restaurants : ", restaurants);
       console.log("input : ", search);
-
+      this.gettingRestaurants = false;
       this.searchService.restaurantSource.next(restaurants);
 
     }, (err) => {
