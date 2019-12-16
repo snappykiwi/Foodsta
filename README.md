@@ -7,7 +7,7 @@ Foodsta is a social media platform for the sharing of pictures of good food, and
 
 Posts can be filtered via the universal search function to search posts by restaurant, post title, cuisine, and dietary restriction. On the side is a live-updating sidebar yday displays nearby restaurants.
 
-![foodsta_demo_gif1](server/readme_media/foodsta_1.gif)
+![foodsta_demo_gif2](server/readme_media/foodsta_2.gif)
 
 
 ## How was it made?
