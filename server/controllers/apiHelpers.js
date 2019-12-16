@@ -22,7 +22,7 @@ function ApiHelpers() {
             console.log(dietParametersArray, postNamesArray);
             if (!postNamesArray.length) {
                 return {
-                    [Op.or]: dietParametersArray
+                    [Op.and]: dietParametersArray
                 }
             } else if (!dietParametersArray.length) {
                 return {
@@ -31,7 +31,7 @@ function ApiHelpers() {
             }
             else {
                 return {
-                    [Op.or]: dietParametersArray,
+                    [Op.and]: dietParametersArray,
 
                     [Op.and]: {
                         [Op.or]: postNamesArray
