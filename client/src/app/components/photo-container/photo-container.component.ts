@@ -29,7 +29,7 @@ import { ActivatedRoute, Router } from '@angular/router';
             stagger(
               '50ms',
               animate(
-                '550ms ease-out',
+                '1000ms ease-out',
                 style({ opacity: 1, transform: 'translateY(0px)' })
               )
             )
@@ -41,7 +41,7 @@ import { ActivatedRoute, Router } from '@angular/router';
         })
       ])
     ])
-  ]
+  ],
 })
 
 export class PhotoContainerComponent {

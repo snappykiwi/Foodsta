@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { trigger, state, style, animate, transition, query, stagger } from '@angular/animations';
+import { map } from 'rxjs/operators';
 import { PhotoContainerComponent } from '../photo-container/photo-container.component';
 import { SearchService } from '../../services/searches/search.service';
 import { Search } from '../../models/Search';
@@ -13,7 +14,35 @@ import { ThemeService } from 'src/app/services/themes/theme.service';
 @Component({
   selector: 'app-browse',
   templateUrl: './browse.component.html',
-  styleUrls: ['./browse.component.scss']
+  styleUrls: ['./browse.component.scss'],
+  animations: [
+    [
+      trigger('openClose', [
+        state('open', style({
+          opacity: 1
+        })),
+        state('closed', style({
+          opacity: 0
+        })),
+        transition('* => closed', [
+          animate('1s')
+        ]),
+        transition('* => open', [
+          animate('1s')
+        ]),
+      ]),
+    ], [
+      trigger('fadeInCollapse', [
+        transition(':enter', [
+          style({ opacity: '0', transform: 'translateY(-40px)', height: '0px', overflow: 'hidden' }),
+          animate('.4s', style({ opacity: '1', transform: 'translateY(0px)', height: '*' })),
+        ]),
+        transition(':leave', [
+          animate('.4s', style({ opacity: '0', transform: 'translateY(-40px)', height: '0px', overflow: 'hidden' }))
+        ])
+      ]),
+    ]
+  ]
 })
 
 export class BrowseComponent implements OnInit {

@@ -33,7 +33,7 @@
         </button>
       </div>
       <div class="col col-sm-12">
-        <div [ngbCollapse]="hoursCollapsed">
+        <div @fadeInCollapse *ngIf="!hoursCollapsed">
           <div class="card">
             <div [ngClass]="{'dark': isDarkTheme | async}" class="card-body">
               <p *ngFor="let hours of this.currentRestaurant.openingHour">{{hours}}</p>

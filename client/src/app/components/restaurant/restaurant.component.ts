@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { trigger, state, style, animate, transition, query, stagger } from '@angular/animations';
 import { Location } from '@angular/common';
 import { Restaurant } from '../../models/Restaurant';
 import { SearchService } from 'src/app/services/searches/search.service';
@@ -11,7 +12,20 @@ import { ThemeService } from 'src/app/services/themes/theme.service';
 @Component({
   selector: 'app-restaurant',
   templateUrl: './restaurant.component.html',
-  styleUrls: ['./restaurant.component.scss']
+  styleUrls: ['./restaurant.component.scss'],
+  animations: [
+    [
+      trigger('fadeInCollapse', [
+        transition(':enter', [
+          style({ opacity: '0', transform: 'translateY(-40px)', height: '0px', overflow: 'hidden' }),
+          animate('.4s', style({ opacity: '1', transform: 'translateY(0px)', height: '*' })),
+        ]),
+        transition(':leave', [
+          animate('.4s', style({ opacity: '0', transform: 'translateY(-40px)', height: '0px', overflow: 'hidden' }))
+        ])
+      ]),
+    ]
+  ]
 })
 export class RestaurantComponent implements OnInit {
 
