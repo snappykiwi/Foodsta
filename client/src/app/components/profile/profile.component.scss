@@ -6,3 +6,49 @@
 h4.noPosts {
   margin: 6rem 0;
 }
+
+a.hideIcon {
+  -o-transition:.5s;
+  -ms-transition:.5s;
+  -moz-transition:.5s;
+  -webkit-transition:.5s;
+  transition: all .5s;
+}
+
+div#editProfilePic {
+
+  mat-icon.editBtn {
+    position: absolute;
+    top: 300px;
+    left: 188px;
+  }
+  
+}
+
+div#editProfilePic mat-icon.hideIcon {
+  display: none;
+}
+
+div#editProfilePic:hover mat-icon.hideIcon {
+  cursor: pointer;
+  display: block;
+}
+
+div.imgWrapper {
+  position: relative;
+
+  div.picIcons {
+    cursor: pointer;
+    position: absolute;
+    top: 160px;
+    right: 195px;
+    padding: 10px;
+    background-color: rgba(48, 48, 48, .5);
+  
+    .closeBtn {
+      margin-left: 20px;
+    }
+  }
+
+
+}
