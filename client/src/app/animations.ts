@@ -1,5 +1,5 @@
 import {
-  animation, trigger, animateChild, group,
+  trigger, group,
   transition, animate, style, query, state
 } from '@angular/animations';
 

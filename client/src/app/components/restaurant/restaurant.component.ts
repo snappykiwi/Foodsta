@@ -1,11 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { trigger, state, style, animate, transition, query, stagger } from '@angular/animations';
+import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Restaurant } from '../../models/Restaurant';
 import { SearchService } from 'src/app/services/searches/search.service';
 import { PostService } from 'src/app/services/posts/post.service';
-import { PhotoContainerComponent } from '../photo-container/photo-container.component'
 import { Observable } from 'rxjs';
 import { ThemeService } from 'src/app/services/themes/theme.service';
 import { fadeCollapse } from 'src/app/animations';

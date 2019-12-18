@@ -6,7 +6,6 @@ import { BrowseComponent } from './components/browse/browse.component';
 import { AddPostComponent } from './components/add-post/add-post.component';
 import { RestaurantComponent } from './components/restaurant/restaurant.component';
 import { ProfileResolver } from './services/profile-resolver/profile-resolver.service';
-import { ProfileService } from './services/profile/profile.service';
 
 import { NotFoundComponent } from './components/notfound/notfound.component';
 

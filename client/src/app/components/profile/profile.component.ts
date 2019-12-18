@@ -1,14 +1,13 @@
-import { Component, OnInit, Inject, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AuthService } from '../../auth.service';
 import { UploadService } from '../../services/uploads/upload.service';
-import { PhotoContainerComponent } from '../photo-container/photo-container.component';
 import { PostService } from 'src/app/services/posts/post.service';
 import { ProfileService } from '../../services/profile/profile.service';
 import { Post } from 'src/app/models/Post';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/map';
 

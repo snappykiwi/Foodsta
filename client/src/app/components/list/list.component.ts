@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Restaurant } from '../../models/Restaurant';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { SearchService } from '../../services/searches/search.service'
 import {
   trigger,
-  state,
   style,
   animate,
   transition,
