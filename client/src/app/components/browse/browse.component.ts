@@ -1,8 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-import { trigger, state, style, animate, transition, query, stagger } from '@angular/animations';
-import { map } from 'rxjs/operators';
-import { PhotoContainerComponent } from '../photo-container/photo-container.component';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { SearchService } from '../../services/searches/search.service';
 import { Search } from '../../models/Search';
 import { Location } from '../../models/Location';

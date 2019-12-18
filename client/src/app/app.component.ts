@@ -7,7 +7,6 @@ import { BottomNavItem } from 'ngx-bottom-nav';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { NavigationCancel, Event, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { ThemeService } from './services/themes/theme.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { horizontalSlideAnimation, verticalSlideAnimation } from './animations';
 
 @Component({

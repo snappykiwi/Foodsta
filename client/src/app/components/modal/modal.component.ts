@@ -4,7 +4,6 @@ import { AuthService } from '../../auth.service';
 import { Post } from '../../models/Post';
 import { PostService } from 'src/app/services/posts/post.service';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
-import { PhotoContainerComponent } from '../photo-container/photo-container.component';
 import { Router } from '@angular/router';
 import { ProfileService } from 'src/app/services/profile/profile.service';
 

@@ -1,20 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
-import { RatingComponent } from '../rating/rating.component';
 import { PostService } from 'src/app/services/posts/post.service';
 import { Post } from 'src/app/models/Post';
-import { CommonModule } from '@angular/common';
 import { UploadService } from '../../services/uploads/upload.service';
 import { Router } from '@angular/router';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { AuthService } from '../../auth.service';
-
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
-import { Restaurant } from 'src/app/models/Restaurant';
-import { Search } from 'src/app/models/Search';
 import { SearchService } from 'src/app/services/searches/search.service';
-import { AutocompleteService } from 'src/app/services/autocompletes/autocomplete.service';
 import { ThemeService } from 'src/app/services/themes/theme.service';
 
 export interface SelectOptions {
@@ -67,7 +60,6 @@ export class AddPostComponent implements OnInit {
     private uploadService: UploadService,
     private searchService: SearchService,
     private themeService: ThemeService,
-    private autocompleteService: AutocompleteService,
     private router: Router,
     private config: NgbRatingConfig) {
     config.max = 5;
