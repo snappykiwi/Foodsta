@@ -35,7 +35,6 @@ export class GeolocationService {
       navigator.geolocation.getCurrentPosition(resp => {
 
         this.gotLocation.next(true);
-        console.log(this.gotLocation.value);
 
         resolve({ lng: resp.coords.longitude, lat: resp.coords.latitude });
       },

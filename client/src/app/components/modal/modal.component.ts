@@ -43,7 +43,6 @@ export class ModalComponent implements OnInit {
 
   getUserPosts() {
     this.profileService.getUsersPosts(this.profileService.currentUserId.value).subscribe((posts) => {
-      console.log(posts);
       this.posts = posts;
       this.closeDialog();
     })
@@ -52,29 +51,23 @@ export class ModalComponent implements OnInit {
   editPost() {
     this.postService.updatePost(this.post).subscribe(() => console.log("I just clicked update"));
 
-    console.log(this.post);
   };
 
   deletePost(postId: number) {
-    console.log(this.post);
     this.postService.deletePost(postId).subscribe(_ => {
       // this.post = this.post.filter(eachPost => eachPost.id !== postId);
-      console.log(`I just clicked delete`);
       this.getUserPosts();
     });
   };
 
 
   closeDialog() {
-    console.log(this.posts);
 
     this.dialogRef.close(this.posts);
   };
 
   ngOnInit() {
-    console.log(this.router.url);
     this.isProfilePage = (this.router.url === "/profile")
-    console.log(this.isProfilePage);
   }
 
 }

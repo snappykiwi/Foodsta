@@ -82,14 +82,11 @@ export class PhotoContainerComponent {
   ngOnInit() {
 
     this.mappedPosts = this.posts.map((el) => ({ isLoaded: false, state: 'notLoaded', ...el }))
-    console.log(this.mappedPosts);
 
     this.posts = this.mappedPosts;
     this.isDarkTheme = this.themeService.isDarkTheme;
 
-    console.log(this.router.url);
     this.isProfilePage = (this.router.url === "/profile")
-    console.log(this.isProfilePage);
 
   }
 
@@ -100,7 +97,6 @@ export class PhotoContainerComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       if (result) {
         this.posts = result;
       }
@@ -108,9 +104,7 @@ export class PhotoContainerComponent {
   }
 
   toggleState(post) {
-    console.log(post, "loaded")
     post.state = 'loaded';
-    console.log(post.state);
   }
 
 

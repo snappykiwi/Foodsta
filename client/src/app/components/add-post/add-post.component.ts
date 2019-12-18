@@ -77,14 +77,10 @@ export class AddPostComponent implements OnInit {
   search(term: string): void {
     if (term) {
       this.searchTerms.next(term);
-      console.log(this.restaurants$);
     }
   };
 
   ngOnInit(): void {
-
-    console.log(this.auth.userProfileSubject$.value);
-    console.log(this.auth.userProfileSubject$.value.nickname);
 
     this.restaurants$ = this.searchTerms.pipe(
 
@@ -103,14 +99,7 @@ export class AddPostComponent implements OnInit {
     this.post.restaurantId = optionInfo.place_id;
     this.post.restaurantName = optionInfo.description;
     this.restaurantName$.next(optionInfo.description);
-    console.log(optionInfo);
-    console.log(this.post.restaurantName);
-    console.log(this.post.restaurantId);
-    console.log(this.post);
-    // let url = 'https://jsonplaceholder.typicode.com/posts?userId='+userId;
-    // this.http.get(`${url}`).subscribe(posts => {
-    //     this.posts = [...posts];
-    // });
+
   };
 
   getRestaurantName(option) {
@@ -122,7 +111,6 @@ export class AddPostComponent implements OnInit {
   };
 
   savePhoto() {
-    console.log(this.post);
     this.postService.savePost(this.post);
     this.router.navigate(['home']);
   };
@@ -145,7 +133,6 @@ export class AddPostComponent implements OnInit {
     this.uploadService.imageUpload(imageForm).subscribe(res => {
 
       this.post.image = res['Location'];
-      console.log(this.post.image);
 
       if (this.post.image) {
         this.savePhoto();
