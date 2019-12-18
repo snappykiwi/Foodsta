@@ -53,7 +53,6 @@ export class SearchService {
       .set('lng', longitude)
       .set('radius', "5000");
 
-    console.log("params: ", params);
     return this.http.get<Search[]>(`${this.url}`, { params: params });
 
   }

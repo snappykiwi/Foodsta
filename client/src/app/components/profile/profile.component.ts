@@ -84,15 +84,12 @@ export class ProfileComponent implements OnInit {
 
   getUserPosts() {
     this.profileService.getUsersPosts(this.currentUserId).subscribe((posts: any[]) => {
-      console.log(`posts from user : ${posts}`);
       this.posts = posts;
     });
   };
 
   updateAuthData() {
-    console.log('UPDATE AUTH DATA :');
-    console.log('current user ID : ', this.currentUserId);
-    console.log('current user data : ', this.user_data)
+
     this.profileService.updateUserInfo(this.currentUserId, this.user_data).subscribe((res: any) => {
       console.log(res);
       this.profileService.profilePicSource.next(res.user_metadata.picture);
@@ -119,16 +116,13 @@ export class ProfileComponent implements OnInit {
       this.uploadService.imageUpload(imageForm).subscribe(res => {
 
         this.user_data.user_metadata.picture = res['Location'];
-        console.log(this.user_data.user_metadata.picture);
 
         // this.user_data.user_metadata.username = this.currentUserName;
 
         this.updateAuthData();
       });
     } else {
-      console.log("currentUserPic on upload ", this.currentUserPic);
       this.currentUserPic ? this.currentUserPic : this.user_data.user_metadata.picture;
-      console.log("current user pic after ternary", this.currentUserPic);
       // this.user_data.user_metadata.username = this.currentUserName;
       this.updateAuthData();
     }
@@ -152,18 +146,13 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("component initiated")
 
     this.auth.getUser$();
-
-    console.log(this.auth.userProfileSubject$);
-    console.log(this.auth.userProfile$);
 
     this.setUserData();
 
     this.profileService.getUserData(this.currentUserId).subscribe((res: any) => {
 
-      console.log('data from auth0 :', res);
       this.currentUserName = res.hasOwnProperty("given_name") ? res.given_name : res.nickname;
       this.currentUserPic = res.hasOwnProperty("user_metadata") && res.user_metadata.hasOwnProperty("picture") ? res.user_metadata.picture : res.picture;
       this.profileService.profilePicSource.next(this.currentUserPic);

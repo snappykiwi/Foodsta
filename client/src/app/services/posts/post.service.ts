@@ -38,12 +38,10 @@ export class PostService {
   }
 
   getRestPosts(restaurantId: any) {
-    console.log(restaurantId);
     return this.http.get(`${this.getRestPostURL}${restaurantId}`);
   }
 
   getSearchPosts(search: string) {
-    console.log(search);
     return this.http.get(`${this.getSearchPostURL}${search}`);
   }
 
@@ -62,7 +60,6 @@ export class PostService {
         params = params.append(key, param[key]);
     });
 
-    console.log(params);
 
     if (gf || vegan || vegetarian) {
       return this.http.get<Post[]>(`${this.filteredPostsURL}`, { params: params });
@@ -73,10 +70,8 @@ export class PostService {
   }
 
   savePost(post: Post) {
-    console.log(post);
     this.http.post(`${this.postURL}`, post)
       .subscribe(res => {
-        console.log('Done')
         this.openSnackBar("Post Uploaded!", "Done");
       });
   }
@@ -88,7 +83,6 @@ export class PostService {
   }
 
   deletePost(postId: number): Observable<Post> {
-    console.log(`${this.postURL}/${postId}`);
     return this.http.delete<Post>(`${this.postURL}/${postId}`, httpOptions).pipe(
       tap(_ => console.log(`Deleted post with the id of ${postId}`)),
       catchError(error => of(null))

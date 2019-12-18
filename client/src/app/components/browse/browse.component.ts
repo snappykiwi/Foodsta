@@ -47,10 +47,7 @@ export class BrowseComponent implements OnInit {
   ) { }
 
   getRestaurants(search = "restaurants", latitude = this.latitude, longitude = this.longitude) {
-    console.log(search, latitude, longitude);
     this.searchService.restaurantApiInfo(search, latitude, longitude).subscribe(restaurants => {
-      console.log("restaurants : ", restaurants);
-      console.log("input : ", search);
 
       this.searchService.restaurantSource.next(restaurants);
 
@@ -62,9 +59,7 @@ export class BrowseComponent implements OnInit {
   getPosts() {
     this.loadingPosts = true;
 
-    console.log(this.posts);
     this.postService.getPosts().subscribe((posts: any[]) => {
-      console.log(posts);
 
       setTimeout(() => {
         this.loadingPosts = false;
@@ -79,7 +74,6 @@ export class BrowseComponent implements OnInit {
   onSearch(search?: string) {
 
     if (search) {
-      console.log("searching........");
       this.posts = [];
 
       this.latitude = this.geolocationService.latitudeSource.value;
@@ -93,7 +87,6 @@ export class BrowseComponent implements OnInit {
 
     }
     else {
-      console.log("getting posts and restaurants......");
       this.getPosts();
       this.getRestaurants();
     }
@@ -107,13 +100,10 @@ export class BrowseComponent implements OnInit {
   }
 
   getLocationResults() {
-    console.log(this.geolocationService.gotLocation);
-    console.log(this.geolocationService.gotLocation.value);
 
     if (!this.geolocationService.gotLocation.value) {
 
       this.geolocationService.getGeolocation().subscribe((location: Location) => {
-        console.log(location);
         this.setLocationValues(location.location);
 
         this.onSearch();
@@ -121,7 +111,6 @@ export class BrowseComponent implements OnInit {
     }
     else {
       this.geolocationService.getPosition().then(pos => {
-        console.log(`Positon: ${pos.lng} ${pos.lat}`);
         this.setLocationValues(pos);
 
         this.onSearch();
@@ -131,16 +120,8 @@ export class BrowseComponent implements OnInit {
   };
 
   filterPosts(event) {
-    console.log(event.source.value);
-    console.log(event.checked);
-    console.log("filtering posts");
-
-    console.log(this.sortGF);
-    console.log(this.sortVegan);
-    console.log(this.sortVegetarian);
 
     this.postService.getFilteredPosts(this.sortGF, this.sortVegan, this.sortVegetarian).subscribe((posts: any[]) => {
-      console.log(posts);
 
       this.posts = posts;
     });
