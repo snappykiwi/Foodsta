@@ -35,7 +35,7 @@ Auth0 was chosen to power the authentication due to its flexibility and sheer ou
 * Express
 
 ### `groupFive` is
-  * [Emily Coraccio](https://github.com/emcoraccio)
+  * [Emily Matrumalo](https://github.com/snappykiwi)
   * [Yunus Ibraham](https://github.com/Yunusib12)
   * [Michael Nos](https://github.com/mmnos)
   * [Elias Roussos](https://github.com/EliasIsaiah)
